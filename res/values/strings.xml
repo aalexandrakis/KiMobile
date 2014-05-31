@@ -2,12 +2,15 @@
 <resources>
 
     <string name="app_name">KiMobile</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="userName">User Name</string>
+	<string name="ok">OK</string>
+	<string name="userName">User Name</string>
     <string name="userPassword">Password</string>
     <string name="connect">Connect</string>
     <string name="register">Register</string>
     <string name="forgotPassword">Forgot my password</string>
     
+    <string name="credentialsError">Error Credentials</string>
+    <string name="userNameMissing">User name is missing</string>
+	<string name="userPasswordMissing">Password is missing</string>
 
 </resources>

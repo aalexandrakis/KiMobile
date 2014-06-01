@@ -119,7 +119,7 @@ public class Login extends CommonActivity {
 	@Override
 	 protected User doInBackground(String... params) {
 		String userName = params[0];
-		String password = params[1];
+		String password = CommonMethods.encryptPassword(params[1]);
 		// TODO Auto-generated method stub
 		  try {
 	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
@@ -134,30 +134,34 @@ public class Login extends CommonActivity {
 	    	 transport.call(CommonActivity.NAMESPACE + CommonActivity.SOAP_ACTION_PREFIX + METHOD, envelope);
 	       } catch (IOException e) {
 	         e.printStackTrace();
+	         error = true;
 	       } catch (XmlPullParserException e) {
 	         e.printStackTrace();
+	         error = true;
 	       }
 		   //bodyIn is the body object received with this envelope
 		   if (envelope.bodyIn != null) {
 		     //getProperty() Returns a specific property at a certain index.
 		     SoapObject resultSOAP = (SoapObject) envelope.getResponse();
-			 User user = new User();
-			 user.setUserId(new BigInteger(resultSOAP.getProperty(2).toString()));
-			 user.setUserEmail(resultSOAP.getProperty(1).toString());
-			 user.setUserName(resultSOAP.getProperty(4).toString());
-			 user.setUserLevel(Integer.valueOf(resultSOAP.getProperty(3).toString()));
-			 user.setUserCoins(new BigInteger(resultSOAP.getProperty(0).toString()));
-			 user.setUserPassword(resultSOAP.getProperty(5).toString());
-			 
-			 Log.d("User Id", user.getUserId().toString());
-			 Log.d("User email", user.getUserEmail());
-			 Log.d("User Name", user.getUserName());
-			 Log.d("User Level", user.getUserLevel().toString());
-			 Log.d("User Coins", user.getUserCoins().toString());
-			 Log.d("User Password", user.getUserPassword());
-			 
-			 login.logedInUser = user;
-		     return user;
+		     if (resultSOAP != null){
+				 User user = new User();
+				 user.setUserId(new BigInteger(resultSOAP.getProperty(2).toString()));
+				 user.setUserEmail(resultSOAP.getProperty(1).toString());
+				 user.setUserName(resultSOAP.getProperty(4).toString());
+				 user.setUserLevel(Integer.valueOf(resultSOAP.getProperty(3).toString()));
+				 user.setUserCoins(new BigInteger(resultSOAP.getProperty(0).toString()));
+				 user.setUserPassword(resultSOAP.getProperty(5).toString());
+				 
+				 Log.d("User Id", user.getUserId().toString());
+				 Log.d("User email", user.getUserEmail());
+				 Log.d("User Name", user.getUserName());
+				 Log.d("User Level", user.getUserLevel().toString());
+				 Log.d("User Coins", user.getUserCoins().toString());
+				 Log.d("User Password", user.getUserPassword());
+				 
+				 login.logedInUser = user;
+			     return user;
+		     }
 		   }
 		 } catch (Exception e) {
 		   e.printStackTrace();

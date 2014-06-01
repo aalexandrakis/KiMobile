@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,11 @@ public class Login extends CommonActivity {
 		btnRegister = (Button) findViewById(R.id.btnRegister);
 		btnForgotPassword = (Button) findViewById(R.id.btnForgotPassword);
 		
+		//TODO only for test
+				txtUserName.setText("aalexand");
+				txtUserPassword.setText("a12021983");
+				
+		
 		btnConnect.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
@@ -48,34 +54,42 @@ public class Login extends CommonActivity {
 				}
 				if (txtUserName.length() == 0){
 					showErrorDialog(getString(R.string.credentialsError), getString(R.string.userNameMissing));
+					txtUserName.requestFocus();
 					return;
 				}
 				if (txtUserPassword.length() == 0){
 					showErrorDialog(getString(R.string.credentialsError), getString(R.string.userPasswordMissing));
+					txtUserPassword.requestFocus();
 					return;
 				}
 				
-				AsyncTaskRunner loginTask = new AsyncTaskRunner(login);
+				AsyncTaskLogin loginTask = new AsyncTaskLogin(login);
 				loginTask.execute(txtUserName.getText().toString(), txtUserPassword.getText().toString());
 			}
 		});
+		
+		btnRegister.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent register = new Intent("com.aalexandrakis.kimobile.Register");
+				startActivity(register);
+			}
+		});
 	}
+	
 }
 
-//TODO check connectivity before login
-//TODO if error show alert dialog
 //TODO store data to shared preferences
 
- class AsyncTaskRunner extends AsyncTask<String, User, User>  {
+ class AsyncTaskLogin extends AsyncTask<String, User, User>  {
 	 
 	Login login;
-	public final static String URL = "http://192.168.1.2:8080/KimoBackEnd/services/KimoDb?wsdl";
-	public static final String NAMESPACE = "http://kimo.aalexandrakis.com";
-	public static final String SOAP_ACTION_PREFIX = "/";
 	public static final String METHOD = "login";
+	boolean error = false;
 	ProgressDialog pg;
 
-	AsyncTaskRunner(Login login){
+	AsyncTaskLogin(Login login){
 		this.login = login;
 	}
 	 @Override
@@ -83,7 +97,9 @@ public class Login extends CommonActivity {
 		// TODO Auto-generated method stub
 		super.onPostExecute(user);
 		pg.dismiss();
-		if (user == null){
+		if (error){
+			login.showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.youCanntConnect));
+		} else if (user == null){
 			login.showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.credentialsAreError));
 		}
 	}
@@ -104,18 +120,18 @@ public class Login extends CommonActivity {
 	 protected User doInBackground(String... params) {
 		String userName = params[0];
 		String password = params[1];
-	 	// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 		  try {
-	       // SoapEnvelop.VER11 is SOAP Version 1.1 constant
+	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
 	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	              SoapObject request = new SoapObject(NAMESPACE, METHOD);
+	              SoapObject request = new SoapObject(CommonActivity.NAMESPACE, METHOD);
 	              request.addProperty("userName", userName);
 	              request.addProperty("password", password);
 	       //bodyOut is the body object to be sent out with this envelope
 	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(URL);
+	       HttpTransportSE transport = new HttpTransportSE(CommonActivity.URL);
 	       try {
-	    	 transport.call(NAMESPACE + SOAP_ACTION_PREFIX + METHOD, envelope);
+	    	 transport.call(CommonActivity.NAMESPACE + CommonActivity.SOAP_ACTION_PREFIX + METHOD, envelope);
 	       } catch (IOException e) {
 	         e.printStackTrace();
 	       } catch (XmlPullParserException e) {
@@ -145,6 +161,7 @@ public class Login extends CommonActivity {
 		   }
 		 } catch (Exception e) {
 		   e.printStackTrace();
+		   error = true;
 		   return null;
 		 }
 	 	return null;

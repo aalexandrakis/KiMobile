@@ -17,10 +17,11 @@
     <EditText
         android:id="@+id/txtUserName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:ems="10"
         android:enabled="true"
         android:inputType="text"
+        android:background="@color/white"
         android:textColor="@color/black" >
         <requestFocus />
     </EditText>
@@ -35,16 +36,18 @@
     <EditText
         android:id="@+id/txtUserPassword"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:ems="10"
         android:enabled="true"
         android:inputType="textPassword"
+        android:background="@color/white"
         android:textColor="@color/black" />
 
     <Button
         android:id="@+id/btnConnect"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:background="@color/yellow"
         android:text="@string/connect"
         android:textColor="@color/black"

@@ -1,12 +1,29 @@
 package com.aalexandrakis.kimobile;
 
+import com.aalexandrakis.kimobile.pojos.User;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.os.Bundle;
 
 public class CommonActivity extends Activity {
-
+	static final String SHARED_PREFERENCES = "KiMobilePrefs";
 	
+	SharedPreferences sharedPreferences;
+	
+    User logedInUser;
+	
+    @Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		//TODO check if this code working
+		sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+    }
+    
 	void showErrorDialog(String title, String message){
 		new AlertDialog.Builder(this)
 		.setTitle(title)
@@ -19,4 +36,18 @@ public class CommonActivity extends Activity {
 		})
 		.show();
 	}
+	
+	
+	boolean  checkConnectivity(){
+		try {
+		    ConnectivityManager conMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		    return conMgr.getActiveNetworkInfo().isConnected();
+		}
+		catch (java.lang.NullPointerException ex) 
+		{
+			return false;
+		}
+	}
+
+	
 }

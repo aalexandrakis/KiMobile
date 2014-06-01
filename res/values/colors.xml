@@ -2,5 +2,6 @@
 
     <color name="black">#000000</color>
     <color name="yellow">#ffff00</color>
-	<color name="light_yellow">#ffff99</color>
+	<color name="white">#ffffff</color>
+	
 </resources>

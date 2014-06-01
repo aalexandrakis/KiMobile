@@ -12,5 +12,9 @@
     <string name="credentialsError">Error Credentials</string>
     <string name="userNameMissing">User name is missing</string>
 	<string name="userPasswordMissing">Password is missing</string>
-
+	<string name="credentialsAreError">User Name or password is error.</string>
+	<string name="logingIn">Loging in</string>
+	<string name="waitToConfirmCredentials">Please wait to confirm your credentials</string>
+	<string name="networkError">Network Error</string>
+	<string name="noInternetConnection">No Internet Connection</string>
 </resources>

@@ -126,8 +126,8 @@ public class Register extends CommonActivity {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
 		pg = new ProgressDialog(register);
-		pg.setTitle(register.getString(R.string.logingIn));
-		pg.setMessage(register.getString(R.string.waitToConfirmCredentials));
+		pg.setTitle(register.getString(R.string.registering));
+		pg.setMessage(register.getString(R.string.waitToValidateYourInfo));
 		pg.show();
 	}
 

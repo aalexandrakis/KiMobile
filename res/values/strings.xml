@@ -11,6 +11,7 @@
 	<string name="userPassword">Password</string>
 	<string name="userNameMissing">User name is missing</string>
 	<string name="userPasswordMissing">Password is missing</string>
+	<string name="userEmailIsMissing">User email is missing</string>
 	
 	
 	<!-- login strings -->
@@ -19,7 +20,7 @@
     <string name="forgotPassword">Forgot my password</string>
     <string name="credentialsError">Error Credentials</string>
     <string name="credentialsAreError">User Name or password is error.</string>
-	<string name="logingIn">Loging in</string>
+	<string name="logingIn">Loging in. . .</string>
 	<string name="waitToConfirmCredentials">Please wait to confirm your credentials</string>
 	<string name="networkError">Network Error</string>
 	
@@ -31,7 +32,16 @@
 	<string name="passwordNotEqualWithRepeated">Password and repeated password must be the same</string>
 	<string name="userNameExists">User name already exists</string>
 	<string name="userEmailExists">User email already exists</string>
-	<string name="userEmailIsMissing">User email is missing</string>
-	<string name="toastUserAddedSuccesfully">User added succesfully</string>
+	<string name="toastUserAddedSuccesfully">User added successfully</string>
 	<string name="userEmailErrorformat">User email is error</string>
+	<string name="registering">Registering. . .</string>
+	<string name="waitToValidateYourInfo">Please wait to validate your information</string>
+	
+	<!-- Reset password strings -->
+	<string name="resetPasswordError">Reset Password Error</string>
+	<string name="resetMyPassword">Reset my password</string>
+	<string name="resetingPassword">Reseting your password</string>
+	<string name="waitToResetyourPassword">Please wait while your password is reseting</string>
+	<string name="emailNotFound">Email not found. Please change it and try again</string>
+	<string name="passwordChangeSuccessfully">Your password changed. An email has sent to you with your new password</string>
 </resources>

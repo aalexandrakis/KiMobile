@@ -76,6 +76,20 @@ public class Login extends CommonActivity {
 				startActivity(register);
 			}
 		});
+		
+		btnForgotPassword.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if (!checkConnectivity()){
+					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection));
+					return;
+				}
+				
+				Intent register = new Intent("com.aalexandrakis.kimobile.ResetPassword");
+				startActivity(register);
+			}
+		});
 	}
 	
 }

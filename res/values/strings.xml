@@ -12,7 +12,7 @@
 	<string name="userNameMissing">User name is missing</string>
 	<string name="userPasswordMissing">Password is missing</string>
 	<string name="userEmailIsMissing">User email is missing</string>
-	
+	<string name="updateMyAccount">Update my account</string>
 	
 	<!-- login strings -->
     <string name="userName">User Name</string>
@@ -44,4 +44,16 @@
 	<string name="waitToResetyourPassword">Please wait while your password is reseting</string>
 	<string name="emailNotFound">Email not found. Please change it and try again</string>
 	<string name="passwordChangeSuccessfully">Your password changed. An email has sent to you with your new password</string>
+	
+	<!-- update acount info -->
+	<string name="updateAccountError">Update account error</string>
+	<string name="updating">Updating. . .</string>
+	<string name="waitToUpdateAccount">Please wait to update your account info</string>
+	<string name="toastUserUpdatedSuccesfully">User added successfully</string>
+	
+	<!-- main menu -->
+	<string name="playNow">Play now</string>
+	<string name="myBets">View my bets</string>
+	<string name="drawHistory">View draws</string>
+	
 </resources>

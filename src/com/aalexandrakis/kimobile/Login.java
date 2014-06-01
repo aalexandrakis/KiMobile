@@ -5,6 +5,7 @@ import java.math.BigInteger;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class Login extends CommonActivity {
 		
 		//TODO only for test
 				txtUserName.setText("aalexand");
-				txtUserPassword.setText("a12021983");
+				txtUserPassword.setText("WcVTiBw");
 				
 		
 		btnConnect.setOnClickListener(new OnClickListener(){
@@ -94,7 +95,6 @@ public class Login extends CommonActivity {
 	
 }
 
-//TODO store data to shared preferences
 
  class AsyncTaskLogin extends AsyncTask<String, User, User>  {
 	 
@@ -102,7 +102,7 @@ public class Login extends CommonActivity {
 	public static final String METHOD = "login";
 	boolean error = false;
 	ProgressDialog pg;
-
+	String password;
 	AsyncTaskLogin(Login login){
 		this.login = login;
 	}
@@ -115,6 +115,20 @@ public class Login extends CommonActivity {
 			login.showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.youCanntConnect));
 		} else if (user == null){
 			login.showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.credentialsAreError));
+		} else {
+			SharedPreferences.Editor editor = login.sharedPreferences.edit();
+			editor.clear();
+			editor.putString("userId", user.getUserId().toString());
+			editor.putString("userName", user.getUserName());
+			editor.putString("userEmail", user.getUserEmail());
+			editor.putString("userPassword", password);
+			editor.putString("userCoins", user.getUserCoins().toString());
+			editor.putInt("userLeve", user.getUserLevel());
+			editor.commit();
+			
+			Intent mainMenu = new Intent("com.aalexandrakis.kimobile.MainMenu");
+			login.startActivity(mainMenu);
+			login.finish();
 		}
 	}
 
@@ -133,7 +147,7 @@ public class Login extends CommonActivity {
 	@Override
 	 protected User doInBackground(String... params) {
 		String userName = params[0];
-		String password = CommonMethods.encryptPassword(params[1]);
+		password = CommonMethods.encryptPassword(params[1]);
 		// TODO Auto-generated method stub
 		  try {
 	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant

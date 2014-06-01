@@ -1,0 +1,61 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent" 
+    android:background="@color/black">
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="vertical"
+        tools:context="${packageName}.${activityClass}" >
+
+        <Button
+            android:id="@+id/btnPlayNow"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="10dp"
+            android:background="@color/yellow"
+            android:text="@string/playNow"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+        
+        <Button
+            android:id="@+id/btnMyBets"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="10dp"
+            android:background="@color/yellow"
+            android:text="@string/myBets"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+        
+        <Button
+            android:id="@+id/btnDrawHistory"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="10dp"
+            android:background="@color/yellow"
+            android:text="@string/drawHistory"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+        
+        <Button
+            android:id="@+id/btnUpdateAccount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="10dp"
+            android:background="@color/yellow"
+            android:text="@string/updateMyAccount"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+    </LinearLayout>
+
+</ScrollView>

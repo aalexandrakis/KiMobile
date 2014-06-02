@@ -42,7 +42,7 @@ public class Login extends CommonActivity {
 		
 		//TODO only for test
 				txtUserName.setText("aalexand");
-				txtUserPassword.setText("WcVTiBw");
+				txtUserPassword.setText("hU0cKks");
 				
 		
 		btnConnect.setOnClickListener(new OnClickListener(){
@@ -147,14 +147,15 @@ public class Login extends CommonActivity {
 	@Override
 	 protected User doInBackground(String... params) {
 		String userName = params[0];
-		password = CommonMethods.encryptPassword(params[1]);
+		String encryptedPassword = CommonMethods.encryptPassword(params[1]);
+		password = params[1];
 		// TODO Auto-generated method stub
 		  try {
 	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
 	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	              SoapObject request = new SoapObject(CommonActivity.NAMESPACE, METHOD);
 	              request.addProperty("userName", userName);
-	              request.addProperty("password", password);
+	              request.addProperty("password", encryptedPassword);
 	       //bodyOut is the body object to be sent out with this envelope
 	       envelope.bodyOut = request;
 	       HttpTransportSE transport = new HttpTransportSE(CommonActivity.URL);

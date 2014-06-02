@@ -5,6 +5,8 @@ import java.math.BigInteger;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -83,7 +85,7 @@ public class UpdateAccount extends CommonActivity {
 				}
 				
 				AsyncTaskUpdateAccount updateAccountTask = new AsyncTaskUpdateAccount(updateAccount);
-				updateAccountTask.execute(sharedPreferences.getString("userId", "0"), txtUserName.getText().toString(), txtUserEmail.getText().toString(), encryptPassword(txtUserPassword.getText().toString()));
+				updateAccountTask.execute(sharedPreferences.getString("userId", "0"), txtUserName.getText().toString(), txtUserEmail.getText().toString(), txtUserPassword.getText().toString());
 			}
 		});
 	}
@@ -116,6 +118,16 @@ public class UpdateAccount extends CommonActivity {
 			updateAccount.txtUserName.requestFocus();
 		} else if (result[0].equals("00")){
 			Toast.makeText(updateAccount, updateAccount.getString(R.string.toastUserUpdatedSuccesfully), Toast.LENGTH_LONG).show();
+//			SharedPreferences.Editor editor = login.sharedPreferences.edit();
+//			editor.clear();
+//			editor.putString("userName", userName);
+//			editor.putString("userEmail", user.getUserEmail());
+//			editor.putString("userPassword", password);
+//			editor.putString("userCoins", user.getUserCoins().toString());
+//			editor.putInt("userLeve", user.getUserLevel());
+//			editor.commit();
+//			
+//			Intent mainMenu = new Intent("com.aalexandrakis.kimobile.MainMenu");
 			updateAccount.finish();
 		}
 		
@@ -147,7 +159,7 @@ public class UpdateAccount extends CommonActivity {
 	              request.addProperty("userId", userId);
 	              request.addProperty("userName", userName);
 	              request.addProperty("userEmail", userEmail);
-	              request.addProperty("userPassword", password);
+	              request.addProperty("userPassword", encryptPassword(password));
 	       //bodyOut is the body object to be sent out with this envelope
 	       envelope.bodyOut = request;
 	       HttpTransportSE transport = new HttpTransportSE(CommonActivity.URL);

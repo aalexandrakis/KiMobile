@@ -91,7 +91,7 @@
         </EditText>
 
         <Button
-            android:id="@+id/btnRegister"
+            android:id="@+id/btnUpdateAccount"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="top"

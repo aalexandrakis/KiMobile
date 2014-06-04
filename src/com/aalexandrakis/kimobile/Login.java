@@ -29,7 +29,7 @@ public class Login extends CommonActivity {
 	Button btnRegister;
 	Button btnForgotPassword;
 	Login login = this;
-	AsyncTaskLogin loginTask = new AsyncTaskLogin(login);
+	AsyncTaskLogin loginTask;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,7 +65,7 @@ public class Login extends CommonActivity {
 					return;
 				}
 				
-				
+				loginTask = new AsyncTaskLogin(login); 
 				loginTask.execute(txtUserName.getText().toString(), txtUserPassword.getText().toString());
 			}
 		});
@@ -128,7 +128,7 @@ public class Login extends CommonActivity {
 			editor.putInt("userLeve", user.getUserLevel());
 			editor.commit();
 			
-			Intent mainMenu = new Intent("com.aalexandrakis.kimobile.MainMenu");
+			Intent mainMenu = new Intent("com.aalexandrakis.kimobile.MainActivity");
 			login.startActivity(mainMenu);
 			login.finish();
 		}

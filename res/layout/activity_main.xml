@@ -1,0 +1,27 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent" 
+    android:background="@color/black">
+
+    <LinearLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="horizontal"
+        tools:context="${packageName}.${activityClass}" >
+
+        <fragment
+            android:id="@+id/menu"
+            android:name="com.aalexandrakis.kimobile.MainMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_main_menu" />
+       
+
+
+    </LinearLayout>
+
+</ScrollView>

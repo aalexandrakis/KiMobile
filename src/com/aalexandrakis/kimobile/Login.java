@@ -29,6 +29,7 @@ public class Login extends CommonActivity {
 	Button btnRegister;
 	Button btnForgotPassword;
 	Login login = this;
+	AsyncTaskLogin loginTask = new AsyncTaskLogin(login);
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,7 +43,7 @@ public class Login extends CommonActivity {
 		
 		//TODO only for test
 				txtUserName.setText("aalexand");
-				txtUserPassword.setText("hU0cKks");
+				txtUserPassword.setText("rGDdjkH");
 				
 		
 		btnConnect.setOnClickListener(new OnClickListener(){
@@ -64,7 +65,7 @@ public class Login extends CommonActivity {
 					return;
 				}
 				
-				AsyncTaskLogin loginTask = new AsyncTaskLogin(login);
+				
 				loginTask.execute(txtUserName.getText().toString(), txtUserPassword.getText().toString());
 			}
 		});
@@ -92,6 +93,7 @@ public class Login extends CommonActivity {
 			}
 		});
 	}
+	
 	
 }
 

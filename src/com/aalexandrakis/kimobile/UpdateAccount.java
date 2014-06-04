@@ -1,11 +1,9 @@
 package com.aalexandrakis.kimobile;
 
 import java.io.IOException;
-import java.math.BigInteger;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -98,7 +96,10 @@ public class UpdateAccount extends CommonActivity {
 	public static final String METHOD = "saveUser";
 	boolean error = false;
 	ProgressDialog pg;
-
+	String userId;
+	String userName;
+	String userEmail;
+	String password;
 	AsyncTaskUpdateAccount(UpdateAccount updateAccount){
 		this.updateAccount = updateAccount;
 	}
@@ -118,16 +119,12 @@ public class UpdateAccount extends CommonActivity {
 			updateAccount.txtUserName.requestFocus();
 		} else if (result[0].equals("00")){
 			Toast.makeText(updateAccount, updateAccount.getString(R.string.toastUserUpdatedSuccesfully), Toast.LENGTH_LONG).show();
-//			SharedPreferences.Editor editor = login.sharedPreferences.edit();
-//			editor.clear();
-//			editor.putString("userName", userName);
-//			editor.putString("userEmail", user.getUserEmail());
-//			editor.putString("userPassword", password);
-//			editor.putString("userCoins", user.getUserCoins().toString());
-//			editor.putInt("userLeve", user.getUserLevel());
-//			editor.commit();
-//			
-//			Intent mainMenu = new Intent("com.aalexandrakis.kimobile.MainMenu");
+			SharedPreferences.Editor editor = updateAccount.sharedPreferences.edit();
+			editor.putString("userName", userName);
+			editor.putString("userEmail", userEmail);
+			editor.putString("userPassword", password);
+			editor.commit();
+			
 			updateAccount.finish();
 		}
 		
@@ -147,7 +144,7 @@ public class UpdateAccount extends CommonActivity {
 
 	@Override
 	 protected String[] doInBackground(String... params) {
-		BigInteger userId = new BigInteger(params[0]);
+		String userId = params[0];
 		String userName = params[1];
 		String userEmail = params[2];
 		String password = params[3];
@@ -155,7 +152,7 @@ public class UpdateAccount extends CommonActivity {
 		  try {
 	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
 	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	              SoapObject request = new SoapObject(CommonActivity.NAMESPACE, METHOD);
+	       	      SoapObject request = new SoapObject(CommonActivity.NAMESPACE, METHOD);
 	              request.addProperty("userId", userId);
 	              request.addProperty("userName", userName);
 	              request.addProperty("userEmail", userEmail);

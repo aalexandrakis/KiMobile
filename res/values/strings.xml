@@ -49,7 +49,7 @@
 	<string name="updateAccountError">Update account error</string>
 	<string name="updating">Updating. . .</string>
 	<string name="waitToUpdateAccount">Please wait to update your account info</string>
-	<string name="toastUserUpdatedSuccesfully">User added successfully</string>
+	<string name="toastUserUpdatedSuccesfully">User updated successfully</string>
 	
 	<!-- main menu -->
 	<string name="playNow">Play now</string>

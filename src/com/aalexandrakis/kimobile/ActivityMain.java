@@ -1,17 +1,15 @@
 package com.aalexandrakis.kimobile;
 
+import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
+import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
+import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
-import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
-import static com.aalexandrakis.kimobile.Constants.*;
 
 public class ActivityMain extends FragmentActivity {
 	SharedPreferences sharedPreferences;

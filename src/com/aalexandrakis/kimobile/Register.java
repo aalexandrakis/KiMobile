@@ -1,6 +1,16 @@
 package com.aalexandrakis.kimobile;
 
+import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
+import static com.aalexandrakis.kimobile.CommonMethods.encryptPassword;
+import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
+
 import java.io.IOException;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,15 +23,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParserException;
-
-import static com.aalexandrakis.kimobile.CommonMethods.*;
-import static com.aalexandrakis.kimobile.CommonMethods.*;
 public class Register extends Activity {
 	EditText txtUserName;
 	EditText txtUserEmail;

@@ -1,7 +1,9 @@
 package com.aalexandrakis.kimobile;
 
 import java.io.IOException;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,13 +12,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
-public class ResetPassword extends CommonActivity {
+import static com.aalexandrakis.kimobile.CommonMethods.*;
+public class ResetPassword extends Activity {
 	EditText txtUserEmail;
 	Button btnResetPassword;
 	ResetPassword resetPassword = this;
@@ -35,12 +39,12 @@ public class ResetPassword extends CommonActivity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if (!checkConnectivity()){
-					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection));
+				if (!checkConnectivity(resetPassword)){
+					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), resetPassword);
 					return;
 				}
 				if (txtUserEmail.length() == 0){
-					showErrorDialog(getString(R.string.resetPasswordError), getString(R.string.userEmailIsMissing));
+					showErrorDialog(getString(R.string.resetPasswordError), getString(R.string.userEmailIsMissing), resetPassword);
 					txtUserEmail.requestFocus();
 					return;
 				}
@@ -71,9 +75,9 @@ public class ResetPassword extends CommonActivity {
 		super.onPostExecute(result);
 		pg.dismiss();
 		if (error == true || result == null || result[0].equals("40")){
-			resetPassword.showErrorDialog(resetPassword.getString(R.string.resetPasswordError), resetPassword.getString(R.string.youCanntConnect));
+			showErrorDialog(resetPassword.getString(R.string.resetPasswordError), resetPassword.getString(R.string.youCanntConnect),resetPassword);
 		} else if (result[0].equals("10")){
-			resetPassword.showErrorDialog(resetPassword.getString(R.string.resetPasswordError), resetPassword.getString(R.string.emailNotFound));
+			showErrorDialog(resetPassword.getString(R.string.resetPasswordError), resetPassword.getString(R.string.emailNotFound), resetPassword);
 			resetPassword.txtUserEmail.requestFocus();			
 		} else if (result[0].equals("00")){
 			Toast.makeText(resetPassword, resetPassword.getString(R.string.passwordChangeSuccessfully), Toast.LENGTH_LONG).show();
@@ -101,14 +105,14 @@ public class ResetPassword extends CommonActivity {
 		  try {
 	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
 	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	              SoapObject request = new SoapObject(CommonActivity.NAMESPACE, METHOD);
+	              SoapObject request = new SoapObject(Constants.NAMESPACE, METHOD);
 	              request.addProperty("userEmail", userEmail);
 	              
 	       //bodyOut is the body object to be sent out with this envelope
 	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(CommonActivity.URL);
+	       HttpTransportSE transport = new HttpTransportSE(Constants.URL);
 	       try {
-	    	 transport.call(CommonActivity.NAMESPACE + CommonActivity.SOAP_ACTION_PREFIX + METHOD, envelope);
+	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
 	       } catch (IOException e) {
 	         e.printStackTrace();
 	       } catch (XmlPullParserException e) {

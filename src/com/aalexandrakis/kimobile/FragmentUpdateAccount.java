@@ -1,6 +1,16 @@
 package com.aalexandrakis.kimobile;
 
+import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
+import static com.aalexandrakis.kimobile.CommonMethods.encryptPassword;
+import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
+
 import java.io.IOException;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,24 +19,13 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.support.v4.app.FragmentManager;
-
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParserException;
-
-import static com.aalexandrakis.kimobile.CommonMethods.*;
-import static com.aalexandrakis.kimobile.Constants.*;
 
 public class FragmentUpdateAccount extends Fragment {
 	EditText txtUserName;
@@ -167,16 +166,16 @@ public class FragmentUpdateAccount extends Fragment {
 		  try {
 	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
 	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	       	      SoapObject request = new SoapObject(CommonActivity.NAMESPACE, METHOD);
+	       	      SoapObject request = new SoapObject(Constants.NAMESPACE, METHOD);
 	              request.addProperty("userId", userId);
 	              request.addProperty("userName", userName);
 	              request.addProperty("userEmail", userEmail);
 	              request.addProperty("userPassword", encryptPassword(password));
 	       //bodyOut is the body object to be sent out with this envelope
 	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(CommonActivity.URL);
+	       HttpTransportSE transport = new HttpTransportSE(Constants.URL);
 	       try {
-	    	 transport.call(CommonActivity.NAMESPACE + CommonActivity.SOAP_ACTION_PREFIX + METHOD, envelope);
+	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
 	       } catch (IOException e) {
 	         e.printStackTrace();
 	       } catch (XmlPullParserException e) {

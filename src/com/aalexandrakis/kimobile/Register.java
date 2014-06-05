@@ -1,7 +1,9 @@
 package com.aalexandrakis.kimobile;
 
 import java.io.IOException;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,14 +13,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
-import static com.aalexandrakis.kimobile.CommonMethods.*;
 
-public class Register extends CommonActivity {
+import static com.aalexandrakis.kimobile.CommonMethods.*;
+import static com.aalexandrakis.kimobile.CommonMethods.*;
+public class Register extends Activity {
 	EditText txtUserName;
 	EditText txtUserEmail;
 	EditText txtUserPassword;
@@ -46,36 +50,36 @@ public class Register extends CommonActivity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if (!checkConnectivity()){
-					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection));
+				if (!checkConnectivity(register)){
+					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), register);
 					return;
 				}
 				if (txtUserName.length() == 0){
-					showErrorDialog(getString(R.string.registerError), getString(R.string.userNameMissing));
+					showErrorDialog(getString(R.string.registerError), getString(R.string.userNameMissing), register);
 					txtUserName.requestFocus();
 					return;
 				}
 				if (txtUserEmail.length() == 0){
-					showErrorDialog(getString(R.string.registerError), getString(R.string.userEmailIsMissing));
+					showErrorDialog(getString(R.string.registerError), getString(R.string.userEmailIsMissing), register);
 					txtUserEmail.requestFocus();
 					return;
 				}
 				
 				if (!txtUserEmail.getText().toString().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")){
-					showErrorDialog(getString(R.string.registerError), getString(R.string.userEmailErrorformat));
+					showErrorDialog(getString(R.string.registerError), getString(R.string.userEmailErrorformat), register);
 					txtUserEmail.requestFocus();
 					return;
 				}
 				
 				if (txtUserPassword.length() == 0){
-					showErrorDialog(getString(R.string.registerError), getString(R.string.userPasswordMissing));
+					showErrorDialog(getString(R.string.registerError), getString(R.string.userPasswordMissing), register);
 					txtUserPassword.requestFocus();
 					return;
 				}
 				
 
 				if (!txtUserPassword.getText().toString().equals(txtRepeatPassword.getText().toString())){
-					showErrorDialog(getString(R.string.registerError), getString(R.string.passwordNotEqualWithRepeated));
+					showErrorDialog(getString(R.string.registerError), getString(R.string.passwordNotEqualWithRepeated), register);
 					txtRepeatPassword.requestFocus();
 					return;
 				}
@@ -106,12 +110,12 @@ public class Register extends CommonActivity {
 		super.onPostExecute(result);
 		pg.dismiss();
 		if (error == true || result == null || result[0].equals("40")){
-			register.showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.youCanntConnect));
+			showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.youCanntConnect), register);
 		} else if (result[0].equals("10")){
-			register.showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.userEmailExists));
+			showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.userEmailExists), register);
 			register.txtUserEmail.requestFocus();			
 		} else if (result[0].equals("11")){
-			register.showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.userNameExists));
+			showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.userNameExists), register);
 			register.txtUserName.requestFocus();
 		} else if (result[0].equals("00")){
 			Toast.makeText(register, register.getString(R.string.toastUserAddedSuccesfully), Toast.LENGTH_LONG).show();
@@ -141,16 +145,16 @@ public class Register extends CommonActivity {
 		  try {
 	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
 	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	              SoapObject request = new SoapObject(CommonActivity.NAMESPACE, METHOD);
+	              SoapObject request = new SoapObject(Constants.NAMESPACE, METHOD);
 	              request.addProperty("userId", null);
 	              request.addProperty("userName", userName);
 	              request.addProperty("userEmail", userEmail);
 	              request.addProperty("userPassword", password);
 	       //bodyOut is the body object to be sent out with this envelope
 	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(CommonActivity.URL);
+	       HttpTransportSE transport = new HttpTransportSE(Constants.URL);
 	       try {
-	    	 transport.call(CommonActivity.NAMESPACE + CommonActivity.SOAP_ACTION_PREFIX + METHOD, envelope);
+	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
 	       } catch (IOException e) {
 	         e.printStackTrace();
 	       } catch (XmlPullParserException e) {

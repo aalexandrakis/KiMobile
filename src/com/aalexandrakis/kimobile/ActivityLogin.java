@@ -163,14 +163,14 @@ public class ActivityLogin extends Activity {
 		  try {
 	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
 	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	              SoapObject request = new SoapObject(CommonActivity.NAMESPACE, METHOD);
+	              SoapObject request = new SoapObject(Constants.NAMESPACE, METHOD);
 	              request.addProperty("userName", userName);
 	              request.addProperty("password", encryptedPassword);
 	       //bodyOut is the body object to be sent out with this envelope
 	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(CommonActivity.URL);
+	       HttpTransportSE transport = new HttpTransportSE(Constants.URL);
 	       try {
-	    	 transport.call(CommonActivity.NAMESPACE + CommonActivity.SOAP_ACTION_PREFIX + METHOD, envelope);
+	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
 	       } catch (IOException e) {
 	         e.printStackTrace();
 	         error = true;

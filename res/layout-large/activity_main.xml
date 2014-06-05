@@ -21,8 +21,8 @@
         android:name="com.aalexandrakis.kimobile.FragmentUpdateAccount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
         android:layout_weight="2"
         tools:layout="@layout/fragment_update_account" />
-    
 
 </LinearLayout>

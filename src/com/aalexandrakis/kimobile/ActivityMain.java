@@ -6,6 +6,7 @@ import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,6 +78,10 @@ public class ActivityMain extends FragmentActivity {
 					return;
 				}
 				
+				Fragment secondfragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.action);
+				if (secondfragment != null){
+					
+				}
 //				Intent updateAccount = new Intent("com.aalexandrakis.kimobile.UpdateAccount");
 //				startActivity(updateAccount);
 			

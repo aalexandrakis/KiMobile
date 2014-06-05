@@ -1,25 +1,21 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView1"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent" 
-    android:background="@color/black">
-    
-<LinearLayout 
     android:id="@+id/fragmentContainer"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:background="@color/black"
     android:baselineAligned="false"
     android:orientation="horizontal" >
 
+    <!-- "Fragment A" -->
     <fragment
-        android:id="@+id/main_menu"
+        android:id="@+id/fragmentMenu"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         class="com.aalexandrakis.kimobile.FragmentMainMenu" />
-    
+
+    <!-- "Fragment B" -->
     <fragment
         android:id="@+id/details_frag"
         android:layout_weight="2"
@@ -28,4 +24,3 @@
         class="com.aalexandrakis.kimobile.FragmentUpdateAccount" />
 
 </LinearLayout>
-</ScrollView>

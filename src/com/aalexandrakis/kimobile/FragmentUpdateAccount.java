@@ -28,20 +28,24 @@ import org.xmlpull.v1.XmlPullParserException;
 import static com.aalexandrakis.kimobile.CommonMethods.*;
 import static com.aalexandrakis.kimobile.Constants.*;
 
-public class UpdateAccount extends Fragment {
+public class FragmentUpdateAccount extends Fragment {
 	EditText txtUserName;
 	EditText txtUserEmail;
 	EditText txtUserPassword;
 	EditText txtRepeatPassword;
 	Button btnUpdateAccount;
-	UpdateAccount updateAccount = this;
+	FragmentUpdateAccount updateAccount = this;
 	SharedPreferences sharedPreferences;
 	
+	public FragmentUpdateAccount() {
+		super();
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view = inflater.inflate(R.layout.activity_update_account, container, false);
+		View view = inflater.inflate(R.layout.fragment_update_account, container, false);
 		sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Activity.MODE_PRIVATE);
 		txtUserName = (EditText) view.findViewById(R.id.txtUserName);
 		txtUserEmail = (EditText) view.findViewById(R.id.txtUserEmail);
@@ -103,7 +107,7 @@ public class UpdateAccount extends Fragment {
 
  class AsyncTaskUpdateAccount extends AsyncTask<String, String[], String[]>  {
 	 
-	UpdateAccount updateAccount;
+	FragmentUpdateAccount updateAccount;
 	public static final String METHOD = "saveUser";
 	boolean error = false;
 	ProgressDialog pg;
@@ -111,7 +115,7 @@ public class UpdateAccount extends Fragment {
 	String userName;
 	String userEmail;
 	String password;
-	AsyncTaskUpdateAccount(UpdateAccount updateAccount){
+	AsyncTaskUpdateAccount(FragmentUpdateAccount updateAccount){
 		this.updateAccount = updateAccount;
 	}
 	 @SuppressLint("ShowToast")

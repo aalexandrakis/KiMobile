@@ -13,11 +13,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import static com.aalexandrakis.kimobile.CommonMethods.*;
 
-public class MainMenu extends Fragment{
+public class FragmentMainMenu extends Fragment{
 	Button btnPlayNow;
 	Button btnMyBets;
 	Button btnDrawHistory;
 	Button btnUpdateAccount;
+	Fragment uaf;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -79,14 +80,7 @@ public class MainMenu extends Fragment{
 				
 //				Intent updateAccount = new Intent("com.aalexandrakis.kimobile.UpdateAccount");
 //				startActivity(updateAccount);
-				
-				FragmentManager fragmentManager = getFragmentManager();
-			    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-			       //add a fragment
-			       UpdateAccount myFragment = new UpdateAccount();
-			       fragmentTransaction.add(R.id.fragment_container, myFragment);
-			       fragmentTransaction.commit();
+			
 
 			}
 		});

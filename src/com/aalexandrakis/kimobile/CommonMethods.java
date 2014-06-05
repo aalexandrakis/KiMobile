@@ -48,18 +48,23 @@ public class CommonMethods {
 	    formatter.close();
 	    return result;
 	}	
+
+	
+	static void showErrorDialog(String title, String message, Context context){
+		new AlertDialog.Builder(context)
+		.setTitle(title)
+		.setMessage(message)
+		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+			}
+		})
+		.show();
+	}
+
 	
 	static void showErrorDialog(String title, String message, FragmentManager manager){
-//		new AlertDialog.Builder(activity.getApplicationContext())
-//		.setTitle(title)
-//		.setMessage(message)
-//		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				// TODO Auto-generated method stub
-//			}
-//		})
-//		.show();
 		new SimpleDialog(title, message).show(manager, "MyDialog");
 	}
 	
@@ -74,6 +79,5 @@ public class CommonMethods {
 			return false;
 		}
 	}
-	
 	
 }

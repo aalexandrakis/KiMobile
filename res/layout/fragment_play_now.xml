@@ -17,7 +17,7 @@
             android:id="@+id/labelViewBets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="view bets"
+            android:text="play now"
             android:textColor="@color/yellow" />
 
 </LinearLayout>

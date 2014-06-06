@@ -16,13 +16,13 @@
         android:layout_weight="1"
         tools:layout="@layout/fragment_main_menu" />
 
-    <fragment
-        android:id="@+id/action"
-        android:name="com.aalexandrakis.kimobile.FragmentUpdateAccount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp"
-        android:layout_weight="2"
-        tools:layout="@layout/fragment_update_account" />
+   <FrameLayout
+       android:id="@+id/secondFragment"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="2dp"
+       android:layout_weight="2" >
+       
+   </FrameLayout>
 
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.support.v4.app.FragmentManager;
 
@@ -80,4 +81,13 @@ public class CommonMethods {
 		}
 	}
 	
+	static boolean isLarge(Activity activity){
+    	if ((activity.getResources().getConfiguration().screenLayout & 
+			    Configuration.SCREENLAYOUT_SIZE_MASK) == 
+			        Configuration.SCREENLAYOUT_SIZE_LARGE) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
 }

@@ -3,8 +3,8 @@ package com.aalexandrakis.kimobile;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-public class ActivityPlayNow extends FragmentActivity {
-	public ActivityPlayNow() {
+public class ActivityViewBets extends FragmentActivity {
+	public ActivityViewBets() {
 		super();
 	}
 
@@ -14,9 +14,9 @@ public class ActivityPlayNow extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState == null) {
             // During initial setup, plug in the details fragment.
-            FragmentPlayNow palyNow = new FragmentPlayNow();
-            palyNow.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction().add(android.R.id.content, palyNow).commit();
+            FragmentViewBets viewBets = new FragmentViewBets();
+            viewBets.setArguments(getIntent().getExtras());
+            getSupportFragmentManager().beginTransaction().add(android.R.id.content, viewBets).commit();
         }
 
 	}

@@ -59,16 +59,16 @@ public class ActivityLogin extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				if (!checkConnectivity(activityLogin)){
-					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), activityLogin.getApplicationContext());
+					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), activityLogin);
 					return;
 				}
 				if (txtUserName.length() == 0){
-					showErrorDialog(getString(R.string.credentialsError), getString(R.string.userNameMissing), activityLogin.getApplicationContext());
+					showErrorDialog(getString(R.string.credentialsError), getString(R.string.userNameMissing), activityLogin);
 					txtUserName.requestFocus();
 					return;
 				}
 				if (txtUserPassword.length() == 0){
-					showErrorDialog(getString(R.string.credentialsError), getString(R.string.userPasswordMissing), activityLogin.getApplicationContext());
+					showErrorDialog(getString(R.string.credentialsError), getString(R.string.userPasswordMissing), activityLogin);
 					txtUserPassword.requestFocus();
 					return;
 				}
@@ -92,7 +92,7 @@ public class ActivityLogin extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				if (!checkConnectivity(activityLogin)){
-					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), activityLogin.getApplicationContext());
+					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), activityLogin);
 					return;
 				}
 				
@@ -122,9 +122,9 @@ public class ActivityLogin extends Activity {
 		super.onPostExecute(user);
 		pg.dismiss();
 		if (error){
-			showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.youCanntConnect), login.getApplicationContext());
+			showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.youCanntConnect), login);
 		} else if (user == null){
-			showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.credentialsAreError), login.getApplicationContext());
+			showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.credentialsAreError), login);
 		} else {
 			SharedPreferences.Editor editor = login.sharedPreferences.edit();
 			editor.clear();

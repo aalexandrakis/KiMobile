@@ -1,11 +1,11 @@
 package com.aalexandrakis.kimobile;
 
-import static com.aalexandrakis.kimobile.CommonMethods.*;
+import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
+import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
 import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -23,103 +23,137 @@ public class ActivityMain extends FragmentActivity {
 	Button btnUpdateAccount;
 	Activity activity = this;
 	FrameLayout secondFragment;
-    @Override
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+		sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,
+				MODE_PRIVATE);
 		setContentView(R.layout.activity_main);
-		secondFragment = (FrameLayout)findViewById(R.id.secondFragment);
-		if (secondFragment != null){
+		secondFragment = (FrameLayout) findViewById(R.id.secondFragment);
+		if (secondFragment != null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			FragmentTransaction fragmentTransaction = fragmentManager
+					.beginTransaction();
 			FragmentPlayNow playNowFragment = new FragmentPlayNow();
-			fragmentTransaction.add(R.id.secondFragment, playNowFragment);
+			fragmentTransaction.replace(R.id.secondFragment, playNowFragment);
 			fragmentTransaction.commit();
 		}
-		
+
 		btnPlayNow = (Button) findViewById(R.id.btnPlayNow);
 		btnMyBets = (Button) findViewById(R.id.btnMyBets);
 		btnDrawHistory = (Button) findViewById(R.id.btnDrawHistory);
 		btnUpdateAccount = (Button) findViewById(R.id.btnUpdateAccount);
 		final Activity activity = this;
-		btnPlayNow.setOnClickListener(new OnClickListener(){
+		btnPlayNow.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if (!checkConnectivity(activity)){
-					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), activity);
+				if (!checkConnectivity(activity)) {
+					showErrorDialog(getString(R.string.networkError),
+							getString(R.string.noInternetConnection), activity);
 					return;
 				}
-				if (secondFragment != null){
+				if (secondFragment != null) {
 					FragmentManager fragmentManager = getSupportFragmentManager();
-					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
 					FragmentPlayNow playNowFragment = new FragmentPlayNow();
-					fragmentTransaction.add(R.id.secondFragment, playNowFragment);
+					fragmentTransaction.replace(R.id.secondFragment,
+							playNowFragment);
 					fragmentTransaction.commit();
 				} else {
 					Intent intent = new Intent();
-		            intent.setClass(getApplicationContext(), ActivityPlayNow.class);
+					intent.setClass(getApplicationContext(),
+							ActivityPlayNow.class);
 					startActivity(intent);
 				}
-			
-			}
-		});
-		
-		btnMyBets.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				if (!checkConnectivity(activity)){
-					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), activity);
-					return;
-				}
 
-				showErrorDialog("Test", "MyBets", activity);
 			}
 		});
-		
-		btnDrawHistory.setOnClickListener(new OnClickListener(){
+
+		btnMyBets.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if (!checkConnectivity(activity)){
-					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), activity);
+				if (!checkConnectivity(activity)) {
+					showErrorDialog(getString(R.string.networkError),
+							getString(R.string.noInternetConnection), activity);
 					return;
 				}
-				
-				showErrorDialog("Test", "DrawHistory", activity);
-			}
-		});
-		
-		btnUpdateAccount.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				if (!checkConnectivity(activity)){
-					showErrorDialog(getString(R.string.networkError), getString(R.string.noInternetConnection), activity);
-					return;
-				}
-				
-				if (isLarge(activity)){
-					    // on a large screen device ...
-//						FragmentManager fragmentManager = getSupportFragmentManager();
-//						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//						FragmentUpdateAccount updateAccount = new FragmentUpdateAccount();
-//						fragmentTransaction.replace
+				if (secondFragment != null) {
+					FragmentManager fragmentManager = getSupportFragmentManager();
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					FragmentViewBets viewBetsFragment = new FragmentViewBets();
+					fragmentTransaction.replace(R.id.secondFragment,
+							viewBetsFragment);
+					fragmentTransaction.commit();
 				} else {
-						
+					Intent intent = new Intent();
+					intent.setClass(getApplicationContext(),
+							ActivityViewBets.class);
+					startActivity(intent);
 				}
-//				Intent updateAccount = new Intent("com.aalexandrakis.kimobile.UpdateAccount");
-//				startActivity(updateAccount);
-			
 
 			}
 		});
-		
-		
-    }
-    
 
-    
-	
+		btnDrawHistory.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if (!checkConnectivity(activity)) {
+					showErrorDialog(getString(R.string.networkError),
+							getString(R.string.noInternetConnection), activity);
+					return;
+				}
+
+				if (secondFragment != null) {
+					FragmentManager fragmentManager = getSupportFragmentManager();
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					FragmentViewDraws viewDrawsFragment = new FragmentViewDraws();
+					fragmentTransaction.replace(R.id.secondFragment,
+							viewDrawsFragment);
+					fragmentTransaction.commit();
+				} else {
+					Intent intent = new Intent();
+					intent.setClass(getApplicationContext(),
+							ActivityViewDraws.class);
+					startActivity(intent);
+				}
+			}
+		});
+
+		btnUpdateAccount.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if (!checkConnectivity(activity)) {
+					showErrorDialog(getString(R.string.networkError),
+							getString(R.string.noInternetConnection), activity);
+					return;
+				}
+
+				if (secondFragment != null) {
+					FragmentManager fragmentManager = getSupportFragmentManager();
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					FragmentUpdateAccount updateAccountFragment = new FragmentUpdateAccount();
+					fragmentTransaction.replace(R.id.secondFragment,
+							updateAccountFragment);
+					fragmentTransaction.commit();
+				} else {
+					Intent intent = new Intent();
+					intent.setClass(getApplicationContext(),
+							ActivityUpdateAccount.class);
+					startActivity(intent);
+				}
+
+			}
+		});
+
+	}
+
 }

@@ -25,35 +25,35 @@
             </intent-filter>
         </activity>
          
-        <activity android:name="com.aalexandrakis.kimobile.ActivityMain" android:label="@string/app_name">
+        <activity android:name="com.aalexandrakis.kimobile.ActivityMain" android:label="@string/app_name" android:configChanges="orientation">
             <intent-filter>
                 <action android:name="com.aalexandrakis.kimobile.ActivityMain"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name="com.aalexandrakis.kimobile.ActivityPlayNow" android:label="@string/app_name">
+        <activity android:name="com.aalexandrakis.kimobile.ActivityPlayNow" android:label="@string/app_name" android:configChanges="orientation">
             <intent-filter>
                 <action android:name="com.aalexandrakis.kimobile.ActivityPlayNow"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name="com.aalexandrakis.kimobile.ActivityViewBets" android:label="@string/app_name">
+        <activity android:name="com.aalexandrakis.kimobile.ActivityViewBets" android:label="@string/app_name" android:configChanges="orientation">
             <intent-filter>
                 <action android:name="com.aalexandrakis.kimobile.ActivityViewBets"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name="com.aalexandrakis.kimobile.ActivityViewDraws" android:label="@string/app_name">
+        <activity android:name="com.aalexandrakis.kimobile.ActivityViewDraws" android:label="@string/app_name" android:configChanges="orientation">
             <intent-filter>
                 <action android:name="com.aalexandrakis.kimobile.ActivityViewDraws"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
-        <activity android:name="com.aalexandrakis.kimobile.ActivityUpdateAccount" android:label="@string/app_name">
+        <activity android:name="com.aalexandrakis.kimobile.ActivityUpdateAccount" android:label="@string/app_name" android:configChanges="orientation">
             <intent-filter>
                 <action android:name="com.aalexandrakis.kimobile.ActivityUpdateAccount"/>
                 <category android:name="android.intent.category.DEFAULT"/>

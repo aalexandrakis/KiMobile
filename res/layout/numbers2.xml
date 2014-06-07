@@ -1,0 +1,569 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tableLayoutNumbers2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <TableRow
+        android:id="@+id/tableRow11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber41"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number41"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber42"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number42"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber43"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number43"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber44"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number44"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber45"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number45"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber46"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number46"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber47"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number47"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber48"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number48"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber49"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number49"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber50"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number50"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber51"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number51"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber52"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number52"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber53"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number53"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber54"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number54"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber55"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number55"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber56"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number56"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber57"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number57"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber58"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number58"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber59"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number59"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber60"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number60"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber61"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number61"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber62"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number62"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber63"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number63"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber64"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number64"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber65"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number65"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber66"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number66"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber67"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number67"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber68"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number68"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber69"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number69"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber70"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number70"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber71"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number71"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber72"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number72"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber73"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number73"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber74"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number74"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber75"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number75"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber76"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number76"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" 
+        android:layout_marginBottom="10dp" >
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber77"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number77"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber78"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number78"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber79"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number79"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber80"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/number80"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="40sp" />
+    </TableRow>
+
+</TableLayout>

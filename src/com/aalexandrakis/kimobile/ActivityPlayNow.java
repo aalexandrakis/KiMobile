@@ -7,7 +7,8 @@ public class ActivityPlayNow extends FragmentActivity {
 	public ActivityPlayNow() {
 		super();
 	}
-
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -17,9 +18,11 @@ public class ActivityPlayNow extends FragmentActivity {
             FragmentPlayNow palyNow = new FragmentPlayNow();
             palyNow.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction().add(android.R.id.content, palyNow).commit();
-        }
-
+            
+		}
 	}
+	
+	
 
 }
 

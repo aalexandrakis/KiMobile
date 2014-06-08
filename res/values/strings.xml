@@ -72,6 +72,9 @@
 	<string name="gameTypeRangeError">Game Type must be from 1 to 20</string>
 	<string name="gameTypeError">Game Type must be the same with the selected numbers count</string>
 	<string name="betError">Bet error</string>
+	<string name="toastBetAddedSuccessfully">Your bet saved successfully. Good luck. . .</string>
+	<string name="betting">Betting. . .</string>
+	<string name="waitToSaveYourBet">Please wait to save your bet</string>
 	
 	<!-- numbers -->
 	<string name="number1">1</string>

@@ -1,6 +1,7 @@
 package com.aalexandrakis.kimobile;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.Button;
 
@@ -74,7 +75,14 @@ public class NumberButton extends Button {
 		this.isMatched = isMatched;
 	}
 
-
+    public void reset(){
+    	this.isSelected = false;
+    	this.isInBet = false;
+    	this.isInDraw = false;
+    	this.isMatched = false;
+    	this.setTextColor(Color.YELLOW);
+    	this.setBackgroundColor(Color.BLACK);
+    }
 	
 	
 }

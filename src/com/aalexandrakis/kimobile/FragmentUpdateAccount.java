@@ -25,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 public class FragmentUpdateAccount extends Fragment {
@@ -35,6 +36,7 @@ public class FragmentUpdateAccount extends Fragment {
 	Button btnUpdateAccount;
 	FragmentUpdateAccount updateAccount = this;
 	SharedPreferences sharedPreferences;
+	FrameLayout secondFragment; 
 	
 	public FragmentUpdateAccount() {
 		super();
@@ -45,6 +47,7 @@ public class FragmentUpdateAccount extends Fragment {
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_update_account, container, false);
+		secondFragment = (FrameLayout) getActivity().findViewById(R.id.secondFragment);
 		sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Activity.MODE_PRIVATE);
 		txtUserName = (EditText) view.findViewById(R.id.txtUserName);
 		txtUserEmail = (EditText) view.findViewById(R.id.txtUserEmail);
@@ -139,7 +142,9 @@ public class FragmentUpdateAccount extends Fragment {
 			editor.putString("userPassword", password);
 			editor.commit();
 			
-//			updateAccount.finish();
+			if (updateAccount.secondFragment == null){
+				updateAccount.getActivity().finish();
+			}
 		}
 		
 	}

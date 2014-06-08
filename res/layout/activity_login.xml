@@ -48,33 +48,20 @@
 
     <Button
         android:id="@+id/btnConnect"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:background="@color/yellow"
         android:text="@string/connect"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+        style="@style/KimoButton" />
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="top"
         android:layout_marginTop="10dp"
-        android:background="@color/yellow"
         android:text="@string/register"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+        style="@style/KimoButton" />
 
     <Button
         android:id="@+id/btnForgotPassword"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:background="@color/yellow"
         android:text="@string/forgotPassword"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+        style="@style/KimoButton"  />
 
 </LinearLayout>

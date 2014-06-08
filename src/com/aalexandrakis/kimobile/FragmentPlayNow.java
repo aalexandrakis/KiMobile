@@ -2,9 +2,21 @@ package com.aalexandrakis.kimobile;
 
 import static com.aalexandrakis.kimobile.CommonMethods.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +26,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 
 public class FragmentPlayNow extends Fragment {
@@ -105,12 +119,14 @@ public class FragmentPlayNow extends Fragment {
 	NumberButton numberButton79;
 	NumberButton numberButton80;
 	
-	CheckBox randomChoice;
-	EditText multiplier;
-	EditText repeatedDraws;
-	EditText gameType;
+	CheckBox chkRandomChoice;
+	EditText txtMultiplier;
+	EditText txtRepeatedDraws;
+	EditText txtGameType;
 	Button btnBetNow;
-	
+	SharedPreferences sharedPreferences;
+	FrameLayout secondFragment;
+	FragmentPlayNow playNow = this;
 	List<Integer> numberList = new ArrayList<Integer>();
 	public FragmentPlayNow() {
 		super();
@@ -122,11 +138,12 @@ public class FragmentPlayNow extends Fragment {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_play_now, container, false);
 		
-
-		randomChoice = (CheckBox) view.findViewById(R.id.chkRandomChoice);
-		multiplier = (EditText) view.findViewById(R.id.txtMultiplier);
-		repeatedDraws = (EditText) view.findViewById(R.id.txtRepeatedDraws);
-		gameType = (EditText) view.findViewById(R.id.txtGameType);
+		sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Activity.MODE_PRIVATE);
+		secondFragment = (FrameLayout) getActivity().findViewById(R.id.secondFragment);
+		chkRandomChoice = (CheckBox) view.findViewById(R.id.chkRandomChoice);
+		txtMultiplier = (EditText) view.findViewById(R.id.txtMultiplier);
+		txtRepeatedDraws = (EditText) view.findViewById(R.id.txtRepeatedDraws);
+		txtGameType = (EditText) view.findViewById(R.id.txtGameType);
 		
         numberButton1 = (NumberButton) view.findViewById(R.id.btnNumber1);
         numberButton1.setOnClickListener(new OnClickListener() {
@@ -802,51 +819,263 @@ public class FragmentPlayNow extends Fragment {
 			    	  }
 			      }
 			      
-			      if (Integer.valueOf(multiplier.getText().toString()) > 20 || Integer.valueOf(multiplier.getText().toString()) < 1){
+			      for (int i = numberList.size(); i < 12 ; ++i){
+			    	  numberList.add(0);
+			      }
+			      
+			      if (Integer.valueOf(txtMultiplier.getText().toString()) > 20 || Integer.valueOf(txtMultiplier.getText().toString()) < 1){
 			    	  showErrorDialog(getString(R.string.betError), getString(R.string.multiplierError), getActivity());
-			    	  multiplier.requestFocus();
+			    	  txtMultiplier.requestFocus();
 			    	  return;
 			      }
 			      
-			      if (Integer.valueOf(repeatedDraws.getText().toString()) > 20 || Integer.valueOf(repeatedDraws.getText().toString()) < 1){
+			      if (Integer.valueOf(txtRepeatedDraws.getText().toString()) > 20 || Integer.valueOf(txtRepeatedDraws.getText().toString()) < 1){
 			    	  showErrorDialog(getString(R.string.betError), getString(R.string.repeatedDrawsError), getActivity());
-			    	  repeatedDraws.requestFocus();
+			    	  txtRepeatedDraws.requestFocus();
 			    	  return;
 			      }
 			      
-			      if (Integer.valueOf(gameType.getText().toString()) > 12 || Integer.valueOf(gameType.getText().toString()) < 1){
+			      if (Integer.valueOf(txtGameType.getText().toString()) > 12 || Integer.valueOf(txtGameType.getText().toString()) < 1){
 			    	  showErrorDialog(getString(R.string.betError), getString(R.string.gameTypeRangeError), getActivity());
-			    	  repeatedDraws.requestFocus();
+			    	  txtRepeatedDraws.requestFocus();
 			    	  return;
 			      }
 			      
-			      if (!Integer.valueOf(gameType.getText().toString()).equals(selected)){
+			      if (!Integer.valueOf(txtGameType.getText().toString()).equals(selected)){
 			    	  showErrorDialog(getString(R.string.betError), getString(R.string.gameTypeError), getActivity());
-			    	  repeatedDraws.requestFocus();
+			    	  txtRepeatedDraws.requestFocus();
 			    	  return;
 			      }
+			      //TODO select random numbers 
 			      
-			      Integer nbr1 = numberList.get(0);
-			      Integer nbr2 = numberList.get(1);
-			      Integer nbr3 = numberList.get(2);
-			      Integer nbr4 = numberList.get(3);
-			      Integer nbr5 = numberList.get(4);
-			      Integer nbr6 = numberList.get(5);
-			      Integer nbr7 = numberList.get(6);
-			      Integer nbr8 = numberList.get(7);
-			      Integer nbr9 = numberList.get(8);
-			      Integer nbr10 = numberList.get(9);
-			      Integer nbr11 = numberList.get(10);
-			      Integer nbr12 = numberList.get(11);
+			      String userId = sharedPreferences.getString("userId", "0");
+			      String repeatedDraws = txtRepeatedDraws.getText().toString();
+			      String randomChoice = chkRandomChoice.isChecked() ? "1" : "0";
+			      String gameType = txtGameType.getText().toString();
+			      String multiplier = txtMultiplier.getText().toString();
+			      String nbr1 = numberList.get(0).toString();
+			      String nbr2 = numberList.get(1).toString();
+			      String nbr3 = numberList.get(2).toString();
+			      String nbr4 = numberList.get(3).toString();
+			      String nbr5 = numberList.get(4).toString();
+			      String nbr6 = numberList.get(5).toString();
+			      String nbr7 = numberList.get(6).toString();
+			      String nbr8 = numberList.get(7).toString();
+			      String nbr9 = numberList.get(8).toString();
+			      String nbr10 = numberList.get(9).toString();
+			      String nbr11 = numberList.get(10).toString();
+			      String nbr12 = numberList.get(11).toString();
+			      
+			      AsyncTaskSaveBet saveBet = new AsyncTaskSaveBet(playNow);
+			      saveBet.execute(userId, repeatedDraws, randomChoice, gameType, multiplier, nbr1, nbr2, nbr3, nbr4, nbr5, nbr6, nbr7, nbr8, nbr9, nbr10, nbr11, nbr12);
 			}
         });
 		return view;
 	}
 	
 	
-	
+	protected void reset(){
+		numberButton1.reset();
+		numberButton2.reset();
+		numberButton3.reset();
+		numberButton4.reset();
+		numberButton5.reset();
+		numberButton6.reset();
+		numberButton7.reset();
+		numberButton8.reset();
+		numberButton9.reset();
+		numberButton10.reset();
+		
+		numberButton11.reset();
+		numberButton12.reset();
+		numberButton13.reset();
+		numberButton14.reset();
+		numberButton15.reset();
+		numberButton16.reset();
+		numberButton17.reset();
+		numberButton18.reset();
+		numberButton19.reset();
+		numberButton20.reset();
+
+		numberButton21.reset();
+		numberButton22.reset();
+		numberButton23.reset();
+		numberButton24.reset();
+		numberButton25.reset();
+		numberButton26.reset();
+		numberButton27.reset();
+		numberButton28.reset();
+		numberButton29.reset();
+		numberButton30.reset();
+
+		numberButton31.reset();
+		numberButton32.reset();
+		numberButton33.reset();
+		numberButton34.reset();
+		numberButton35.reset();
+		numberButton36.reset();
+		numberButton37.reset();
+		numberButton38.reset();
+		numberButton39.reset();
+		numberButton40.reset();
+
+		numberButton41.reset();
+		numberButton42.reset();
+		numberButton43.reset();
+		numberButton44.reset();
+		numberButton45.reset();
+		numberButton46.reset();
+		numberButton47.reset();
+		numberButton48.reset();
+		numberButton49.reset();
+		numberButton50.reset();
+
+		numberButton51.reset();
+		numberButton52.reset();
+		numberButton53.reset();
+		numberButton54.reset();
+		numberButton55.reset();
+		numberButton56.reset();
+		numberButton57.reset();
+		numberButton58.reset();
+		numberButton59.reset();
+		numberButton60.reset();
+
+		numberButton61.reset();
+		numberButton62.reset();
+		numberButton63.reset();
+		numberButton64.reset();
+		numberButton65.reset();
+		numberButton66.reset();
+		numberButton67.reset();
+		numberButton68.reset();
+		numberButton69.reset();
+		numberButton70.reset();
+
+		numberButton71.reset();
+		numberButton72.reset();
+		numberButton73.reset();
+		numberButton74.reset();
+		numberButton75.reset();
+		numberButton76.reset();
+		numberButton77.reset();
+		numberButton78.reset();
+		numberButton79.reset();
+		numberButton80.reset();
+
+	}
 }
 
 
+class AsyncTaskSaveBet extends AsyncTask<String, String[], String[]>  {
+	 
+	FragmentPlayNow playNow;
+	public static final String METHOD = "saveBet";
+	boolean error = false;
+	ProgressDialog pg;
+	AsyncTaskSaveBet(FragmentPlayNow playNow){
+		this.playNow = playNow;
+	}
+	 @SuppressLint("ShowToast")
+	@Override
+	protected void onPostExecute(String[] result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		pg.dismiss();
+		if (error == true || result == null || result[0].equals("40")){
+			showErrorDialog(playNow.getString(R.string.betError), playNow.getString(R.string.youCanntConnect), playNow.getFragmentManager());
+		} else if (result[0].equals("10")){
+			showErrorDialog(playNow.getString(R.string.betError), playNow.getString(R.string.gameTypeError), playNow.getFragmentManager());
+			playNow.txtGameType.requestFocus();			
+		} else if (result[0].equals("00")){
+			Toast.makeText(playNow.getActivity(), playNow.getString(R.string.toastBetAddedSuccessfully), Toast.LENGTH_LONG).show();
+		}
+		
+		playNow.reset();
+	}
+
+
+	@Override
+	protected void onPreExecute() {
+		// TODO Auto-generated method stub
+		super.onPreExecute();
+		pg = new ProgressDialog(playNow.getActivity());
+		pg.setTitle(playNow.getString(R.string.betting));
+		pg.setMessage(playNow.getString(R.string.waitToSaveYourBet));
+		pg.show();
+	}
+
+
+	@Override
+	 protected String[] doInBackground(String... params) {
+		String userId = params[0];
+		Integer repeatedDraws = Integer.valueOf(params[1]);
+		Integer randomChoice = Integer.valueOf(params[2]);
+		Integer gameType = Integer.valueOf(params[3]);
+		Integer multiplier = Integer.valueOf(params[4]);
+		Integer number1 = Integer.valueOf(params[5]);
+		Integer number2 = Integer.valueOf(params[6]);
+		Integer number3 = Integer.valueOf(params[7]);
+		Integer number4 = Integer.valueOf(params[8]);
+		Integer number5 = Integer.valueOf(params[9]);
+		Integer number6 = Integer.valueOf(params[10]);
+		Integer number7 = Integer.valueOf(params[11]);
+		Integer number8 = Integer.valueOf(params[12]);
+		Integer number9 = Integer.valueOf(params[13]);
+		Integer number10 = Integer.valueOf(params[14]);
+		Integer number11 = Integer.valueOf(params[15]);
+		Integer number12 = Integer.valueOf(params[16]);
+		
+		// TODO Auto-generated method stub
+		  try {
+	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
+	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+	       	      SoapObject request = new SoapObject(Constants.NAMESPACE, METHOD);
+	              request.addProperty("userIdString", userId);
+	              request.addProperty("repeatedDraws", repeatedDraws);
+	              request.addProperty("randomChoice", randomChoice);
+	              request.addProperty("gameType", gameType);
+	              request.addProperty("multiplier", multiplier);
+	              request.addProperty("betNumber1", number1);
+	              request.addProperty("betNumber2", number2);
+	              request.addProperty("betNumber3", number3);
+	              request.addProperty("betNumber4", number4);
+	              request.addProperty("betNumber5", number5);
+	              request.addProperty("betNumber6", number6);
+	              request.addProperty("betNumber7", number7);
+	              request.addProperty("betNumber8", number8);
+	              request.addProperty("betNumber9", number9);
+	              request.addProperty("betNumber10", number10);
+	              request.addProperty("betNumber11", number11);
+	              request.addProperty("betNumber12", number12);
+
+
+	              
+	       //bodyOut is the body object to be sent out with this envelope
+	       envelope.bodyOut = request;
+	       HttpTransportSE transport = new HttpTransportSE(Constants.URL);
+	       try {
+	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
+	       } catch (IOException e) {
+	         e.printStackTrace();
+	       } catch (XmlPullParserException e) {
+	         e.printStackTrace();
+	       }
+		   //bodyIn is the body object received with this envelope
+		   if (envelope.bodyIn != null) {
+		     //getProperty() Returns a specific property at a certain index.
+			 SoapObject object = (SoapObject)  envelope.bodyIn;
+		     String[] result = {object.getProperty(0).toString(), object.getProperty(1).toString()}; 
+			    
+			 return result;
+		   }
+		 } catch (Exception e) {
+		   e.printStackTrace();
+		   error = true;
+		   return null;
+		 }
+	 	return null;
+	 }	
+}
  
 

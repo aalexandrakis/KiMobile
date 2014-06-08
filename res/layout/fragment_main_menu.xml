@@ -15,47 +15,29 @@
 
         <Button
             android:id="@+id/btnPlayNow"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
             android:layout_gravity="top"
             android:layout_marginTop="2dp"
-            android:background="@color/yellow"
             android:text="@string/playNow"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            style="@style/KimoButton"/>
         
         <Button
             android:id="@+id/btnMyBets"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
             android:layout_gravity="top"
             android:layout_marginTop="2dp"
-            android:background="@color/yellow"
             android:text="@string/myBets"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            style="@style/KimoButton" />
         
         <Button
             android:id="@+id/btnDrawHistory"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="top"
             android:layout_marginTop="2dp"
-            android:background="@color/yellow"
             android:text="@string/drawHistory"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            style="@style/KimoButton" />
         
         <Button
             android:id="@+id/btnUpdateAccount"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="top"
             android:layout_marginTop="2dp"
-            android:background="@color/yellow"
             android:text="@string/updateMyAccount"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            style="@style/KimoButton" />
     </LinearLayout>
 
 </ScrollView>

@@ -15,25 +15,27 @@
             android:background="@color/black"
             android:orientation="vertical" >
 
-            <CheckBox
-                android:id="@+id/chkRandomChoice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/black"
-                android:button="@drawable/checkbox"
-                android:paddingLeft="30dp"
-                android:text="@string/randomChoice"
-                android:textColor="@color/yellow" />
+            
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/black" >
 
+                <CheckBox
+                    android:id="@+id/chkRandomChoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black"
+                    android:text="@string/randomChoice"
+                    android:textColor="@color/yellow"
+                    android:button="@drawable/checkbox" />
+                
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/repeatedDraws"
+                    android:layout_marginLeft="10dp"
                     android:textColor="@color/yellow" />
 
                 <EditText
@@ -54,8 +56,8 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/fromOneToTwenty"
                     android:textColor="@color/yellow" />
-            </TableRow>
 
+				</TableRow>
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,18 +88,11 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/fromOneToTwenty"
                     android:textColor="@color/yellow" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/black" >
-
+                
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:text="@string/gameType"
                     android:textColor="@color/yellow" />
 
@@ -130,7 +125,7 @@
         <Button
             android:id="@+id/btnBetNow"
             android:text="@string/betNow"
-            style="@style/KimoButton"/>
+            style="@style/KimoButton" />
     </LinearLayout>
 
 </ScrollView>

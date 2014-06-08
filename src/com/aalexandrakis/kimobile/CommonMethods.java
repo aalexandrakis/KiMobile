@@ -6,13 +6,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.support.v4.app.FragmentManager;
 
@@ -94,15 +92,10 @@ public class CommonMethods {
     	}
     }
 	
-	@SuppressLint("ResourceAsColor")
 	static void numberClicked(NumberButton button, Activity activity){
 		    if (button.isSelected){
-		    	button.setTextColor(Color.YELLOW);
-		    	button.setBackgroundColor(Color.BLACK);
 		    	button.setSelected(false);
 		    } else {
-		    	button.setTextColor(Color.WHITE);
-		    	button.setBackgroundColor(Color.GREEN);
 		    	button.setSelected(true);
 		    }
 		}

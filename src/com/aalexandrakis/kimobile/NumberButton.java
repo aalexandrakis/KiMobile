@@ -43,6 +43,13 @@ public class NumberButton extends Button {
 
 	public void setSelected(boolean isSelected) {
 		this.isSelected = isSelected;
+		 if (!isSelected){
+		    	this.setTextColor(Color.YELLOW);
+		    	this.setBackgroundColor(Color.BLACK);
+		    } else {
+		    	this.setTextColor(Color.WHITE);
+		    	this.setBackgroundColor(Color.GREEN);
+		    }
 	}
 
 

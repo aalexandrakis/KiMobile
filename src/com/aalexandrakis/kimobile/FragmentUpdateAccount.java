@@ -178,7 +178,7 @@ public class FragmentUpdateAccount extends Fragment {
 	              request.addProperty("userPassword", encryptPassword(password));
 	       //bodyOut is the body object to be sent out with this envelope
 	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(Constants.URL);
+	       HttpTransportSE transport = new HttpTransportSE(Constants.SOAP_URL);
 	       try {
 	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
 	       } catch (IOException e) {

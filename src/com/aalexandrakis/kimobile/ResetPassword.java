@@ -110,7 +110,7 @@ public class ResetPassword extends Activity {
 	              
 	       //bodyOut is the body object to be sent out with this envelope
 	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(Constants.URL);
+	       HttpTransportSE transport = new HttpTransportSE(Constants.SOAP_URL);
 	       try {
 	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
 	       } catch (IOException e) {

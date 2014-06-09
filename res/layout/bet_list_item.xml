@@ -1,0 +1,186 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/TableLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbarStyle="insideOverlay"
+    android:scrollbars="vertical"
+    tools:context="${packageName}.${activityClass}" >
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/txtBetId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" />
+
+        <TextView
+            android:id="@+id/txtBetDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@color/white" >
+
+        <TextView
+            android:id="@+id/betNumber1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/betNumber2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" 
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/betNumber3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" 
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/betNumber4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" 
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/betNumber5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" 
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/betNumber6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" 
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:textSize="30sp"/>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@color/white" >
+
+        <TextView
+            android:id="@+id/betNumber7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" 
+            android:background="@color/black"
+            android:layout_weight="1"
+            android:layout_marginTop="3dp" 
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/betNumber8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" 
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/betNumber9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow"
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="30sp"/>
+        
+        <TextView
+            android:id="@+id/betNumber10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow" 
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/betNumber11"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow"
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/betNumber12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow"
+            android:background="@color/black"
+            android:layout_weight="1" 
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="30sp"/>
+    </TableRow>
+
+</TableLayout>

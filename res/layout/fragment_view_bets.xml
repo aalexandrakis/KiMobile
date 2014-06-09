@@ -1,26 +1,15 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView1"
-	android:layout_width="match_parent"
-    android:layout_height="fill_parent" 
-    android:background="@color/black">
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/LinearLayout1"
+    <ListView
+        android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:orientation="vertical"
-        tools:context="${packageName}.${activityClass}" >
+        android:layout_height="wrap_content" >
+    </ListView>
 
-        <TextView
-            android:id="@+id/labelViewBets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="view bets"
-            android:textColor="@color/yellow" />
-
-       
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

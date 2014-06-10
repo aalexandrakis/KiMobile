@@ -1,17 +1,11 @@
 package com.aalexandrakis.kimobile;
 
-import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
 import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,36 +16,24 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParserException;
-
-import com.aalexandrakis.kimobile.pojos.ActiveBets;
-import com.aalexandrakis.kimobile.pojos.User;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+
+import com.aalexandrakis.kimobile.pojos.ActiveBets;
 
 public class FragmentViewBets extends ListFragment {
 	SharedPreferences sharedPreferences;
@@ -68,12 +50,16 @@ public class FragmentViewBets extends ListFragment {
 		sharedPreferences = getActivity().getSharedPreferences(
 				SHARED_PREFERENCES, FragmentActivity.MODE_PRIVATE);
 
+		ProgressDialog pg = new ProgressDialog(getActivity());
+		pg.setTitle(getString(R.string.loading));
+		pg.setMessage(getString(R.string.pleasWaitActiveBets));
+		pg.show();
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getUserActiveBetsByDate");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("userIdString", sharedPreferences.getString("userId", "0")));
-		parameters.add(new BasicNameValuePair("date", "2014-06-08"));
+//		parameters.add(new BasicNameValuePair("date", "2014-06-08"));
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
 		} catch (UnsupportedEncodingException e1) {
@@ -128,6 +114,7 @@ public class FragmentViewBets extends ListFragment {
 					bet.setBetNumber10(Integer.valueOf(jsonChildNode.optString("betNumber10")));
 					bet.setBetNumber11(Integer.valueOf(jsonChildNode.optString("betNumber11")));
 					bet.setBetNumber12(Integer.valueOf(jsonChildNode.optString("betNumber12")));
+					bet.setDraws(Integer.valueOf(jsonChildNode.optString("draws")));
 					bets.add(bet);
 					Log.d("bet", String.valueOf(i));
 				}
@@ -145,6 +132,8 @@ public class FragmentViewBets extends ListFragment {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			pg.dismiss();
 		}
 
 		// TODO Auto-generated method stub
@@ -158,4 +147,3 @@ public class FragmentViewBets extends ListFragment {
 
 	}
 }
-

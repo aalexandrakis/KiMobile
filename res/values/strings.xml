@@ -13,7 +13,7 @@
 	<string name="userPasswordMissing">Password is missing</string>
 	<string name="userEmailIsMissing">User email is missing</string>
 	<string name="updateMyAccount">Update my account</string>
-	
+	<string name="loading">Loading. . .</string>
 	
 	<!-- login strings -->
     <string name="userName">User Name</string>
@@ -75,6 +75,12 @@
 	<string name="toastBetAddedSuccessfully">Your bet saved successfully. Good luck. . .</string>
 	<string name="betting">Betting. . .</string>
 	<string name="waitToSaveYourBet">Please wait to save your bet</string>
+	
+	<!-- view bets -->
+	<string name="betId">Bet ID</string>
+	<string name="betDateTime">Bet Date/Time</string>
+	<string name="remainingDraws">Remaining Draws</string>
+	<string name="pleasWaitActiveBets">Please wait to load active bets</string>
 	
 	<!-- numbers -->
 	<string name="number1">1</string>

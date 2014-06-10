@@ -42,22 +42,24 @@ public class AdapterBets extends ArrayAdapter<ActiveBets>{
 		TextView txtBetNumber10 = (TextView) rowView.findViewById(R.id.betNumber10);
 		TextView txtBetNumber11 = (TextView) rowView.findViewById(R.id.betNumber11);
 		TextView txtBetNumber12 = (TextView) rowView.findViewById(R.id.betNumber12);
+		TextView txtRemainingDraws = (TextView) rowView.findViewById(R.id.txtRemainingDraws);
  
 		ActiveBets bet = values.get(position);
-		txtBetId.setText(bet.getBetId().toString());
+		txtBetId.setText(bet.getBetId().toString().trim());
 		txtBetDate.setText(bet.getBetDateTime());
-		txtBetNumber1.setText(bet.getBetNumber1());
-		txtBetNumber2.setText(bet.getBetNumber2());
-		txtBetNumber3.setText(bet.getBetNumber3());
-		txtBetNumber4.setText(bet.getBetNumber4());
-		txtBetNumber5.setText(bet.getBetNumber5());
-		txtBetNumber6.setText(bet.getBetNumber6());
-		txtBetNumber7.setText(bet.getBetNumber7());
-		txtBetNumber8.setText(bet.getBetNumber8());
-		txtBetNumber9.setText(bet.getBetNumber9());
-		txtBetNumber10.setText(bet.getBetNumber10());
-		txtBetNumber11.setText(bet.getBetNumber11());
-		txtBetNumber12.setText(bet.getBetNumber12());
+		txtBetNumber1.setText(bet.getBetNumber1().toString());
+		txtBetNumber2.setText(bet.getBetNumber2().toString());
+		txtBetNumber3.setText(bet.getBetNumber3().toString());
+		txtBetNumber4.setText(bet.getBetNumber4().toString());
+		txtBetNumber5.setText(bet.getBetNumber5().toString());
+		txtBetNumber6.setText(bet.getBetNumber6().toString());
+		txtBetNumber7.setText(bet.getBetNumber7().toString());
+		txtBetNumber8.setText(bet.getBetNumber8().toString());
+		txtBetNumber9.setText(bet.getBetNumber9().toString());
+		txtBetNumber10.setText(bet.getBetNumber10().toString());
+		txtBetNumber11.setText(bet.getBetNumber11().toString());
+		txtBetNumber12.setText(bet.getBetNumber12().toString());
+		txtRemainingDraws.setText(String.valueOf(bet.getRepeatedDraws() - bet.getDraws()));
 		return rowView;
 	}
 }

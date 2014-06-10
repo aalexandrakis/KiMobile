@@ -92,30 +92,45 @@ public class FragmentViewBets extends ListFragment {
 				response.getEntity().writeTo(out);
 				out.close();
 				String responseString = out.toString();
-				JSONArray jsonBets = new JSONArray(responseString);
 				ActiveBets bet;
-				for (int i = 0 ; i < jsonBets.length() ; i++){
+				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+                JSONObject jsonResponse = new JSONObject(responseString);
+                  
+                /***** Returns the value mapped by name if it exists and is a JSONArray. ***/
+                /*******  Returns null otherwise.  *******/
+                JSONArray jsonMainNode = jsonResponse.optJSONArray("bets");
+                  
+                /*********** Process each JSON Node ************/
+
+                int lengthJsonArr = jsonMainNode.length(); 
+
+                for(int i=0; i < lengthJsonArr; i++) {
 					bet = new ActiveBets();
-					bet.setBetId(new BigInteger(jsonBets.getJSONObject(i).getString("betId")));
-					bet.setBetDateTime(jsonBets.getJSONObject(i).getString("betDateTime"));
-					bet.setUserId(new BigInteger(jsonBets.getJSONObject(i).getString("userId")));
-					bet.setRepeatedDraws(Integer.valueOf(jsonBets.getJSONObject(i).getString("repeatedDraws")));
-					bet.setRandomChoice(Integer.valueOf(jsonBets.getJSONObject(i).getString("randomChoice")));
-					bet.setGameType(Integer.valueOf(jsonBets.getJSONObject(i).getString("gameType")));
-					bet.setBetCoins(Float.valueOf(jsonBets.getJSONObject(i).getString("betCoins")));
-					bet.setMultiplier(Integer.valueOf(jsonBets.getJSONObject(i).getString("multiplier")));
-					bet.setBetNumber1(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber1")));
-					bet.setBetNumber2(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber2")));
-					bet.setBetNumber3(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber3")));
-					bet.setBetNumber4(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber4")));
-					bet.setBetNumber5(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber5")));
-					bet.setBetNumber6(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber6")));
-					bet.setBetNumber7(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber7")));
-					bet.setBetNumber8(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber8")));
-					bet.setBetNumber9(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber9")));
-					bet.setBetNumber10(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber10")));
-					bet.setBetNumber11(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber11")));
-					bet.setBetNumber12(Integer.valueOf(jsonBets.getJSONObject(i).getString("betNumber12")));
+					 /****** Get Object for each JSON node.***********/
+                    JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+                      
+                    /******* Fetch node values **********/
+                   
+					bet.setBetId(new BigInteger(jsonChildNode.optString("betId")));
+					bet.setBetDateTime(jsonChildNode.optString("betDateTime"));
+					bet.setUserId(new BigInteger(jsonChildNode.optString("userId")));
+					bet.setRepeatedDraws(Integer.valueOf(jsonChildNode.optString("repeatedDraws")));
+					bet.setRandomChoice(Integer.valueOf(jsonChildNode.optString("randomChoice")));
+					bet.setGameType(Integer.valueOf(jsonChildNode.optString("gameType")));
+					bet.setBetCoins(Float.valueOf(jsonChildNode.optString("betCoins")));
+					bet.setMultiplier(Integer.valueOf(jsonChildNode.optString("multiplier")));
+					bet.setBetNumber1(Integer.valueOf(jsonChildNode.optString("betNumber1")));
+					bet.setBetNumber2(Integer.valueOf(jsonChildNode.optString("betNumber2")));
+					bet.setBetNumber3(Integer.valueOf(jsonChildNode.optString("betNumber3")));
+					bet.setBetNumber4(Integer.valueOf(jsonChildNode.optString("betNumber4")));
+					bet.setBetNumber5(Integer.valueOf(jsonChildNode.optString("betNumber5")));
+					bet.setBetNumber6(Integer.valueOf(jsonChildNode.optString("betNumber6")));
+					bet.setBetNumber7(Integer.valueOf(jsonChildNode.optString("betNumber7")));
+					bet.setBetNumber8(Integer.valueOf(jsonChildNode.optString("betNumber8")));
+					bet.setBetNumber9(Integer.valueOf(jsonChildNode.optString("betNumber9")));
+					bet.setBetNumber10(Integer.valueOf(jsonChildNode.optString("betNumber10")));
+					bet.setBetNumber11(Integer.valueOf(jsonChildNode.optString("betNumber11")));
+					bet.setBetNumber12(Integer.valueOf(jsonChildNode.optString("betNumber12")));
 					bets.add(bet);
 					Log.d("bet", String.valueOf(i));
 				}

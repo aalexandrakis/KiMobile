@@ -68,9 +68,6 @@ public class FragmentViewBets extends ListFragment {
 		sharedPreferences = getActivity().getSharedPreferences(
 				SHARED_PREFERENCES, FragmentActivity.MODE_PRIVATE);
 
-		// AsyncTaskGetBets getBets = new AsyncTaskGetBets(viewBets);
-		// getBets.execute(sharedPreferences.getString("userId", "0"),
-		// "2014-06-08");
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getUserActiveBetsByDate");

@@ -1,12 +1,16 @@
 package com.aalexandrakis.kimobile;
 
+import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
+import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
 import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -22,43 +26,89 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.aalexandrakis.kimobile.pojos.ActiveBets;
-
-public class FragmentViewActiveBets extends ListFragment {
+import com.aalexandrakis.kimobile.pojos.BetsArchive;
+//TODO date picker
+public class FragmentViewArchiveBets extends Fragment {
 	SharedPreferences sharedPreferences;
-	FragmentViewActiveBets viewBets = this;
-	List<ActiveBets> bets = new ArrayList<ActiveBets>();
-	public FragmentViewActiveBets() {
+	FragmentViewArchiveBets viewBets = this;
+	List<BetsArchive> bets = new ArrayList<BetsArchive>();
+	EditText txtFilterDate;
+	ListView lstArchiveBets;
+	Button btnGetBets;
+	
+	public FragmentViewArchiveBets() {
 		super();
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		getActivity();
-		sharedPreferences = getActivity().getSharedPreferences(
-				SHARED_PREFERENCES, FragmentActivity.MODE_PRIVATE);
+		View view = inflater.inflate(R.layout.fragment_view_archive_bets, container, false);
+		Date date = new Date();
+		String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(date);
+		sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFERENCES, FragmentActivity.MODE_PRIVATE);
+		txtFilterDate = (EditText) view.findViewById(R.id.txtFilterDate);
+		lstArchiveBets = (ListView) view.findViewById(R.id.listBetsArchive);
+		btnGetBets = (Button) view.findViewById(R.id.btnGetBets);
+		
+		txtFilterDate.setText(currentDate);
+		btnGetBets.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if (!checkConnectivity(getActivity())) {
+					showErrorDialog(getString(R.string.networkError),
+							getString(R.string.noInternetConnection), getActivity());
+					return;
+				}
+				//lstArchiveBets.removeAllViews();
+				String date = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
+				if (date != null){
+					bets = getBetList(date);
+				}
+				// TODO Auto-generated method stub
+				if (bets.isEmpty()){
+					Toast.makeText(getActivity(), getString(R.string.toastNoArchiveBetsFound), Toast.LENGTH_LONG).show();
+					getActivity().finish();
+				}
+		 		AdapterArchiveBets adapter = new AdapterArchiveBets(getActivity(), bets);
+				lstArchiveBets.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
+
+			}
+		});
+		return view;
+		
+	}
+	
+	List<BetsArchive> getBetList(String date){
 
 		ProgressDialog pg = new ProgressDialog(getActivity());
 		pg.setTitle(getString(R.string.loading));
-		pg.setMessage(getString(R.string.pleasWaitActiveBets));
+		pg.setMessage(getString(R.string.pleasWaitArchiveBets));
 		pg.show();
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getUserActiveBetsByDate");
+		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getUserArchiveBetsByDate");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("userIdString", sharedPreferences.getString("userId", "0")));
-//		parameters.add(new BasicNameValuePair("date", "2014-06-08"));
+		parameters.add(new BasicNameValuePair("date", date));
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
 		} catch (UnsupportedEncodingException e1) {
@@ -74,7 +124,7 @@ public class FragmentViewActiveBets extends ListFragment {
 				response.getEntity().writeTo(out);
 				out.close();
 				String responseString = out.toString();
-				ActiveBets bet;
+				BetsArchive bet;
 				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
                 JSONObject jsonResponse = new JSONObject(responseString);
                   
@@ -87,7 +137,7 @@ public class FragmentViewActiveBets extends ListFragment {
                 int lengthJsonArr = jsonMainNode.length(); 
 
                 for(int i=0; i < lengthJsonArr; i++) {
-					bet = new ActiveBets();
+					bet = new BetsArchive();
 					 /****** Get Object for each JSON node.***********/
                     JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
                       
@@ -114,6 +164,9 @@ public class FragmentViewActiveBets extends ListFragment {
 					bet.setBetNumber11(Integer.valueOf(jsonChildNode.optString("betNumber11")));
 					bet.setBetNumber12(Integer.valueOf(jsonChildNode.optString("betNumber12")));
 					bet.setDraws(Integer.valueOf(jsonChildNode.optString("draws")));
+					bet.setMatches(Integer.valueOf(jsonChildNode.optString("matches")));
+					bet.setReturnRate(Float.valueOf(jsonChildNode.optString("returnRate")));
+					bet.setDrawTimeStamp(jsonChildNode.optString("drawTimeStamp"));
 					bets.add(bet);
 				}
 			} else {
@@ -133,18 +186,6 @@ public class FragmentViewActiveBets extends ListFragment {
 		} finally {
 			pg.dismiss();
 		}
-
-		// TODO Auto-generated method stub
-		if (bets.isEmpty()){
-			Toast.makeText(getActivity(), getString(R.string.toastNoActiveBetsFound), Toast.LENGTH_LONG).show();
-			getActivity().finish();
-		}
-		
- 		AdapterActiveBets adapter = new AdapterActiveBets(inflater.getContext(), bets);
-
-		/** Setting the list adapter for the ListFragment */
-		setListAdapter(adapter);
-		return super.onCreateView(inflater, container, savedInstanceState);
-		
+		return bets;
 	}
 }

@@ -59,6 +59,13 @@
             </intent-filter>
         </activity>
         
+         <activity android:name="com.aalexandrakis.kimobile.ActivityViewArchiveBets" android:label="@string/app_name" android:configChanges="orientation">
+            <intent-filter>
+                <action android:name="com.aalexandrakis.kimobile.ActivityViewArchiveBets"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
         <activity android:name="com.aalexandrakis.kimobile.ActivityViewDraws" android:label="@string/app_name" android:configChanges="orientation">
             <intent-filter>
                 <action android:name="com.aalexandrakis.kimobile.ActivityViewDraws"/>

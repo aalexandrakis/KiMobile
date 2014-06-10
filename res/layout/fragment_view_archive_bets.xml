@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/betDate"
+            android:textColor="@color/yellow" />
+
+        <EditText
+            android:id="@+id/txtFilterDate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:inputType="date"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dateFormatDDMMYYYY"
+            android:textColor="@color/yellow" />
+
+    </TableRow>
+
+    <Button
+        android:id="@+id/btnGetBets"
+        style="@style/KimoButton"
+        android:layout_width="match_parent"
+        android:layout_marginTop="3dp"
+        android:text="@string/getBets" />
+
+    <ListView
+        android:id="@+id/listBetsArchive"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" >
+    </ListView>
+
+</LinearLayout>

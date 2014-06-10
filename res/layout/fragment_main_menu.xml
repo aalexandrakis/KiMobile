@@ -27,6 +27,13 @@
             android:text="@string/myActiveBets"
             style="@style/KimoButton" />
         
+         <Button
+            android:id="@+id/btnMyArchiveBets"
+            android:layout_gravity="top"
+            android:layout_marginTop="2dp"
+            android:text="@string/myOldBets"
+            style="@style/KimoButton" />
+         
         <Button
             android:id="@+id/btnDrawHistory"
             android:layout_marginTop="2dp"

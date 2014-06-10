@@ -1,6 +1,5 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/TableLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -9,6 +8,25 @@
     android:scrollbars="vertical"
     android:textAlignment="center"
     tools:context="${packageName}.${activityClass}" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/betDateTime"
+            android:textColor="@color/yellow" />
+
+        <TextView
+            android:id="@+id/txtBetDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/yellow" />
+    </LinearLayout>
 
     <TableRow
         android:layout_width="match_parent"
@@ -26,33 +44,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:textColor="@color/yellow" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/betDateTime"
-            android:textColor="@color/yellow" />
-
-        <TextView
-            android:id="@+id/txtBetDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:textColor="@color/yellow" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/remainingDraws"
             android:textColor="@color/yellow" />
 
@@ -65,173 +61,167 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:background="@color/white" >
 
-        <TextView
-            android:id="@+id/betNumber1"
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:textAlignment="center"
             android:textColor="@color/yellow"
-            android:textSize="30sp" />
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
 
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:background="@color/white" >
 
-        <TextView
-            android:id="@+id/betNumber7"
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber11"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="@color/black"
-            android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/betNumber12"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
-            android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:textAlignment="center"
             android:textColor="@color/yellow"
-            android:textSize="30sp" />
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
 
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber11"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
+
+        <com.aalexandrakis.kimobile.NumberButton
+            android:id="@+id/btnNumber12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/white"
+            android:textSize="25sp" />
     </TableRow>
 
 </TableLayout>

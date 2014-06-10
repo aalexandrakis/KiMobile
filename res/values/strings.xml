@@ -2,167 +2,96 @@
 <resources>
 
     <string name="app_name">KiMobile</string>
-	<string name="ok">OK</string>
-	
-	<!-- common strings -->
-	<string name="noInternetConnection">No Internet Connection</string>
-	<string name="register">Register</string>
-	<string name="youCanntConnect">We are terribly sorry but You cann\'t connect to Kimo right now. Please try later</string>
-	<string name="userPassword">Password</string>
-	<string name="userNameMissing">User name is missing</string>
-	<string name="userPasswordMissing">Password is missing</string>
-	<string name="userEmailIsMissing">User email is missing</string>
-	<string name="updateMyAccount">Update my account</string>
-	<string name="loading">Loading. . .</string>
-	
-	<!-- login strings -->
+    <string name="ok">OK</string>
+
+    <!-- common strings -->
+    <string name="noInternetConnection">No Internet Connection</string>
+    <string name="register">Register</string>
+    <string name="youCanntConnect">We are terribly sorry but you cann\'t connect to Kimo right now. Please try later</string>
+    <string name="userPassword">Password</string>
+    <string name="userNameMissing">User name is missing</string>
+    <string name="userPasswordMissing">Password is missing</string>
+    <string name="userEmailIsMissing">User email is missing</string>
+    <string name="updateMyAccount">Update my account</string>
+    <string name="loading">Loading. . .</string>
+    <string name="emptyString">0</string>
+    <!-- login strings -->
     <string name="userName">User Name</string>
     <string name="connect">Connect</string>
     <string name="forgotPassword">Forgot my password</string>
     <string name="credentialsError">Error Credentials</string>
     <string name="credentialsAreError">User Name or password is error.</string>
-	<string name="logingIn">Loging in. . .</string>
-	<string name="waitToConfirmCredentials">Please wait to confirm your credentials</string>
-	<string name="networkError">Network Error</string>
-	
-	<!-- register strings -->
-	<string name="userEmail">User Email</string>
-	<string name="repeatPassword">Repeat password</string>
-	<string name="registerError">Error in Register</string>
-	<string name="confirmationPasswordMissing">Repeat your password</string>
-	<string name="passwordNotEqualWithRepeated">Password and repeated password must be the same</string>
-	<string name="userNameExists">User name already exists</string>
-	<string name="userEmailExists">User email already exists</string>
-	<string name="toastUserAddedSuccesfully">User added successfully</string>
-	<string name="userEmailErrorformat">User email is error</string>
-	<string name="registering">Registering. . .</string>
-	<string name="waitToValidateYourInfo">Please wait to validate your information</string>
-	
-	<!-- Reset password strings -->
-	<string name="resetPasswordError">Reset Password Error</string>
-	<string name="resetMyPassword">Reset my password</string>
-	<string name="resetingPassword">Reseting your password</string>
-	<string name="waitToResetyourPassword">Please wait while your password is reseting</string>
-	<string name="emailNotFound">Email not found. Please change it and try again</string>
-	<string name="passwordChangeSuccessfully">Your password changed. An email has sent to you with your new password</string>
-	
-	<!-- update acount info -->
-	<string name="updateAccountError">Update account error</string>
-	<string name="updating">Updating. . .</string>
-	<string name="waitToUpdateAccount">Please wait to update your account info</string>
-	<string name="toastUserUpdatedSuccesfully">User updated successfully</string>
-	
-	<!-- main menu -->
-	<string name="playNow">Play now</string>
-	<string name="myActiveBets">View my active bets</string>
-	<string name="drawHistory">View draws</string>
-	
-	<!-- play now -->
-	<string name="betNow">Bet now</string>
-	<string name="randomChoice">Random Choice</string>
-	<string name="multiplier">Multiplier</string>
-	<string name="repeatedDraws">Repeated Draws</string>
-	<string name="gameType">Game Type</string>
-	<string name="zero">0</string>
-	<string name="one">1</string>
-	<string name="fromOneToTwenty">(From 1 to 20)</string>
-	<string name="fromOneToTwelve">(From 1 to 12)</string>
-	<string name="repeatedDrawsError">Repeated draws must be from 1 to 20 </string>
-	<string name="multiplierError">Multiplier must be from 1 to 20 </string>
-	<string name="gameTypeRangeError">Game Type must be from 1 to 20</string>
-	<string name="gameTypeError">Game Type must be the same with the selected numbers count</string>
-	<string name="betError">Bet error</string>
-	<string name="toastBetAddedSuccessfully">Your bet saved successfully. Good luck. . .</string>
-	<string name="betting">Betting. . .</string>
-	<string name="waitToSaveYourBet">Please wait to save your bet</string>
-	<string name="notEnoughCoins">Your coins are not enough for this bet.</string>
-	
-	<!-- view bets -->
-	<string name="betId">Bet ID</string>
-	<string name="betDateTime">Bet Date/Time</string>
-	<string name="remainingDraws">Remaining Draws</string>
-	<string name="pleasWaitActiveBets">Please wait to load active bets</string>
-	
-	<!-- numbers -->
-	<string name="number1">1</string>
-	<string name="number2">2</string>
-	<string name="number3">3</string>
-	<string name="number4">4</string>
-	<string name="number5">5</string>
-	<string name="number6">6</string>
-	<string name="number7">7</string>
-	<string name="number8">8</string>
-	<string name="number9">9</string>
-	<string name="number10">10</string>
-	<string name="number11">11</string>
-	<string name="number12">12</string>
-	<string name="number13">13</string>
-	<string name="number14">14</string>
-	<string name="number15">15</string>
-	<string name="number16">16</string>
-	<string name="number17">17</string>
-	<string name="number18">18</string>
-	<string name="number19">19</string>
-    <string name="number20">20</string>
-	<string name="number21">21</string>
-	<string name="number22">22</string>
-	<string name="number23">23</string>
-	<string name="number24">24</string>
-	<string name="number25">25</string>
-	<string name="number26">26</string>
-	<string name="number27">27</string>
-	<string name="number28">28</string>
-	<string name="number29">29</string>
-	<string name="number30">30</string>		
-	<string name="number31">31</string>
-	<string name="number32">32</string>
-	<string name="number33">33</string>
-	<string name="number34">34</string>
-	<string name="number35">35</string>
-	<string name="number36">36</string>
-	<string name="number37">37</string>
-	<string name="number38">38</string>
-	<string name="number39">39</string>
-	<string name="number40">40</string>
-	<string name="number41">41</string>
-	<string name="number42">42</string>
-	<string name="number43">43</string>
-	<string name="number44">44</string>
-	<string name="number45">45</string>
-	<string name="number46">46</string>
-	<string name="number47">47</string>
-	<string name="number48">48</string>
-	<string name="number49">49</string>
-	<string name="number50">50</string>
-	<string name="number51">51</string>
-	<string name="number52">52</string>
-	<string name="number53">53</string>
-	<string name="number54">54</string>
-	<string name="number55">55</string>
-	<string name="number56">56</string>
-	<string name="number57">57</string>
-	<string name="number58">58</string>
-	<string name="number59">59</string>
-	<string name="number60">60</string>
-	<string name="number61">61</string>
-	<string name="number62">62</string>
-	<string name="number63">63</string>
-	<string name="number64">64</string>
-	<string name="number65">65</string>
-	<string name="number66">66</string>
-	<string name="number67">67</string>
-	<string name="number68">68</string>
-	<string name="number69">69</string>
-	<string name="number70">70</string>
-	<string name="number71">71</string>
-	<string name="number72">72</string>
-	<string name="number73">73</string>
-	<string name="number74">74</string>
-	<string name="number75">75</string>
-	<string name="number76">76</string>
-	<string name="number77">77</string>
-	<string name="number78">78</string>
-	<string name="number79">79</string>
-	<string name="number80">80</string>
-	
+    <string name="logingIn">Loging in. . .</string>
+    <string name="waitToConfirmCredentials">Please wait to confirm your credentials</string>
+    <string name="networkError">Network Error</string>
+
+    <!-- register strings -->
+    <string name="userEmail">User Email</string>
+    <string name="repeatPassword">Repeat password</string>
+    <string name="registerError">Error in Register</string>
+    <string name="confirmationPasswordMissing">Repeat your password</string>
+    <string name="passwordNotEqualWithRepeated">Password and repeated password must be the same</string>
+    <string name="userNameExists">User name already exists</string>
+    <string name="userEmailExists">User email already exists</string>
+    <string name="toastUserAddedSuccesfully">User added successfully</string>
+    <string name="userEmailErrorformat">User email is error</string>
+    <string name="registering">Registering. . .</string>
+    <string name="waitToValidateYourInfo">Please wait to validate your information</string>
+
+    <!-- Reset password strings -->
+    <string name="resetPasswordError">Reset Password Error</string>
+    <string name="resetMyPassword">Reset my password</string>
+    <string name="resetingPassword">Reseting your password</string>
+    <string name="waitToResetyourPassword">Please wait while your password is reseting</string>
+    <string name="emailNotFound">Email not found. Please change it and try again</string>
+    <string name="passwordChangeSuccessfully">Your password changed. An email has sent to you with your new password</string>
+
+    <!-- update acount info -->
+    <string name="updateAccountError">Update account error</string>
+    <string name="updating">Updating. . .</string>
+    <string name="waitToUpdateAccount">Please wait to update your account info</string>
+    <string name="toastUserUpdatedSuccesfully">User updated successfully</string>
+
+    <!-- main menu -->
+    <string name="playNow">Play now</string>
+    <string name="myActiveBets">View my active bets</string>
+     <string name="myOldBets">View my old bets</string>
+    <string name="drawHistory">View draws</string>
+
+    <!-- play now -->
+    <string name="betNow">Bet now</string>
+    <string name="randomChoice">Random Choice</string>
+    <string name="multiplier">Multiplier</string>
+    <string name="repeatedDraws">Repeated Draws</string>
+    <string name="gameType">Game Type</string>
+    <string name="zero">0</string>
+    <string name="one">1</string>
+    <string name="fromOneToTwenty">(From 1 to 20)</string>
+    <string name="fromOneToTwelve">(From 1 to 12)</string>
+    <string name="repeatedDrawsError">Repeated draws must be from 1 to 20 </string>
+    <string name="multiplierError">Multiplier must be from 1 to 20 </string>
+    <string name="gameTypeRangeError">Game Type must be from 1 to 20</string>
+    <string name="gameTypeError">Game Type must be the same with the selected numbers count</string>
+    <string name="betError">Bet error</string>
+    <string name="toastBetAddedSuccessfully">Your bet saved successfully. Good luck. . .</string>
+    <string name="betting">Betting. . .</string>
+    <string name="waitToSaveYourBet">Please wait to save your bet</string>
+    <string name="notEnoughCoins">Your coins are not enough for this bet.</string>
+
+    <!-- view active bets -->
+    <string name="betId">Bet ID</string>
+    <string name="betDateTime">Bet Date/Time</string>
+    <string name="remainingDraws">Remaining Draws</string>
+    <string name="pleasWaitActiveBets">Please wait to load active bets</string>
+	<string name="toastNoActiveBetsFound">No active bets found.</string>
+    <!-- view archive bets -->
+    <string name="betDate">Bet Date</string>
+    <string name="getBets">Get Bets</string>
+    <string name="drawDateTime">Draw Date/Time</string>
+    <string name="earnings">Earnings</string>
+	<string name="matches">Matches</string>
+     <string name="pleasWaitArchiveBets">Please wait to load archive bets</string>
+	<string name="toastNoArchiveBetsFound">No archive bets found.</string>
+	<string name="dateFormatDDMMYYYY">(DD-MM-YYYY)</string>
+   
 </resources>

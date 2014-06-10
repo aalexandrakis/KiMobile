@@ -32,8 +32,13 @@ public class NumberButton extends Button {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Integer number) {
 		this.number = number;
+		if (number != null){
+			this.setText(String.valueOf(number));
+		} else {
+			this.setText("0");
+		}
 	}
 
 	public boolean isSelected() {

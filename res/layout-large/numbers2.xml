@@ -19,7 +19,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number41"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -31,7 +31,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number42"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -43,7 +43,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number43"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -54,7 +54,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number44"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" 
@@ -68,7 +68,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number45"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -80,7 +80,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number46"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -92,7 +92,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number47"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -103,7 +103,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number48"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -124,7 +124,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number49"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -136,7 +136,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number50"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -148,7 +148,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number51"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -159,7 +159,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number52"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp"
@@ -172,7 +172,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number53"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -184,7 +184,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number54"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -196,7 +196,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number55"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -208,7 +208,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number56"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -229,7 +229,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number57"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -241,7 +241,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number58"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -253,7 +253,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number59"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -264,7 +264,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number60"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" 
@@ -277,7 +277,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number61"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -289,7 +289,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number62"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -301,7 +301,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number63"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -312,7 +312,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number64"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -333,7 +333,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number65"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -345,7 +345,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number66"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -357,7 +357,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number67"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -368,7 +368,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number68"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp"
@@ -381,7 +381,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number69"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -393,7 +393,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number70"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -405,7 +405,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number71"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -416,7 +416,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number72"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -437,7 +437,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number73"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -449,7 +449,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number74"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -461,7 +461,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number75"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -472,7 +472,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number76"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" 
@@ -485,7 +485,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number77"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -497,7 +497,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number78"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -509,7 +509,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number79"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />
@@ -520,7 +520,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/number80"
+            android:text="@string/emptyString"
             android:textColor="@color/yellow"
             android:textColorHint="@color/white"
             android:textSize="40sp" />

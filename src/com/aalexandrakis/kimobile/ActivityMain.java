@@ -14,11 +14,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
-
+//TODO display remaining time for the draw, user coins and user level
 public class ActivityMain extends FragmentActivity {
 	SharedPreferences sharedPreferences;
 	Button btnPlayNow;
 	Button btnMyActiveBets;
+	Button btnMyArchiveBets;
 	Button btnDrawHistory;
 	Button btnUpdateAccount;
 	Activity activity = this;
@@ -42,6 +43,7 @@ public class ActivityMain extends FragmentActivity {
 
 		btnPlayNow = (Button) findViewById(R.id.btnPlayNow);
 		btnMyActiveBets = (Button) findViewById(R.id.btnMyActiveBets);
+		btnMyArchiveBets = (Button) findViewById(R.id.btnMyArchiveBets);
 		btnDrawHistory = (Button) findViewById(R.id.btnDrawHistory);
 		btnUpdateAccount = (Button) findViewById(R.id.btnUpdateAccount);
 		final Activity activity = this;
@@ -98,6 +100,34 @@ public class ActivityMain extends FragmentActivity {
 
 			}
 		});
+
+		btnMyArchiveBets.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if (!checkConnectivity(activity)) {
+					showErrorDialog(getString(R.string.networkError),
+							getString(R.string.noInternetConnection), activity);
+					return;
+				}
+				if (secondFragment != null) {
+					FragmentManager fragmentManager = getSupportFragmentManager();
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					FragmentViewArchiveBets viewArchiveBetsFragment = new FragmentViewArchiveBets();
+					fragmentTransaction.replace(R.id.secondFragment,
+							viewArchiveBetsFragment);
+					fragmentTransaction.commit();
+				} else {
+					Intent intent = new Intent();
+					intent.setClass(getApplicationContext(),
+							ActivityViewArchiveBets.class);
+					startActivity(intent);
+				}
+
+			}
+		});
+
 
 		btnDrawHistory.setOnClickListener(new OnClickListener() {
 			@Override

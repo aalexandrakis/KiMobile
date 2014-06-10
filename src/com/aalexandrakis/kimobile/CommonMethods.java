@@ -4,8 +4,13 @@ package com.aalexandrakis.kimobile;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Formatter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -98,5 +103,19 @@ public class CommonMethods {
 		    } else {
 		    	button.setSelected(true);
 		    }
+	}
+	
+	@SuppressLint("SimpleDateFormat")
+	static String isValidDate(String strDate, String format){
+		String rtnDate = null;
+		DateFormat df = new SimpleDateFormat(format);
+		try {
+			Date date = df.parse(strDate);
+			rtnDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return rtnDate;
+	}
 }

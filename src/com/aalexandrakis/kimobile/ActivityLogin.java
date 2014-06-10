@@ -60,7 +60,7 @@ public class ActivityLogin extends Activity {
 		final Activity activityLogin = this;
 		//TODO only for test
 				txtUserName.setText("aalexand");
-				txtUserPassword.setText("b");
+				txtUserPassword.setText("K1uGyjY");
 				
 		
 		btnConnect.setOnClickListener(new OnClickListener(){
@@ -106,7 +106,7 @@ public class ActivityLogin extends Activity {
 					return;
 				}
 				
-				Intent register = new Intent("com.aalexandrakis.kimobile.ResetPassword");
+				Intent register = new Intent("com.aalexandrakis.kimobile.ActivityResetPassword");
 				startActivity(register);
 			}
 		});

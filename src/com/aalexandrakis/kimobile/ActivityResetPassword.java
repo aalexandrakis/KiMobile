@@ -1,6 +1,25 @@
 package com.aalexandrakis.kimobile;
 
+import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
+import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -12,18 +31,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParserException;
-
-import static com.aalexandrakis.kimobile.CommonMethods.*;
-public class ResetPassword extends Activity {
+public class ActivityResetPassword extends Activity {
 	EditText txtUserEmail;
 	Button btnResetPassword;
-	ResetPassword resetPassword = this;
+	ActivityResetPassword resetPassword = this;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,28 +69,28 @@ public class ResetPassword extends Activity {
 
 //TODO store data to shared preferences
 
- class AsyncTaskResetPassword extends AsyncTask<String, String[], String[]>  {
+ class AsyncTaskResetPassword extends AsyncTask<String, String, String>  {
 	 
-	ResetPassword resetPassword;
+	ActivityResetPassword resetPassword;
 	public static final String METHOD = "resetPassword";
 	boolean error = false;
 	ProgressDialog pg;
 
-	AsyncTaskResetPassword(ResetPassword register){
+	AsyncTaskResetPassword(ActivityResetPassword register){
 		this.resetPassword = register;
 	}
 	 @SuppressLint("ShowToast")
 	@Override
-	protected void onPostExecute(String[] result) {
+	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		pg.dismiss();
-		if (error == true || result == null || result[0].equals("40")){
+		if (error == true || result == null || result.equals("40")){
 			showErrorDialog(resetPassword.getString(R.string.resetPasswordError), resetPassword.getString(R.string.youCanntConnect),resetPassword);
-		} else if (result[0].equals("10")){
+		} else if (result.equals("10")){
 			showErrorDialog(resetPassword.getString(R.string.resetPasswordError), resetPassword.getString(R.string.emailNotFound), resetPassword);
 			resetPassword.txtUserEmail.requestFocus();			
-		} else if (result[0].equals("00")){
+		} else if (result.equals("00")){
 			Toast.makeText(resetPassword, resetPassword.getString(R.string.passwordChangeSuccessfully), Toast.LENGTH_LONG).show();
 			resetPassword.finish();
 		}
@@ -99,38 +110,50 @@ public class ResetPassword extends Activity {
 
 
 	@Override
-	 protected String[] doInBackground(String... params) {
+	 protected String doInBackground(String... params) {
 		String userEmail = params[0];
 		// TODO Auto-generated method stub
-		  try {
-	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
-	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	              SoapObject request = new SoapObject(Constants.NAMESPACE, METHOD);
-	              request.addProperty("userEmail", userEmail);
-	              
-	       //bodyOut is the body object to be sent out with this envelope
-	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(Constants.SOAP_URL);
-	       try {
-	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
-	       } catch (IOException e) {
-	         e.printStackTrace();
-	       } catch (XmlPullParserException e) {
-	         e.printStackTrace();
-	       }
-		   //bodyIn is the body object received with this envelope
-		   if (envelope.bodyIn != null) {
-		     //getProperty() Returns a specific property at a certain index.
-			 SoapObject object = (SoapObject)  envelope.bodyIn;
-		     String[] result = {object.getProperty(0).toString(), object.getProperty(1).toString()}; 
-		         
-			 return result;
-		   }
-		 } catch (Exception e) {
-		   e.printStackTrace();
-		   error = true;
-		   return null;
-		 }
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpResponse response;
+		HttpPost httpPost = new HttpPost(Constants.REST_URL + "resetPassword");
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("email", userEmail));
+		try {
+			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			response = httpclient.execute(httpPost);
+			
+			StatusLine statusLine = response.getStatusLine();
+			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				response.getEntity().writeTo(out);
+				out.close();
+				String responseString = out.toString();
+				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+                JSONObject jsonResponse = new JSONObject(responseString);
+                return jsonResponse.optString("responseCode");
+			} else {
+				// Closes the connection.
+				response.getEntity().getContent().close();
+				throw new IOException(statusLine.getReasonPhrase());
+			}
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			error = true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			error = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			error = true;
+		}
 	 	return null;
 	 }	
 

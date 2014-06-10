@@ -32,6 +32,12 @@
             </intent-filter>
         </activity>
         
+         <activity android:name="com.aalexandrakis.kimobile.ActivityResetPassword" android:label="@string/app_name" android:configChanges="orientation">
+            <intent-filter>
+                <action android:name="com.aalexandrakis.kimobile.ActivityResetPassword"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name="com.aalexandrakis.kimobile.ActivityMain" android:label="@string/app_name" android:configChanges="orientation">
             <intent-filter>
                 <action android:name="com.aalexandrakis.kimobile.ActivityMain"/>

@@ -1,16 +1,25 @@
 package com.aalexandrakis.kimobile;
 
-import static com.aalexandrakis.kimobile.CommonMethods.*;
+import static com.aalexandrakis.kimobile.CommonMethods.numberClicked;
+import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParserException;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -21,8 +30,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -967,7 +976,7 @@ public class FragmentPlayNow extends Fragment {
 }
 
 
-class AsyncTaskSaveBet extends AsyncTask<String, String[], String[]>  {
+class AsyncTaskSaveBet extends AsyncTask<String, String, String>  {
 	 
 	FragmentPlayNow playNow;
 	public static final String METHOD = "saveBet";
@@ -978,16 +987,16 @@ class AsyncTaskSaveBet extends AsyncTask<String, String[], String[]>  {
 	}
 	 @SuppressLint("ShowToast")
 	@Override
-	protected void onPostExecute(String[] result) {
+	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		pg.dismiss();
-		if (error == true || result == null || result[0].equals("40")){
+		if (error == true || result == null || result.equals("40")){
 			showErrorDialog(playNow.getString(R.string.betError), playNow.getString(R.string.youCanntConnect), playNow.getFragmentManager());
-		} else if (result[0].equals("10")){
+		} else if (result.equals("10")){
 			showErrorDialog(playNow.getString(R.string.betError), playNow.getString(R.string.gameTypeError), playNow.getFragmentManager());
 			playNow.txtGameType.requestFocus();			
-		} else if (result[0].equals("00")){
+		} else if (result.equals("00")){
 			Toast.makeText(playNow.getActivity(), playNow.getString(R.string.toastBetAddedSuccessfully), Toast.LENGTH_LONG).show();
 		}
 		
@@ -1007,7 +1016,7 @@ class AsyncTaskSaveBet extends AsyncTask<String, String[], String[]>  {
 
 
 	@Override
-	 protected String[] doInBackground(String... params) {
+	 protected String doInBackground(String... params) {
 		String userId = params[0];
 		Integer repeatedDraws = Integer.valueOf(params[1]);
 		Integer randomChoice = Integer.valueOf(params[2]);
@@ -1025,55 +1034,66 @@ class AsyncTaskSaveBet extends AsyncTask<String, String[], String[]>  {
 		Integer number10 = Integer.valueOf(params[14]);
 		Integer number11 = Integer.valueOf(params[15]);
 		Integer number12 = Integer.valueOf(params[16]);
-		
-		// TODO Auto-generated method stub
-		  try {
-	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
-	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	       	      SoapObject request = new SoapObject(Constants.NAMESPACE, METHOD);
-	              request.addProperty("userIdString", userId);
-	              request.addProperty("repeatedDraws", repeatedDraws);
-	              request.addProperty("randomChoice", randomChoice);
-	              request.addProperty("gameType", gameType);
-	              request.addProperty("multiplier", multiplier);
-	              request.addProperty("betNumber1", number1);
-	              request.addProperty("betNumber2", number2);
-	              request.addProperty("betNumber3", number3);
-	              request.addProperty("betNumber4", number4);
-	              request.addProperty("betNumber5", number5);
-	              request.addProperty("betNumber6", number6);
-	              request.addProperty("betNumber7", number7);
-	              request.addProperty("betNumber8", number8);
-	              request.addProperty("betNumber9", number9);
-	              request.addProperty("betNumber10", number10);
-	              request.addProperty("betNumber11", number11);
-	              request.addProperty("betNumber12", number12);
+		// TODO implement random choice
+         HttpClient httpclient = new DefaultHttpClient();
+ 		HttpResponse response;
+ 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "saveBet");
+ 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+ 		parameters.add(new BasicNameValuePair("userIdString", userId));
+ 		parameters.add(new BasicNameValuePair("repeatedDraws", repeatedDraws.toString()));
+ 		parameters.add(new BasicNameValuePair("randomChoice", randomChoice.toString()));
+ 		parameters.add(new BasicNameValuePair("gameType", gameType.toString()));
+ 		parameters.add(new BasicNameValuePair("multiplier", multiplier.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber1", number1.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber2", number2.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber3", number3.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber4", number4.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber5", number5.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber6", number6.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber7", number7.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber8", number8.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber9", number9.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber10", number10.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber11", number11.toString()));
+ 		parameters.add(new BasicNameValuePair("betNumber12", number12.toString()));
 
+ 		try {
+ 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
+ 		} catch (UnsupportedEncodingException e1) {
+ 			// TODO Auto-generated catch block
+ 			e1.printStackTrace();
+ 		}
+ 		try {
+ 			response = httpclient.execute(httpPost);
+ 			
+ 			StatusLine statusLine = response.getStatusLine();
+ 			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+ 				ByteArrayOutputStream out = new ByteArrayOutputStream();
+ 				response.getEntity().writeTo(out);
+ 				out.close();
+ 				String responseString = out.toString();
+ 				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+                 JSONObject jsonResponse = new JSONObject(responseString);
+                 return jsonResponse.optString("responseCode");
+ 			} else {
+ 				// Closes the connection.
+ 				response.getEntity().getContent().close();
+ 				throw new IOException(statusLine.getReasonPhrase());
+ 			}
+ 		} catch (ClientProtocolException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 			error = false;
+ 		} catch (IOException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 			error = false;
+ 		} catch (Exception e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 			error = false;
+ 		}
 
-	              
-	       //bodyOut is the body object to be sent out with this envelope
-	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(Constants.SOAP_URL);
-	       try {
-	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
-	       } catch (IOException e) {
-	         e.printStackTrace();
-	       } catch (XmlPullParserException e) {
-	         e.printStackTrace();
-	       }
-		   //bodyIn is the body object received with this envelope
-		   if (envelope.bodyIn != null) {
-		     //getProperty() Returns a specific property at a certain index.
-			 SoapObject object = (SoapObject)  envelope.bodyIn;
-		     String[] result = {object.getProperty(0).toString(), object.getProperty(1).toString()}; 
-			    
-			 return result;
-		   }
-		 } catch (Exception e) {
-		   e.printStackTrace();
-		   error = true;
-		   return null;
-		 }
 	 	return null;
 	 }	
 }

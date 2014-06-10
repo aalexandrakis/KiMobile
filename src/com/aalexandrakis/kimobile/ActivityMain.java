@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 //TODO display remaining time for the draw, user coins and user level
+//TODO hide keyboard on click
 public class ActivityMain extends FragmentActivity {
 	SharedPreferences sharedPreferences;
 	Button btnPlayNow;

@@ -40,10 +40,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
+//TODO refresh adapter and list view
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 //TODO date picker
 public class FragmentViewArchiveBets extends Fragment {
+	AdapterArchiveBets adapter;
 	SharedPreferences sharedPreferences;
 	FragmentViewArchiveBets viewBets = this;
 	List<BetsArchive> bets = new ArrayList<BetsArchive>();
@@ -87,10 +88,9 @@ public class FragmentViewArchiveBets extends Fragment {
 					Toast.makeText(getActivity(), getString(R.string.toastNoArchiveBetsFound), Toast.LENGTH_LONG).show();
 					getActivity().finish();
 				}
-		 		AdapterArchiveBets adapter = new AdapterArchiveBets(getActivity(), bets);
+				adapter = new AdapterArchiveBets(getActivity(), bets);
+		 		adapter.notifyDataSetChanged();
 				lstArchiveBets.setAdapter(adapter);
-				adapter.notifyDataSetChanged();
-
 			}
 		});
 		return view;

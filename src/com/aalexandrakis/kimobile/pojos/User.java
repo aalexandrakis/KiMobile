@@ -15,7 +15,7 @@ public class User  implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private java.math.BigInteger userCoins;
+	private Float userCoins;
 
     private java.lang.String userEmail;
 
@@ -31,7 +31,7 @@ public class User  implements java.io.Serializable {
     }
 
     public User(
-           java.math.BigInteger userCoins,
+           Float userCoins,
            java.lang.String userEmail,
            java.math.BigInteger userId,
            java.lang.Integer userLevel,
@@ -51,7 +51,7 @@ public class User  implements java.io.Serializable {
      * 
      * @return userCoins
      */
-    public java.math.BigInteger getUserCoins() {
+    public Float getUserCoins() {
         return userCoins;
     }
 
@@ -61,7 +61,7 @@ public class User  implements java.io.Serializable {
      * 
      * @param userCoins
      */
-    public void setUserCoins(java.math.BigInteger userCoins) {
+    public void setUserCoins(Float userCoins) {
         this.userCoins = userCoins;
     }
 

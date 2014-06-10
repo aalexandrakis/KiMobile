@@ -2,15 +2,26 @@ package com.aalexandrakis.kimobile;
 
 import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
 import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
+import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParserException;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -18,13 +29,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.aalexandrakis.kimobile.pojos.User;
-import static com.aalexandrakis.kimobile.Constants.*;
 public class ActivityLogin extends Activity {
 	EditText txtUserName;
 	EditText txtUserPassword;
@@ -133,9 +143,8 @@ public class ActivityLogin extends Activity {
 			editor.putString("userEmail", user.getUserEmail());
 			editor.putString("userPassword", password);
 			editor.putString("userCoins", user.getUserCoins().toString());
-			editor.putInt("userLeve", user.getUserLevel());
+			editor.putInt("userLevel", user.getUserLevel());
 			editor.commit();
-			
 			Intent mainMenu = new Intent("com.aalexandrakis.kimobile.ActivityMain");
 			login.startActivity(mainMenu);
 			login.finish();
@@ -159,53 +168,55 @@ public class ActivityLogin extends Activity {
 		String userName = params[0];
 		String encryptedPassword = CommonMethods.encryptPassword(params[1]);
 		password = params[1];
-		// TODO Auto-generated method stub
-		  try {
-	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
-	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	              SoapObject request = new SoapObject(Constants.NAMESPACE, METHOD);
-	              request.addProperty("userName", userName);
-	              request.addProperty("password", encryptedPassword);
-	       //bodyOut is the body object to be sent out with this envelope
-	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(Constants.SOAP_URL);
-	       try {
-	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
-	       } catch (IOException e) {
-	         e.printStackTrace();
-	         error = true;
-	       } catch (XmlPullParserException e) {
-	         e.printStackTrace();
-	         error = true;
-	       }
-		   //bodyIn is the body object received with this envelope
-		   if (envelope.bodyIn != null) {
-		     //getProperty() Returns a specific property at a certain index.
-		     SoapObject resultSOAP = (SoapObject) envelope.getResponse();
-		     if (resultSOAP != null){
-				 User user = new User();
-				 user.setUserId(new BigInteger(resultSOAP.getProperty(2).toString()));
-				 user.setUserEmail(resultSOAP.getProperty(1).toString());
-				 user.setUserName(resultSOAP.getProperty(4).toString());
-				 user.setUserLevel(Integer.valueOf(resultSOAP.getProperty(3).toString()));
-				 user.setUserCoins(new BigInteger(resultSOAP.getProperty(0).toString()));
-				 user.setUserPassword(resultSOAP.getProperty(5).toString());
-				 
-				 Log.d("User Id", user.getUserId().toString());
-				 Log.d("User email", user.getUserEmail());
-				 Log.d("User Name", user.getUserName());
-				 Log.d("User Level", user.getUserLevel().toString());
-				 Log.d("User Coins", user.getUserCoins().toString());
-				 Log.d("User Password", user.getUserPassword());
-				 
-				 return user;
-		     }
-		   }
-		 } catch (Exception e) {
-		   e.printStackTrace();
-		   error = true;
-		   return null;
-		 }
+		User user;
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpResponse response;
+		HttpPost httpPost = new HttpPost(Constants.REST_URL + "login");
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("userName", userName));
+		parameters.add(new BasicNameValuePair("password", encryptedPassword));
+		try {
+			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			response = httpclient.execute(httpPost);
+			
+			StatusLine statusLine = response.getStatusLine();
+			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				response.getEntity().writeTo(out);
+				out.close();
+				String responseString = out.toString();
+				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+                JSONObject jsonResponse = new JSONObject(responseString);
+                user = new User();
+                /***** Returns the value mapped by name if it exists and is a JSONArray. ***/
+                user.setUserId(new BigInteger(jsonResponse.optString("userId")));
+                user.setUserName(jsonResponse.optString("userName"));
+                user.setUserEmail(jsonResponse.optString("userEmail"));
+                user.setUserCoins(Float.valueOf(jsonResponse.optString("userCoins")));
+                user.setUserLevel(Integer.valueOf(jsonResponse.optString("userLevel")));
+                return user;
+			} else {
+				// Closes the connection.
+				response.getEntity().getContent().close();
+				throw new IOException(statusLine.getReasonPhrase());
+			}
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			error = true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			error = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	 	return null;
 	 }	
 

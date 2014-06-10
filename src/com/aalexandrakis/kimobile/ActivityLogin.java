@@ -60,7 +60,7 @@ public class ActivityLogin extends Activity {
 		final Activity activityLogin = this;
 		//TODO only for test
 				txtUserName.setText("aalexand");
-				txtUserPassword.setText("K1uGyjY");
+				txtUserPassword.setText("b");
 				
 		
 		btnConnect.setOnClickListener(new OnClickListener(){

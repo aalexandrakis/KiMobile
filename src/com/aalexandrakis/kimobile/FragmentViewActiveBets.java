@@ -24,7 +24,6 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
@@ -35,11 +34,11 @@ import android.view.ViewGroup;
 
 import com.aalexandrakis.kimobile.pojos.ActiveBets;
 
-public class FragmentViewBets extends ListFragment {
+public class FragmentViewActiveBets extends ListFragment {
 	SharedPreferences sharedPreferences;
-	FragmentViewBets viewBets = this;
+	FragmentViewActiveBets viewBets = this;
 	List<ActiveBets> bets = new ArrayList<ActiveBets>();
-	public FragmentViewBets() {
+	public FragmentViewActiveBets() {
 		super();
 	}
 

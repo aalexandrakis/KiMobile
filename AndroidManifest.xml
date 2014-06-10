@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.aalexandrakis.kimobile.ActivityViewBets" android:label="@string/app_name" android:configChanges="orientation">
+        <activity android:name="com.aalexandrakis.kimobile.ActivityViewActiveBets" android:label="@string/app_name" android:configChanges="orientation">
             <intent-filter>
                 <action android:name="com.aalexandrakis.kimobile.ActivityViewBets"/>
                 <category android:name="android.intent.category.DEFAULT"/>

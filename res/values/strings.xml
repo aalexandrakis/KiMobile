@@ -54,7 +54,7 @@
 	
 	<!-- main menu -->
 	<string name="playNow">Play now</string>
-	<string name="myBets">View my bets</string>
+	<string name="myActiveBets">View my active bets</string>
 	<string name="drawHistory">View draws</string>
 	
 	<!-- play now -->
@@ -75,6 +75,7 @@
 	<string name="toastBetAddedSuccessfully">Your bet saved successfully. Good luck. . .</string>
 	<string name="betting">Betting. . .</string>
 	<string name="waitToSaveYourBet">Please wait to save your bet</string>
+	<string name="notEnoughCoins">Your coins are not enough for this bet.</string>
 	
 	<!-- view bets -->
 	<string name="betId">Bet ID</string>

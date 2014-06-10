@@ -18,7 +18,7 @@ import android.widget.FrameLayout;
 public class ActivityMain extends FragmentActivity {
 	SharedPreferences sharedPreferences;
 	Button btnPlayNow;
-	Button btnMyBets;
+	Button btnMyActiveBets;
 	Button btnDrawHistory;
 	Button btnUpdateAccount;
 	Activity activity = this;
@@ -41,7 +41,7 @@ public class ActivityMain extends FragmentActivity {
 		}
 
 		btnPlayNow = (Button) findViewById(R.id.btnPlayNow);
-		btnMyBets = (Button) findViewById(R.id.btnMyBets);
+		btnMyActiveBets = (Button) findViewById(R.id.btnMyActiveBets);
 		btnDrawHistory = (Button) findViewById(R.id.btnDrawHistory);
 		btnUpdateAccount = (Button) findViewById(R.id.btnUpdateAccount);
 		final Activity activity = this;
@@ -72,7 +72,7 @@ public class ActivityMain extends FragmentActivity {
 			}
 		});
 
-		btnMyBets.setOnClickListener(new OnClickListener() {
+		btnMyActiveBets.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -85,14 +85,14 @@ public class ActivityMain extends FragmentActivity {
 					FragmentManager fragmentManager = getSupportFragmentManager();
 					FragmentTransaction fragmentTransaction = fragmentManager
 							.beginTransaction();
-					FragmentViewBets viewBetsFragment = new FragmentViewBets();
+					FragmentViewActiveBets viewBetsFragment = new FragmentViewActiveBets();
 					fragmentTransaction.replace(R.id.secondFragment,
 							viewBetsFragment);
 					fragmentTransaction.commit();
 				} else {
 					Intent intent = new Intent();
 					intent.setClass(getApplicationContext(),
-							ActivityViewBets.class);
+							ActivityViewActiveBets.class);
 					startActivity(intent);
 				}
 

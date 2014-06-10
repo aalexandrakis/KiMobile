@@ -996,11 +996,15 @@ class AsyncTaskSaveBet extends AsyncTask<String, String, String>  {
 		} else if (result.equals("10")){
 			showErrorDialog(playNow.getString(R.string.betError), playNow.getString(R.string.gameTypeError), playNow.getFragmentManager());
 			playNow.txtGameType.requestFocus();			
+		} else if (result.equals("11")){
+			showErrorDialog(playNow.getString(R.string.betError), playNow.getString(R.string.notEnoughCoins), playNow.getFragmentManager());
+			playNow.txtGameType.requestFocus();			
 		} else if (result.equals("00")){
 			Toast.makeText(playNow.getActivity(), playNow.getString(R.string.toastBetAddedSuccessfully), Toast.LENGTH_LONG).show();
+			playNow.reset();
 		}
 		
-		playNow.reset();
+		
 	}
 
 

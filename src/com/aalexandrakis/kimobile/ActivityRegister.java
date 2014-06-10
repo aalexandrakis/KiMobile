@@ -4,13 +4,31 @@ import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
 import static com.aalexandrakis.kimobile.CommonMethods.encryptPassword;
 import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
+
+import com.aalexandrakis.kimobile.pojos.User;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,13 +41,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-public class Register extends Activity {
+public class ActivityRegister extends Activity {
 	EditText txtUserName;
 	EditText txtUserEmail;
 	EditText txtUserPassword;
 	EditText txtRepeatPassword;
 	Button btnRegister;
-	Register register = this;
+	ActivityRegister register = this;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +62,8 @@ public class Register extends Activity {
 		//TODO only for test
 		txtUserName.setText("aalexand");
 		txtUserEmail.setText("aalexandrakis@hotmail.com");
-		txtUserPassword.setText("a");
-		txtRepeatPassword.setText("a");
+		txtUserPassword.setText("b");
+		txtRepeatPassword.setText("b");
 		
 		btnRegister.setOnClickListener(new OnClickListener(){
 			@Override
@@ -85,8 +103,8 @@ public class Register extends Activity {
 					return;
 				}
 				
-				AsyncTaskRegister loginTask = new AsyncTaskRegister(register);
-				loginTask.execute(txtUserName.getText().toString(), txtUserEmail.getText().toString(), encryptPassword(txtUserPassword.getText().toString()));
+				AsyncTaskRegister registerTask = new AsyncTaskRegister(register);
+				registerTask.execute(txtUserName.getText().toString(), txtUserEmail.getText().toString(), encryptPassword(txtUserPassword.getText().toString()));
 			}
 		});
 	}
@@ -94,31 +112,31 @@ public class Register extends Activity {
 
 //TODO store data to shared preferences
 
- class AsyncTaskRegister extends AsyncTask<String, String[], String[]>  {
+ class AsyncTaskRegister extends AsyncTask<String, String, String>  {
 	 
-	Register register;
+	ActivityRegister register;
 	public static final String METHOD = "saveUser";
 	boolean error = false;
 	ProgressDialog pg;
 
-	AsyncTaskRegister(Register register){
+	AsyncTaskRegister(ActivityRegister register){
 		this.register = register;
 	}
 	 @SuppressLint("ShowToast")
 	@Override
-	protected void onPostExecute(String[] result) {
+	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		pg.dismiss();
-		if (error == true || result == null || result[0].equals("40")){
+		if (error == true || result == null || result.equals("40")){
 			showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.youCanntConnect), register);
-		} else if (result[0].equals("10")){
+		} else if (result.equals("10")){
 			showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.userEmailExists), register);
 			register.txtUserEmail.requestFocus();			
-		} else if (result[0].equals("11")){
+		} else if (result.equals("11")){
 			showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.userNameExists), register);
 			register.txtUserName.requestFocus();
-		} else if (result[0].equals("00")){
+		} else if (result.equals("00")){
 			Toast.makeText(register, register.getString(R.string.toastUserAddedSuccesfully), Toast.LENGTH_LONG).show();
 			register.finish();
 		}
@@ -138,43 +156,55 @@ public class Register extends Activity {
 
 
 	@Override
-	 protected String[] doInBackground(String... params) {
+	 protected String doInBackground(String... params) {
 		String userName = params[0];
 		String userEmail = params[1];
 		String password = params[2];
 		// TODO Auto-generated method stub
-		  try {
-	       // SoapEnvelop.1VER11 is SOAP Version 1.1 constant
-	       SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-	              SoapObject request = new SoapObject(Constants.NAMESPACE, METHOD);
-	              request.addProperty("userId", null);
-	              request.addProperty("userName", userName);
-	              request.addProperty("userEmail", userEmail);
-	              request.addProperty("userPassword", password);
-	       //bodyOut is the body object to be sent out with this envelope
-	       envelope.bodyOut = request;
-	       HttpTransportSE transport = new HttpTransportSE(Constants.SOAP_URL);
-	       try {
-	    	 transport.call(Constants.NAMESPACE + Constants.SOAP_ACTION_PREFIX + METHOD, envelope);
-	       } catch (IOException e) {
-	         e.printStackTrace();
-	       } catch (XmlPullParserException e) {
-	         e.printStackTrace();
-	       }
-		   //bodyIn is the body object received with this envelope
-		   if (envelope.bodyIn != null) {
-		     //getProperty() Returns a specific property at a certain index.
-			 SoapObject object = (SoapObject)  envelope.bodyIn;
-		     String[] result = {object.getProperty(0).toString(), object.getProperty(1).toString()}; 
-		     Log.d("Add User response to string", result[0] + "-" + result[1]);
-			    
-			 return result;
-		   }
-		 } catch (Exception e) {
-		   e.printStackTrace();
-		   error = true;
-		   return null;
-		 }
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpResponse response;
+		HttpPost httpPost = new HttpPost(Constants.REST_URL + "saveUser");
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("userIdString", "0"));
+		parameters.add(new BasicNameValuePair("userName", userName));
+		parameters.add(new BasicNameValuePair("userEmail", userEmail));
+		parameters.add(new BasicNameValuePair("userPassword", password));
+		try {
+			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			response = httpclient.execute(httpPost);
+			
+			StatusLine statusLine = response.getStatusLine();
+			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				response.getEntity().writeTo(out);
+				out.close();
+				String responseString = out.toString();
+				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+                JSONObject jsonResponse = new JSONObject(responseString);
+                return jsonResponse.optString("responseCode");
+			} else {
+				// Closes the connection.
+				response.getEntity().getContent().close();
+				throw new IOException(statusLine.getReasonPhrase());
+			}
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			error = true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			error = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			error = true;
+		}
 	 	return null;
 	 }	
 

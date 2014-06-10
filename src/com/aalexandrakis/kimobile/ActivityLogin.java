@@ -42,7 +42,6 @@ public class ActivityLogin extends Activity {
 	Button btnRegister;
 	Button btnForgotPassword;
 	ActivityLogin login = this;
-	AsyncTaskLogin loginTask;
 	SharedPreferences sharedPreferences;
 	
 	
@@ -82,6 +81,7 @@ public class ActivityLogin extends Activity {
 					txtUserPassword.requestFocus();
 					return;
 				}
+				AsyncTaskLogin loginTask;
 				
 				loginTask = new AsyncTaskLogin(login); 
 				loginTask.execute(txtUserName.getText().toString(), txtUserPassword.getText().toString());
@@ -92,7 +92,7 @@ public class ActivityLogin extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent register = new Intent("com.aalexandrakis.kimobile.Register");
+				Intent register = new Intent("com.aalexandrakis.kimobile.ActivityRegister");
 				startActivity(register);
 			}
 		});

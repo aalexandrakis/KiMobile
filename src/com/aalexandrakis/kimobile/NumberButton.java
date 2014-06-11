@@ -65,6 +65,13 @@ public class NumberButton extends Button {
 
 	public void setInDraw(boolean isInDraw) {
 		this.isInDraw = isInDraw;
+		 if (!isInDraw){
+		    	this.setTextColor(Color.YELLOW);
+		    	this.setBackgroundColor(Color.BLACK);
+		    } else {
+		    	this.setTextColor(Color.WHITE);
+		    	this.setBackgroundColor(Color.BLUE);
+		    }
 	}
 
 

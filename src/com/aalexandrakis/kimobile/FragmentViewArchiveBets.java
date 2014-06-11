@@ -1,13 +1,14 @@
 package com.aalexandrakis.kimobile;
 
 import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
+import static com.aalexandrakis.kimobile.CommonMethods.convertJsonToBetsArchive;
+import static com.aalexandrakis.kimobile.CommonMethods.convertJsonToDraw;
 import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
 import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,14 +41,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
 //TODO refresh adapter and list view
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
+import com.aalexandrakis.kimobile.pojos.Draw;
 //TODO date picker
 public class FragmentViewArchiveBets extends Fragment {
 	AdapterArchiveBets adapter;
 	SharedPreferences sharedPreferences;
 	FragmentViewArchiveBets viewBets = this;
 	List<BetsArchive> bets = new ArrayList<BetsArchive>();
+	List<Draw> draws = new ArrayList<Draw>();
 	EditText txtFilterDate;
 	ListView lstArchiveBets;
 	Button btnGetBets;
@@ -81,14 +85,14 @@ public class FragmentViewArchiveBets extends Fragment {
 				//lstArchiveBets.removeAllViews();
 				String date = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
 				if (date != null){
-					bets = getBetList(date);
+					getBetList(date, bets, draws);
 				}
 				// TODO Auto-generated method stub
 				if (bets.isEmpty()){
 					Toast.makeText(getActivity(), getString(R.string.toastNoArchiveBetsFound), Toast.LENGTH_LONG).show();
 					getActivity().finish();
 				}
-				adapter = new AdapterArchiveBets(getActivity(), bets);
+				adapter = new AdapterArchiveBets(getActivity(), bets, draws);
 		 		adapter.notifyDataSetChanged();
 				lstArchiveBets.setAdapter(adapter);
 			}
@@ -97,7 +101,7 @@ public class FragmentViewArchiveBets extends Fragment {
 		
 	}
 	
-	List<BetsArchive> getBetList(String date){
+	void getBetList(String date, List<BetsArchive> bets, List<Draw> draws ){
 
 		ProgressDialog pg = new ProgressDialog(getActivity());
 		pg.setTitle(getString(R.string.loading));
@@ -124,50 +128,17 @@ public class FragmentViewArchiveBets extends Fragment {
 				response.getEntity().writeTo(out);
 				out.close();
 				String responseString = out.toString();
-				BetsArchive bet;
-				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-                JSONObject jsonResponse = new JSONObject(responseString);
-                  
-                /***** Returns the value mapped by name if it exists and is a JSONArray. ***/
-                /*******  Returns null otherwise.  *******/
+
+				JSONObject jsonResponse = new JSONObject(responseString);
                 JSONArray jsonMainNode = jsonResponse.optJSONArray("bets");
-                  
-                /*********** Process each JSON Node ************/
-
                 int lengthJsonArr = jsonMainNode.length(); 
-
                 for(int i=0; i < lengthJsonArr; i++) {
-					bet = new BetsArchive();
-					 /****** Get Object for each JSON node.***********/
-                    JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-                      
-                    /******* Fetch node values **********/
-                   
-					bet.setBetId(new BigInteger(jsonChildNode.optString("betId")));
-					bet.setBetDateTime(jsonChildNode.optString("betDateTime"));
-					bet.setUserId(new BigInteger(jsonChildNode.optString("userId")));
-					bet.setRepeatedDraws(Integer.valueOf(jsonChildNode.optString("repeatedDraws")));
-					bet.setRandomChoice(Integer.valueOf(jsonChildNode.optString("randomChoice")));
-					bet.setGameType(Integer.valueOf(jsonChildNode.optString("gameType")));
-					bet.setBetCoins(Float.valueOf(jsonChildNode.optString("betCoins")));
-					bet.setMultiplier(Integer.valueOf(jsonChildNode.optString("multiplier")));
-					bet.setBetNumber1(Integer.valueOf(jsonChildNode.optString("betNumber1")));
-					bet.setBetNumber2(Integer.valueOf(jsonChildNode.optString("betNumber2")));
-					bet.setBetNumber3(Integer.valueOf(jsonChildNode.optString("betNumber3")));
-					bet.setBetNumber4(Integer.valueOf(jsonChildNode.optString("betNumber4")));
-					bet.setBetNumber5(Integer.valueOf(jsonChildNode.optString("betNumber5")));
-					bet.setBetNumber6(Integer.valueOf(jsonChildNode.optString("betNumber6")));
-					bet.setBetNumber7(Integer.valueOf(jsonChildNode.optString("betNumber7")));
-					bet.setBetNumber8(Integer.valueOf(jsonChildNode.optString("betNumber8")));
-					bet.setBetNumber9(Integer.valueOf(jsonChildNode.optString("betNumber9")));
-					bet.setBetNumber10(Integer.valueOf(jsonChildNode.optString("betNumber10")));
-					bet.setBetNumber11(Integer.valueOf(jsonChildNode.optString("betNumber11")));
-					bet.setBetNumber12(Integer.valueOf(jsonChildNode.optString("betNumber12")));
-					bet.setDraws(Integer.valueOf(jsonChildNode.optString("draws")));
-					bet.setMatches(Integer.valueOf(jsonChildNode.optString("matches")));
-					bet.setReturnRate(Float.valueOf(jsonChildNode.optString("returnRate")));
-					bet.setDrawTimeStamp(jsonChildNode.optString("drawTimeStamp"));
-					bets.add(bet);
+                	bets.add(convertJsonToBetsArchive(jsonMainNode.getJSONObject(i)));
+				}
+                jsonMainNode = jsonResponse.optJSONArray("draws");
+                lengthJsonArr = jsonMainNode.length(); 
+                for(int i=0; i < lengthJsonArr; i++) {
+                	draws.add(convertJsonToDraw(jsonMainNode.getJSONObject(i)));
 				}
 			} else {
 				// Closes the connection.
@@ -186,6 +157,6 @@ public class FragmentViewArchiveBets extends Fragment {
 		} finally {
 			pg.dismiss();
 		}
-		return bets;
+		
 	}
 }

@@ -16,14 +16,13 @@
             android:text="@string/betDate"
             android:textColor="@color/yellow" />
 
-        <EditText
+        <TextView
             android:id="@+id/txtFilterDate"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:background="@color/white"
             android:ems="10"
-            android:inputType="date"
             android:textColor="@color/black" />
 
         <TextView

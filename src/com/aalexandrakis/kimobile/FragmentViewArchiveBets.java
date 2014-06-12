@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,21 +39,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 //TODO refresh adapter and list view
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
-//TODO date picker
+@SuppressLint("DefaultLocale")
 public class FragmentViewArchiveBets extends Fragment {
 	AdapterArchiveBets adapter;
 	SharedPreferences sharedPreferences;
 	FragmentViewArchiveBets viewBets = this;
 	List<BetsArchive> bets = new ArrayList<BetsArchive>();
 	List<Draw> draws = new ArrayList<Draw>();
-	EditText txtFilterDate;
+	TextView txtFilterDate;
 	ListView lstArchiveBets;
 	Button btnGetBets;
 	
@@ -60,7 +62,7 @@ public class FragmentViewArchiveBets extends Fragment {
 		super();
 	}
 
-	@SuppressLint("SimpleDateFormat")
+	@SuppressLint({ "SimpleDateFormat", "DefaultLocale" })
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -68,11 +70,40 @@ public class FragmentViewArchiveBets extends Fragment {
 		Date date = new Date();
 		String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(date);
 		sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFERENCES, FragmentActivity.MODE_PRIVATE);
-		txtFilterDate = (EditText) view.findViewById(R.id.txtFilterDate);
+		txtFilterDate = (TextView) view.findViewById(R.id.txtFilterDate);
+		final DatePickerDialog.OnDateSetListener setDateListener = new DatePickerDialog.OnDateSetListener() {
+			
+			@SuppressLint("DefaultLocale")
+			@Override
+			public void onDateSet(DatePicker view, int year, int monthOfYear,
+					int dayOfMonth) {
+				// TODO Auto-generated method stub
+				String strDay = String.format("%02d", dayOfMonth);
+				String strMonth = String.format("%02d", monthOfYear + 1);
+				String strYear = String.format("%04d", year);
+				txtFilterDate.setText(new StringBuilder().append(strDay).append("-")
+						.append(strMonth).append("-")
+						.append(strYear).toString());
+			}
+		};
+
 		lstArchiveBets = (ListView) view.findViewById(R.id.listBetsArchive);
 		btnGetBets = (Button) view.findViewById(R.id.btnGetBets);
 		
 		txtFilterDate.setText(currentDate);
+		txtFilterDate.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String[] d = txtFilterDate.getText().toString().split("-");
+				DatePickerDialog dialog = new DatePickerDialog(getActivity(), setDateListener, 
+												Integer.valueOf(d[2]), 
+												Integer.valueOf(d[1]) - 1, 
+												Integer.valueOf(d[0]));
+				dialog.show();
+			}
+		});
 		btnGetBets.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -100,6 +131,7 @@ public class FragmentViewArchiveBets extends Fragment {
 		return view;
 		
 	}
+	
 	
 	void getBetList(String date, List<BetsArchive> bets, List<Draw> draws ){
 

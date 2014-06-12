@@ -34,8 +34,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -129,9 +129,15 @@ public class FragmentPlayNow extends Fragment {
 	NumberButton numberButton80;
 	
 	CheckBox chkRandomChoice;
-	EditText txtMultiplier;
-	EditText txtRepeatedDraws;
-	EditText txtGameType;
+	TextView txtMultiplier;
+	Button multiplierPlus;
+	Button multiplierMinus;
+	TextView txtRepeatedDraws;
+	Button repeatPlus;
+	Button repeatMinus;
+	TextView txtGameType;
+	Button gameTypePlus;
+	Button gameTypeMinus;
 	Button btnBetNow;
 	SharedPreferences sharedPreferences;
 	FrameLayout secondFragment;
@@ -150,9 +156,70 @@ public class FragmentPlayNow extends Fragment {
 		sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Activity.MODE_PRIVATE);
 		secondFragment = (FrameLayout) getActivity().findViewById(R.id.secondFragment);
 		chkRandomChoice = (CheckBox) view.findViewById(R.id.chkRandomChoice);
-		txtMultiplier = (EditText) view.findViewById(R.id.txtMultiplier);
-		txtRepeatedDraws = (EditText) view.findViewById(R.id.txtRepeatedDraws);
-		txtGameType = (EditText) view.findViewById(R.id.txtGameType);
+		txtMultiplier = (TextView) view.findViewById(R.id.txtMultiplier);
+        multiplierPlus = (Button) view.findViewById(R.id.multiplierPlus);
+        multiplierPlus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				  Integer repeat = Integer.valueOf(txtMultiplier.getText().toString());
+				  if (repeat < 20){
+					  txtMultiplier.setText(String.valueOf(repeat + 1) );
+				  }
+			}
+        });
+        multiplierMinus = (Button) view.findViewById(R.id.multiplierMinus);
+        multiplierMinus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				  Integer repeat = Integer.valueOf(txtMultiplier.getText().toString());
+				  if (repeat > 1){
+					  txtMultiplier.setText(String.valueOf(repeat - 1) );
+				  }
+			}
+        });
+
+		txtRepeatedDraws = (TextView) view.findViewById(R.id.txtRepeatedDraws);
+        repeatPlus = (Button) view.findViewById(R.id.repeatPlus);
+        repeatPlus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				  Integer repeat = Integer.valueOf(txtRepeatedDraws.getText().toString());
+				  if (repeat < 20){
+					  txtRepeatedDraws.setText(String.valueOf(repeat + 1) );
+				  }
+			}
+        });
+        repeatMinus = (Button) view.findViewById(R.id.repeatMinus);
+        repeatMinus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				  Integer repeat = Integer.valueOf(txtRepeatedDraws.getText().toString());
+				  if (repeat > 1){
+					  txtRepeatedDraws.setText(String.valueOf(repeat - 1) );
+				  }
+			}
+        });
+		txtGameType = (TextView) view.findViewById(R.id.txtGameType);
+        gameTypePlus = (Button) view.findViewById(R.id.gameTypePlus);
+        gameTypePlus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				  Integer repeat = Integer.valueOf(txtGameType.getText().toString());
+				  if (repeat < 12){
+					  txtGameType.setText(String.valueOf(repeat + 1) );
+				  }
+			}
+        });
+        gameTypeMinus = (Button) view.findViewById(R.id.gameTypeMinus);
+        gameTypeMinus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				  Integer repeat = Integer.valueOf(txtGameType.getText().toString());
+				  if (repeat > 1){
+					  txtGameType.setText(String.valueOf(repeat - 1) );
+				  }
+			}
+        });
 		
         numberButton1 = (NumberButton) view.findViewById(R.id.btnNumber1);
         numberButton1.setOnClickListener(new OnClickListener() {

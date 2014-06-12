@@ -1,136 +1,174 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/playNowScrollView"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/black"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <CheckBox
+            android:id="@+id/chkRandomChoice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/black"
-            android:orientation="vertical" >
+            android:button="@drawable/checkbox"
+            android:paddingLeft="30dp"
+            android:text="@string/randomChoice"
+            android:textColor="@color/yellow" />
 
-            <CheckBox
-                android:id="@+id/chkRandomChoice"
-                android:layout_width="match_parent"
+<TableLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black" >
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/black"
-                android:button="@drawable/checkbox"
-                android:paddingLeft="30dp"
-                android:text="@string/randomChoice"
+                android:text="@string/repeatedDraws"
                 android:textColor="@color/yellow" />
 
-            <TableRow
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtRepeatedDraws"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
-                android:background="@color/black" >
+                android:layout_marginLeft="5dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:enabled="false"
+                android:selectAllOnFocus="true"
+                android:text="@string/one"
+                android:textColor="@color/black" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/repeatedDraws"
-                    android:textColor="@color/yellow" />
+            <Button
+                android:id="@+id/repeatPlus"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/plus"
+                android:textColor="@color/yellow" />
 
-                <EditText
-                    android:id="@+id/txtRepeatedDraws"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@color/white"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:selectAllOnFocus="true"
-                    android:text="@string/one"
-                    android:textColor="@color/black" />
+            <Button
+                android:id="@+id/repeatMinus"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/minus"
+                android:textColor="@color/yellow" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/fromOneToTwenty"
-                    android:textColor="@color/yellow" />
-            </TableRow>
+        </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/black" >
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/black" >
+                android:text="@string/multiplier"
+                android:textColor="@color/yellow" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/multiplier"
-                    android:textColor="@color/yellow" />
-
-                <EditText
-                    android:id="@+id/txtMultiplier"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@color/white"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:selectAllOnFocus="true"
-                    android:text="@string/one"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/fromOneToTwenty"
-                    android:textColor="@color/yellow" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtMultiplier"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/black" >
+                android:layout_marginLeft="5dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:selectAllOnFocus="true"
+                android:text="@string/one"
+                android:textColor="@color/black" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/gameType"
-                    android:textColor="@color/yellow" />
+            <Button
+                android:id="@+id/multiplierPlus"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/plus"
+                android:textColor="@color/yellow" />
 
-                <EditText
-                    android:id="@+id/txtGameType"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@color/white"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:selectAllOnFocus="true"
-                    android:text="@string/one"
-                    android:textColor="@color/black" />
+            <Button
+                android:id="@+id/multiplierMinus"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/minus"
+                android:textColor="@color/yellow" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/fromOneToTwelve"
-                    android:textColor="@color/yellow" />
-            </TableRow>
-        </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/black" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gameType"
+                android:textColor="@color/yellow" />
+
+            <TextView
+                android:id="@+id/txtGameType"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:selectAllOnFocus="true"
+                android:text="@string/one"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/gameTypePlus"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/plus"
+                android:textColor="@color/yellow" />
+
+            <Button
+                android:id="@+id/gameTypeMinus"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/minus"
+                android:textColor="@color/yellow" />
+
+        </TableRow>
+</TableLayout>
+        <Button
+            android:id="@+id/btnBetNow"
+            style="@style/KimoButton"
+            android:text="@string/betNow" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/playNowScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
         <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/numbers" />
+    </ScrollView>
 
-        <Button
-            android:id="@+id/btnBetNow"
-            android:text="@string/betNow"
-            style="@style/KimoButton"/>
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

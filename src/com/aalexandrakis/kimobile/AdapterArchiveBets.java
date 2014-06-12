@@ -39,6 +39,9 @@ public class AdapterArchiveBets extends ArrayAdapter<BetsArchive>{
 		TextView txtDrawDate = (TextView) rowView.findViewById(R.id.txtDrawDate);
 		TextView txtEarnings = (TextView) rowView.findViewById(R.id.txtEarnings);
     	TextView txtMatches = (TextView) rowView.findViewById(R.id.txtMatches);
+    	TextView txtDraw = (TextView) rowView.findViewById(R.id.txtDraw);
+    	TextView txtRepeatedDraws = (TextView) rowView.findViewById(R.id.txtRepeatedDraws);
+    	TextView txtMultiplier = (TextView) rowView.findViewById(R.id.txtMultiplier);
     	
     	NumberButton number1 = (NumberButton) rowView.findViewById(R.id.btnNumber1);
     	NumberButton number2 = (NumberButton) rowView.findViewById(R.id.btnNumber2);
@@ -58,7 +61,9 @@ public class AdapterArchiveBets extends ArrayAdapter<BetsArchive>{
 		txtBetId.setText(bet.getBetId().toString().trim());
 		txtBetDate.setText(bet.getBetDateTime().substring(0, 19));
 		txtDrawDate.setText(bet.getDrawTimeStamp().substring(0, 19));
-		
+		txtDraw.setText(bet.getDraws().toString());
+		txtRepeatedDraws.setText(bet.getRepeatedDraws().toString());
+		txtMultiplier.setText(bet.getMultiplier().toString());
 		number1.setNumber(bet.getBetNumber1());
 		number1.setInDraw(curDraw.toList().contains(bet.getBetNumber1()));
 		

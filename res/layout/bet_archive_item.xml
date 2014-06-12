@@ -9,7 +9,8 @@
     android:textAlignment="center"
     tools:context="${packageName}.${activityClass}" >
 
-     <LinearLayout
+    <TableLayout>
+     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:orientation="horizontal">
@@ -26,9 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:textColor="@color/yellow" />
-    </LinearLayout>
-    
-     <LinearLayout
+    </TableRow>
+     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:orientation="horizontal">
@@ -45,7 +45,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:textColor="@color/yellow" />
-    </LinearLayout>
+    </TableRow>
+    </TableLayout>
+    
+    <TableLayout>
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -64,34 +67,82 @@
             android:textColor="@color/yellow" />
         
          <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="@string/matches"
-            android:textColor="@color/yellow" />
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="5dp"
+             android:text="@string/matches"
+             android:textColor="@color/blue" />
 
         <TextView
             android:id="@+id/txtMatches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:textColor="@color/yellow" />
+            android:textColor="@color/blue" />
         
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="@string/earnings"
-            android:textColor="@color/yellow" />
+            android:textColor="@color/green" />
 
         <TextView
             android:id="@+id/txtEarnings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:textColor="@color/yellow" />
-    </TableRow>
+            android:textColor="@color/green" />
 
+               
+    </TableRow>
+	<TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+ <TextView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="@string/draw"
+     android:textColor="@color/yellow" />
+
+        <TextView
+            android:id="@+id/txtDraw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/yellow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/of"
+            android:textColor="@color/yellow" />
+
+        <TextView
+            android:id="@+id/txtRepeatedDraws"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/yellow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/multiplier"
+            android:textColor="@color/yellow" />
+
+        <TextView
+            android:id="@+id/txtMultiplier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/yellow" />
+        	    
+    </TableRow>
+</TableLayout>
    <LinearLayout
        android:orientation="vertical">
        <TableRow

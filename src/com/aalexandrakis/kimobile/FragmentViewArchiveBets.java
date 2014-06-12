@@ -95,8 +95,8 @@ public class FragmentViewArchiveBets extends Fragment {
 				}
 				// TODO Auto-generated method stub
 				if (bets.isEmpty()){
-					Toast.makeText(getActivity(), getString(R.string.toastNoArchiveBetsFound), Toast.LENGTH_LONG).show();
-					getActivity().finish();
+					Toast.makeText(getActivity(), getString(R.string.toastNoOldBetsFound), Toast.LENGTH_LONG).show();
+					//getActivity().finish();
 				}
 				adapter = new AdapterArchiveBets(getActivity(), bets, draws);
 		 		lstArchiveBets.setAdapter(adapter);
@@ -119,8 +119,15 @@ public class FragmentViewArchiveBets extends Fragment {
 				dialog.show();
 			}
 		});
-		
-		
+
+		///TODO REPEATED CODE    ////////////////////////////////////////////////////////
+		getBetList(txtFilterDate.getText().toString(), bets, draws);
+		if (bets.isEmpty()){
+			Toast.makeText(getActivity(), getString(R.string.toastNoOldBetsFound), Toast.LENGTH_LONG).show();
+		}
+		adapter = new AdapterArchiveBets(getActivity(), bets, draws);
+ 		lstArchiveBets.setAdapter(adapter);
+		////////////////////////////////////////////////////////////////////////////////
 		return view;
 		
 	}

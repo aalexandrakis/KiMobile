@@ -38,7 +38,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,7 +55,6 @@ public class FragmentViewArchiveBets extends Fragment {
 	List<Draw> draws = new ArrayList<Draw>();
 	TextView txtFilterDate;
 	ListView lstArchiveBets;
-	Button btnGetBets;
 	
 	public FragmentViewArchiveBets() {
 		super();
@@ -84,11 +82,28 @@ public class FragmentViewArchiveBets extends Fragment {
 				txtFilterDate.setText(new StringBuilder().append(strDay).append("-")
 						.append(strMonth).append("-")
 						.append(strYear).toString());
+				if (!checkConnectivity(getActivity())) {
+					showErrorDialog(getString(R.string.networkError),
+							getString(R.string.noInternetConnection), getActivity());
+					return;
+				}
+				bets.clear();
+				draws.clear();
+				String date = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
+				if (date != null){
+					getBetList(date, bets, draws);
+				}
+				// TODO Auto-generated method stub
+				if (bets.isEmpty()){
+					Toast.makeText(getActivity(), getString(R.string.toastNoArchiveBetsFound), Toast.LENGTH_LONG).show();
+					getActivity().finish();
+				}
+				adapter = new AdapterArchiveBets(getActivity(), bets, draws);
+		 		lstArchiveBets.setAdapter(adapter);
 			}
 		};
 
 		lstArchiveBets = (ListView) view.findViewById(R.id.listBetsArchive);
-		btnGetBets = (Button) view.findViewById(R.id.btnGetBets);
 		
 		txtFilterDate.setText(currentDate);
 		txtFilterDate.setOnClickListener(new OnClickListener() {
@@ -104,30 +119,8 @@ public class FragmentViewArchiveBets extends Fragment {
 				dialog.show();
 			}
 		});
-		btnGetBets.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				if (!checkConnectivity(getActivity())) {
-					showErrorDialog(getString(R.string.networkError),
-							getString(R.string.noInternetConnection), getActivity());
-					return;
-				}
-				//lstArchiveBets.removeAllViews();
-				String date = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
-				if (date != null){
-					getBetList(date, bets, draws);
-				}
-				// TODO Auto-generated method stub
-				if (bets.isEmpty()){
-					Toast.makeText(getActivity(), getString(R.string.toastNoArchiveBetsFound), Toast.LENGTH_LONG).show();
-					getActivity().finish();
-				}
-				adapter = new AdapterArchiveBets(getActivity(), bets, draws);
-		 		adapter.notifyDataSetChanged();
-				lstArchiveBets.setAdapter(adapter);
-			}
-		});
+		
+		
 		return view;
 		
 	}

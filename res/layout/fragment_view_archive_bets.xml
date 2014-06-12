@@ -34,13 +34,7 @@
 
     </TableRow>
 
-    <Button
-        android:id="@+id/btnGetBets"
-        style="@style/KimoButton"
-        android:layout_width="match_parent"
-        android:layout_marginTop="3dp"
-        android:text="@string/getBets" />
-
+   
     <ListView
         android:id="@+id/listBetsArchive"
         android:layout_width="match_parent"

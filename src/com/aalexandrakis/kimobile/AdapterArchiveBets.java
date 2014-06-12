@@ -25,13 +25,14 @@ public class AdapterArchiveBets extends ArrayAdapter<BetsArchive>{
 		this.context = context;
 		this.values = values;
 		this.draws = draws;
+		notifyDataSetChanged();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
- 
+		
 		View rowView = inflater.inflate(R.layout.bet_archive_item, parent, false);
 		TextView txtBetId = (TextView) rowView.findViewById(R.id.txtBetId);
 		TextView txtBetDate = (TextView) rowView.findViewById(R.id.txtBetDate);

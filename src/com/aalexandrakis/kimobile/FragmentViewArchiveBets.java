@@ -43,6 +43,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 //TODO refresh adapter and list view
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
@@ -121,7 +122,8 @@ public class FragmentViewArchiveBets extends Fragment {
 		});
 
 		///TODO REPEATED CODE    ////////////////////////////////////////////////////////
-		getBetList(txtFilterDate.getText().toString(), bets, draws);
+		String strDate = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
+		getBetList(strDate, bets, draws);
 		if (bets.isEmpty()){
 			Toast.makeText(getActivity(), getString(R.string.toastNoOldBetsFound), Toast.LENGTH_LONG).show();
 		}

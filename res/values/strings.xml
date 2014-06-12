@@ -17,6 +17,7 @@
     <string name="emptyString">0</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
+    <string name="coins">Coins</string>
     <!-- login strings -->
     <string name="userName">User Name</string>
     <string name="connect">Connect</string>
@@ -96,5 +97,9 @@
 	<string name="toastNoOldBetsFound">No bets found for this date.</string>
 	<string name="draw">Draw</string>
 	<string name="of">of</string>
-   
+    <!-- view draws -->
+    <string name="toastNoDrawsFound">No draws found for this date</string>
+    <string name="pleaseWaitDraws">Please wait to load draws</string>
+    <string name="drawDate">Draw date</string>
+    
 </resources>

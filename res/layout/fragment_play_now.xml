@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@color/black"
         android:orientation="vertical" >
-
+ 		
         <CheckBox
             android:id="@+id/chkRandomChoice"
             android:layout_width="match_parent"

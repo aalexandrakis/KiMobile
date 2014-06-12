@@ -154,6 +154,7 @@ public class FragmentPlayNow extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_play_now, container, false);
 		
 		sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Activity.MODE_PRIVATE);
+		
 		secondFragment = (FrameLayout) getActivity().findViewById(R.id.secondFragment);
 		chkRandomChoice = (CheckBox) view.findViewById(R.id.chkRandomChoice);
 		txtMultiplier = (TextView) view.findViewById(R.id.txtMultiplier);

@@ -1,26 +1,37 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView1"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent" 
-    android:background="@color/black">
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/LinearLayout1"
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:orientation="vertical"
-        tools:context="${packageName}.${activityClass}" >
+        android:layout_marginTop="20dp" >
 
         <TextView
-            android:id="@+id/labelViewDraws"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="view draws"
+            android:text="@string/drawDate"
             android:textColor="@color/yellow" />
 
-       
-    </LinearLayout>
+        <TextView
+            android:id="@+id/txtFilterDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </TableRow>
 
-</ScrollView>
+    <ListView
+        android:id="@+id/listDraws"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" >
+    </ListView>
+
+</LinearLayout>

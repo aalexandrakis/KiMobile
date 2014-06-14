@@ -46,7 +46,7 @@ public class AdapterActiveBets extends ArrayAdapter<ActiveBets>{
  
 		ActiveBets bet = values.get(position);
 		txtBetId.setText(bet.getBetId().toString().trim());
-		txtBetDate.setText(bet.getBetDateTime().substring(0, 19));
+		txtBetDate.setText(bet.getBetDateTime().replaceFirst("([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}).*", "$1"));
 		txtBetNumber1.setNumber(bet.getBetNumber1());
 		txtBetNumber2.setNumber(bet.getBetNumber2());
 		txtBetNumber3.setNumber(bet.getBetNumber3());

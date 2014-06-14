@@ -59,8 +59,8 @@ public class AdapterArchiveBets extends ArrayAdapter<BetsArchive>{
 		BetsArchive bet = values.get(position);
 		Draw curDraw = getDraw(draws, bet.getDrawTimeStamp());
 		txtBetId.setText(bet.getBetId().toString().trim());
-		txtBetDate.setText(bet.getBetDateTime().substring(0, 19));
-		txtDrawDate.setText(bet.getDrawTimeStamp().substring(0, 19));
+		txtBetDate.setText(bet.getBetDateTime().replaceFirst("([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}).*", "$1"));
+		txtDrawDate.setText(bet.getDrawTimeStamp().replaceFirst("([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}).*", "$1"));
 		txtDraw.setText(bet.getDraws().toString());
 		txtRepeatedDraws.setText(bet.getRepeatedDraws().toString());
 		txtMultiplier.setText(bet.getMultiplier().toString());
@@ -85,7 +85,7 @@ public class AdapterArchiveBets extends ArrayAdapter<BetsArchive>{
 		number7.setNumber(bet.getBetNumber7());
 		number7.setInDraw(curDraw.toList().contains(bet.getBetNumber7()));
 
-		number8.setNumber(bet.getBetNumber9());
+		number8.setNumber(bet.getBetNumber8());
 		number8.setInDraw(curDraw.toList().contains(bet.getBetNumber8()));
 
 		number9.setNumber(bet.getBetNumber9());
@@ -102,7 +102,7 @@ public class AdapterArchiveBets extends ArrayAdapter<BetsArchive>{
 
 		String earnings = "0";
 		if (bet.getReturnRate() != null){
-			earnings = String.valueOf(bet.getBetCoins() * bet.getReturnRate());
+			earnings = String.valueOf(bet.getBetCoins() * (bet.getReturnRate() / bet.getRepeatedDraws()));
 		}
     	txtEarnings.setText(earnings);
     	String matches = "0";

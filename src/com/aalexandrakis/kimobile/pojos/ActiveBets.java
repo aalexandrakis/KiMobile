@@ -9,6 +9,7 @@ public class ActiveBets implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	BigInteger id;
 	BigInteger betId;
 	String betDateTime;
 	BigInteger userId;

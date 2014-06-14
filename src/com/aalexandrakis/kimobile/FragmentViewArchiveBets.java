@@ -164,6 +164,7 @@ public class FragmentViewArchiveBets extends Fragment {
 				String responseString = out.toString();
 
 				JSONObject jsonResponse = new JSONObject(responseString);
+				System.out.println(jsonResponse.toString());
                 JSONArray jsonMainNode = jsonResponse.optJSONArray("bets");
                 int lengthJsonArr = jsonMainNode.length(); 
                 for(int i=0; i < lengthJsonArr; i++) {

@@ -53,7 +53,7 @@ public class AdapterDraws extends ArrayAdapter<Draw>{
 
     	
 		Draw draw = values.get(position);
-		txtDrawDate.setText(draw.getDrawDateTime().substring(0, 19));
+		txtDrawDate.setText(draw.getDrawDateTime().replaceFirst("([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}).*", "$1"));
 		number1.setNumber(draw.getDrawNumber1());
 		number2.setNumber(draw.getDrawNumber2());
 		number3.setNumber(draw.getDrawNumber3());
@@ -61,7 +61,7 @@ public class AdapterDraws extends ArrayAdapter<Draw>{
 		number5.setNumber(draw.getDrawNumber5());
 		number6.setNumber(draw.getDrawNumber6());
 		number7.setNumber(draw.getDrawNumber7());
-		number8.setNumber(draw.getDrawNumber9());
+		number8.setNumber(draw.getDrawNumber8());
 		number9.setNumber(draw.getDrawNumber9());
 		number10.setNumber(draw.getDrawNumber10());
 		number11.setNumber(draw.getDrawNumber11());

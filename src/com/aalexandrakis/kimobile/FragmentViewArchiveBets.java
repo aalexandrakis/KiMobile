@@ -25,12 +25,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -44,6 +46,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+
+
+
 //TODO refresh adapter and list view
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
@@ -51,9 +56,7 @@ import com.aalexandrakis.kimobile.pojos.Draw;
 public class FragmentViewArchiveBets extends Fragment {
 	AdapterArchiveBets adapter;
 	SharedPreferences sharedPreferences;
-	FragmentViewArchiveBets viewBets = this;
-	List<BetsArchive> bets = new ArrayList<BetsArchive>();
-	List<Draw> draws = new ArrayList<Draw>();
+	FragmentViewArchiveBets archiveBets = this;
 	TextView txtFilterDate;
 	ListView lstArchiveBets;
 	
@@ -88,19 +91,11 @@ public class FragmentViewArchiveBets extends Fragment {
 							getString(R.string.noInternetConnection), getActivity());
 					return;
 				}
-				bets.clear();
-				draws.clear();
 				String date = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
 				if (date != null){
-					getBetList(date, bets, draws);
+					AsyncTaskArchivebets getArchiveBets = new AsyncTaskArchivebets(archiveBets);
+					getArchiveBets.execute(sharedPreferences.getString("userId", "0"), date);
 				}
-				// TODO Auto-generated method stub
-				if (bets.isEmpty()){
-					Toast.makeText(getActivity(), getString(R.string.toastNoOldBetsFound), Toast.LENGTH_LONG).show();
-					//getActivity().finish();
-				}
-				adapter = new AdapterArchiveBets(getActivity(), bets, draws);
-		 		lstArchiveBets.setAdapter(adapter);
 			}
 		};
 
@@ -123,30 +118,81 @@ public class FragmentViewArchiveBets extends Fragment {
 
 		///TODO REPEATED CODE    ////////////////////////////////////////////////////////
 		String strDate = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
-		getBetList(strDate, bets, draws);
-		if (bets.isEmpty()){
-			Toast.makeText(getActivity(), getString(R.string.toastNoOldBetsFound), Toast.LENGTH_LONG).show();
-		}
-		adapter = new AdapterArchiveBets(getActivity(), bets, draws);
- 		lstArchiveBets.setAdapter(adapter);
+		AsyncTaskArchivebets getArchiveBets = new AsyncTaskArchivebets(archiveBets);
+		getArchiveBets.execute(sharedPreferences.getString("userId", "0"), strDate);
 		////////////////////////////////////////////////////////////////////////////////
 		return view;
 		
 	}
 	
 	
-	void getBetList(String date, List<BetsArchive> bets, List<Draw> draws ){
+}
 
-		ProgressDialog pg = new ProgressDialog(getActivity());
-		pg.setTitle(getString(R.string.loading));
-		pg.setMessage(getString(R.string.pleasWaitArchiveBets));
+class AsyncTaskArchivebets extends AsyncTask<String, String, String>{
+	ProgressDialog pg;
+	FragmentViewArchiveBets archiveBets;
+	List<BetsArchive> bets = new ArrayList<BetsArchive>();
+	List<Draw> draws = new ArrayList<Draw>();
+
+	public AsyncTaskArchivebets(FragmentViewArchiveBets archiveBets) {
+		// TODO Auto-generated constructor stub
+		this.archiveBets = archiveBets;
+	}
+	@Override
+	protected void onPostExecute(String result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		if (result != null){
+			JSONObject jsonResponse;
+			try {
+				jsonResponse = new JSONObject(result);
+				System.out.println(jsonResponse.toString());
+		        JSONArray jsonMainNode = jsonResponse.optJSONArray("bets");
+		        int lengthJsonArr = jsonMainNode.length(); 
+		        for(int i=0; i < lengthJsonArr; i++) {
+		        	bets.add(convertJsonToBetsArchive(jsonMainNode.getJSONObject(i)));
+				}
+		        jsonMainNode = jsonResponse.optJSONArray("draws");
+		        lengthJsonArr = jsonMainNode.length(); 
+		        for(int i=0; i < lengthJsonArr; i++) {
+		        	draws.add(convertJsonToDraw(jsonMainNode.getJSONObject(i)));
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if (bets.isEmpty()){
+				Toast.makeText(archiveBets.getActivity(), archiveBets.getString(R.string.toastNoOldBetsFound), Toast.LENGTH_LONG).show();
+			}
+			AdapterArchiveBets adapter = new AdapterArchiveBets(archiveBets.getActivity(), bets, draws);
+	 		archiveBets.lstArchiveBets.setAdapter(adapter);
+			pg.dismiss();
+			
+		} 
+
+	}
+
+	@Override
+	protected void onPreExecute() {
+		// TODO Auto-generated method stub
+		super.onPreExecute();
+		pg = new ProgressDialog(archiveBets.getActivity());
+		pg.setTitle(archiveBets.getString(R.string.loading));
+		pg.setMessage(archiveBets.getString(R.string.pleasWaitArchiveBets));
 		pg.show();
+
+	}
+
+	@Override
+	protected  String doInBackground(String... params) {
+		// TODO Auto-generated method stub
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getUserArchiveBetsByDate");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("userIdString", sharedPreferences.getString("userId", "0")));
-		parameters.add(new BasicNameValuePair("date", date));
+		parameters.add(new BasicNameValuePair("userIdString", params[0]));
+		parameters.add(new BasicNameValuePair("date", params[1]));
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
 		} catch (UnsupportedEncodingException e1) {
@@ -161,20 +207,8 @@ public class FragmentViewArchiveBets extends Fragment {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				response.getEntity().writeTo(out);
 				out.close();
-				String responseString = out.toString();
-
-				JSONObject jsonResponse = new JSONObject(responseString);
-				System.out.println(jsonResponse.toString());
-                JSONArray jsonMainNode = jsonResponse.optJSONArray("bets");
-                int lengthJsonArr = jsonMainNode.length(); 
-                for(int i=0; i < lengthJsonArr; i++) {
-                	bets.add(convertJsonToBetsArchive(jsonMainNode.getJSONObject(i)));
-				}
-                jsonMainNode = jsonResponse.optJSONArray("draws");
-                lengthJsonArr = jsonMainNode.length(); 
-                for(int i=0; i < lengthJsonArr; i++) {
-                	draws.add(convertJsonToDraw(jsonMainNode.getJSONObject(i)));
-				}
+				return out.toString();
+				
 			} else {
 				// Closes the connection.
 				response.getEntity().getContent().close();
@@ -190,8 +224,11 @@ public class FragmentViewArchiveBets extends Fragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			pg.dismiss();
+		
 		}
 		
+		return null;
+		 
 	}
+	
 }

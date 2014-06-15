@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
@@ -37,7 +38,6 @@ import com.aalexandrakis.kimobile.pojos.ActiveBets;
 public class FragmentViewActiveBets extends ListFragment {
 	SharedPreferences sharedPreferences;
 	FragmentViewActiveBets viewBets = this;
-	List<ActiveBets> bets = new ArrayList<ActiveBets>();
 	public FragmentViewActiveBets() {
 		super();
 	}
@@ -45,19 +45,65 @@ public class FragmentViewActiveBets extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		getActivity();
+		//getActivity();
 		sharedPreferences = getActivity().getSharedPreferences(
 				SHARED_PREFERENCES, FragmentActivity.MODE_PRIVATE);
+		FragmentViewActiveBets listFragment = this;
 
-		ProgressDialog pg = new ProgressDialog(getActivity());
-		pg.setTitle(getString(R.string.loading));
-		pg.setMessage(getString(R.string.pleasWaitActiveBets));
+		// TODO Auto-generated method stub
+		AsyncTaskActiveBets getActiveBets = new AsyncTaskActiveBets(listFragment);
+		getActiveBets.execute(sharedPreferences.getString("userId", "0"));
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+}
+
+class AsyncTaskActiveBets extends AsyncTask<String, List<ActiveBets>, List<ActiveBets>>{
+	FragmentViewActiveBets listFragment;
+	ProgressDialog pg;
+	
+	AsyncTaskActiveBets(FragmentViewActiveBets listFragment){
+		this.listFragment = listFragment;
+	}
+	
+	
+	@Override
+	protected void onPostExecute(List<ActiveBets> bets) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(bets);
+		pg.dismiss();
+		if (bets.isEmpty() ){
+			Toast.makeText(listFragment.getActivity(), listFragment.getString(R.string.toastNoActiveBetsFound), Toast.LENGTH_LONG).show();
+		} else {
+			AdapterActiveBets adapter = new AdapterActiveBets(listFragment.getActivity(), bets);
+			/** Setting the list adapter for the ListFragment */
+			listFragment.setListAdapter(adapter);
+
+		}
+
+	}
+
+
+	@Override
+	protected void onPreExecute() {
+		// TODO Auto-generated method stub
+		super.onPreExecute();
+		pg = new ProgressDialog(listFragment.getActivity());
+		pg.setTitle(listFragment.getString(R.string.loading));
+		pg.setMessage(listFragment.getString(R.string.pleasWaitActiveBets));
 		pg.show();
+		
+	}
+
+
+	@Override
+	protected List<ActiveBets> doInBackground(String... params) {
+		// TODO Auto-generated method stub
+		List<ActiveBets> bets = new ArrayList<ActiveBets>();
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getUserActiveBetsByDate");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("userIdString", sharedPreferences.getString("userId", "0")));
+		parameters.add(new BasicNameValuePair("userIdString", params[0]));
 //		parameters.add(new BasicNameValuePair("date", "2014-06-08"));
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
@@ -131,20 +177,9 @@ public class FragmentViewActiveBets extends ListFragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			pg.dismiss();
+			//
 		}
-
-		// TODO Auto-generated method stub
-		if (bets.isEmpty()){
-			Toast.makeText(getActivity(), getString(R.string.toastNoActiveBetsFound), Toast.LENGTH_LONG).show();
-			getActivity().finish();
-		}
-		
- 		AdapterActiveBets adapter = new AdapterActiveBets(inflater.getContext(), bets);
-
-		/** Setting the list adapter for the ListFragment */
-		setListAdapter(adapter);
-		return super.onCreateView(inflater, container, savedInstanceState);
-		
+		return bets;
 	}
+	
 }

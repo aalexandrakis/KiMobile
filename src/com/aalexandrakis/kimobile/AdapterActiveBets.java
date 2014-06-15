@@ -20,6 +20,7 @@ public class AdapterActiveBets extends ArrayAdapter<ActiveBets>{
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.values = values;
+		notifyDataSetChanged();
 	}
 
 	@Override

@@ -24,12 +24,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -46,10 +48,8 @@ import com.aalexandrakis.kimobile.pojos.Draw;
 
 public class FragmentViewDraws extends Fragment {
 	
-	AdapterDraws adapter;
 	SharedPreferences sharedPreferences;
 	FragmentViewDraws viewDraws = this;
-	List<Draw> draws = new ArrayList<Draw>();
 	TextView txtFilterDate;
 	ListView lstDraws;
 	
@@ -84,18 +84,13 @@ public class FragmentViewDraws extends Fragment {
 							getString(R.string.noInternetConnection), getActivity());
 					return;
 				}
-				draws.clear();
 				String date = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
 				if (date != null){
-					getDraws(date, draws);
+					AsyncTaskGetDraws getDraws = new AsyncTaskGetDraws(viewDraws);
+					getDraws.execute(date);
+					
 				}
 				// TODO Auto-generated method stub
-				if (draws.isEmpty()){
-					Toast.makeText(getActivity(), getString(R.string.toastNoDrawsFound), Toast.LENGTH_LONG).show();
-					//getActivity().finish();
-				}
-				adapter = new AdapterDraws(getActivity(), draws);
-		 		lstDraws.setAdapter(adapter);
 			}
 		};
 
@@ -118,29 +113,68 @@ public class FragmentViewDraws extends Fragment {
 
 		///TODO REPEATED CODE    ////////////////////////////////////////////////////////
 		String strDate = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
-		getDraws(strDate, draws);
-		if (draws.isEmpty()){
-			Toast.makeText(getActivity(), getString(R.string.toastNoDrawsFound), Toast.LENGTH_LONG).show();
-		}
-		adapter = new AdapterDraws(getActivity(), draws);
- 		lstDraws.setAdapter(adapter);
+		AsyncTaskGetDraws getDraws = new AsyncTaskGetDraws(viewDraws);
+		getDraws.execute(strDate);
+		
 		////////////////////////////////////////////////////////////////////////////////
 		return view;
 		
 	}
 	
 	
-	void getDraws(String date, List<Draw> draws ){
+}
 
-		ProgressDialog pg = new ProgressDialog(getActivity());
-		pg.setTitle(getString(R.string.loading));
-		pg.setMessage(getString(R.string.pleaseWaitDraws));
+class AsyncTaskGetDraws extends AsyncTask<String, String, String>{
+	FragmentViewDraws viewDraws;
+	ProgressDialog pg;
+	List<Draw> draws = new ArrayList<Draw>();
+	AsyncTaskGetDraws(FragmentViewDraws viewDraws){
+		this.viewDraws = viewDraws;
+	}
+	
+	@Override
+	protected void onPostExecute(String result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		JSONObject jsonResponse;
+		try {
+			jsonResponse = new JSONObject(result);
+			JSONArray jsonMainNode = jsonResponse.optJSONArray("draws");
+	        int lengthJsonArr = jsonMainNode.length(); 
+	        for(int i=0; i < lengthJsonArr; i++) {
+	        	draws.add(convertJsonToDraw(jsonMainNode.getJSONObject(i)));
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pg.dismiss();
+		if(draws.isEmpty()){
+			Toast.makeText(viewDraws.getActivity(), viewDraws.getString(R.string.toastNoDrawsFound), Toast.LENGTH_LONG).show();
+		}
+		
+		AdapterDraws adapter = new AdapterDraws(viewDraws.getActivity(), draws);
+ 		viewDraws.lstDraws.setAdapter(adapter);
+	}
+
+	@Override
+	protected void onPreExecute() {
+		// TODO Auto-generated method stub
+		super.onPreExecute();
+		pg = new ProgressDialog(viewDraws.getActivity());
+		pg.setTitle(viewDraws.getString(R.string.loading));
+		pg.setMessage(viewDraws.getString(R.string.pleaseWaitDraws));
 		pg.show();
+	}
+
+	@Override
+	protected String doInBackground(String... params) {
+		// TODO Auto-generated method stub
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getDrawsByDate");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("drawDate", date));
+		parameters.add(new BasicNameValuePair("drawDate", params[0]));
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
 		} catch (UnsupportedEncodingException e1) {
@@ -155,15 +189,7 @@ public class FragmentViewDraws extends Fragment {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				response.getEntity().writeTo(out);
 				out.close();
-				String responseString = out.toString();
-
-				JSONObject jsonResponse = new JSONObject(responseString);
-                JSONArray jsonMainNode = jsonResponse.optJSONArray("draws");
-                int lengthJsonArr = jsonMainNode.length(); 
-                for(int i=0; i < lengthJsonArr; i++) {
-                	draws.add(convertJsonToDraw(jsonMainNode.getJSONObject(i)));
-				}
-                
+				return out.toString();
 			} else {
 				// Closes the connection.
 				response.getEntity().getContent().close();
@@ -179,12 +205,11 @@ public class FragmentViewDraws extends Fragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			pg.dismiss();
 		}
-		
+
+		return null;
 	}
+	
 }
-
-
  
 

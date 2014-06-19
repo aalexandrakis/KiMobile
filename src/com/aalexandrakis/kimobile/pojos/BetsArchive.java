@@ -56,6 +56,8 @@ public class BetsArchive implements Serializable {
 	Float returnRate;
 
 	Integer draws;
+	
+	Integer notified;
 
 	public BetsArchive() {
 		super();
@@ -251,6 +253,15 @@ public class BetsArchive implements Serializable {
 
 	public void setDraws(Integer draws) {
 		this.draws = draws;
+	}
+
+	
+	public Integer getNotified() {
+		return notified;
+	}
+
+	public void setNotified(Integer notified) {
+		this.notified = notified;
 	}
 
 	public BetsArchive(BigInteger betId, String betDateTime, BigInteger userId,

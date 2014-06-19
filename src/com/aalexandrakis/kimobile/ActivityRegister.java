@@ -22,6 +22,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -152,6 +154,16 @@ public class ActivityRegister extends Activity {
 		String userEmail = params[1];
 		String password = params[2];
 		// TODO Auto-generated method stub
+		/************ Get Reg id ***************/
+        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(register);
+        String regId = null;
+		try {
+			regId = gcm.register(Constants.SENDER_ID);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "saveUser");
@@ -160,6 +172,7 @@ public class ActivityRegister extends Activity {
 		parameters.add(new BasicNameValuePair("userName", userName));
 		parameters.add(new BasicNameValuePair("userEmail", userEmail));
 		parameters.add(new BasicNameValuePair("userPassword", password));
+		parameters.add(new BasicNameValuePair("regId", regId));
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
 		} catch (UnsupportedEncodingException e1) {

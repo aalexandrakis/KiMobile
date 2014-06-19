@@ -35,6 +35,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.aalexandrakis.kimobile.pojos.User;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 public class ActivityLogin extends Activity {
 	EditText txtUserName;
 	EditText txtUserPassword;
@@ -147,6 +148,7 @@ public class ActivityLogin extends Activity {
 			editor.commit();
 			Intent mainMenu = new Intent("com.aalexandrakis.kimobile.ActivityMain");
 			login.startActivity(mainMenu);
+			CommonMethods.checkPlayServices(login);
 			login.finish();
 		}
 	}
@@ -169,12 +171,24 @@ public class ActivityLogin extends Activity {
 		String encryptedPassword = CommonMethods.encryptPassword(params[1]);
 		password = params[1];
 		User user;
+		/************ Get Reg id ***************/
+        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(login);
+        String regId = null;
+		try {
+			regId = gcm.register(Constants.SENDER_ID);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+        
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "login");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("userName", userName));
 		parameters.add(new BasicNameValuePair("password", encryptedPassword));
+		parameters.add(new BasicNameValuePair("regId", regId));
+
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
 		} catch (UnsupportedEncodingException e1) {
@@ -199,6 +213,7 @@ public class ActivityLogin extends Activity {
                 user.setUserEmail(jsonResponse.optString("userEmail"));
                 user.setUserCoins(Float.valueOf(jsonResponse.optString("userCoins")));
                 user.setUserLevel(Integer.valueOf(jsonResponse.optString("userLevel")));
+                
                 return user;
 			} else {
 				// Closes the connection.

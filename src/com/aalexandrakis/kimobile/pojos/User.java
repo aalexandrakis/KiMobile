@@ -27,6 +27,7 @@ public class User  implements java.io.Serializable {
 
     private java.lang.String userPassword;
 
+    private String regId;
     public User() {
     }
 
@@ -36,17 +37,27 @@ public class User  implements java.io.Serializable {
            java.math.BigInteger userId,
            java.lang.Integer userLevel,
            java.lang.String userName,
-           java.lang.String userPassword) {
+           java.lang.String userPassword,
+           java.lang.String regId) {
            this.userCoins = userCoins;
            this.userEmail = userEmail;
            this.userId = userId;
            this.userLevel = userLevel;
            this.userName = userName;
            this.userPassword = userPassword;
+           this.regId = regId;
     }
 
 
-    /**
+    public String getRegId() {
+		return regId;
+	}
+
+	public void setRegId(String regId) {
+		this.regId = regId;
+	}
+
+	/**
      * Gets the userCoins value for this User.
      * 
      * @return userCoins

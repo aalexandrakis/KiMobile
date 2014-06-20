@@ -59,8 +59,9 @@ public class GcmIntentService extends IntentService {
 //                }
                 Log.i("Intentservice", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                sendNotification("Received: " + extras.toString());
-                Log.i("Intentservice", "Received: " + extras.toString());
+                String message = "You have earn " + extras.get("Earnings") + " coins";
+                sendNotification(message);
+                Log.i("Intentservice", message);
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -73,14 +74,14 @@ public class GcmIntentService extends IntentService {
     private void sendNotification(String msg) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
-
+    	//TODO create an activity to display only unnotified bets with return rate
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, ActivityMain.class), 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.ic_launcher)
-        .setContentTitle("GCM Notification")
+        .setSmallIcon(R.drawable.kimo)
+        .setContentTitle("Congratsulations")
         .setStyle(new NotificationCompat.BigTextStyle()
         .bigText(msg))
         .setContentText(msg);

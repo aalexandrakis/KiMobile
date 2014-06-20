@@ -5,8 +5,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -46,22 +47,12 @@ public class GcmIntentService extends IntentService {
                 sendNotification("Deleted messages on server: " +
                         extras.toString());
             // If it's a regular GCM message, do some work.
-            } else if (GoogleCloudMessaging.
-                    MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                // This loop represents the service doing some work.
-//                for (int i=0; i<5; i++) {
-//                    Log.i("Intentservice", "Working... " + (i+1)
-//                            + "/5 @ " + SystemClock.elapsedRealtime());
-//                    try {
-//                        Thread.sleep(5000);
-//                    } catch (InterruptedException e) {
-//                    }
-//                }
-                Log.i("Intentservice", "Completed work @ " + SystemClock.elapsedRealtime());
+            } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
+                //Log.i("Intentservice", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
                 String message = "You have earn " + extras.get("Earnings") + " coins";
                 sendNotification(message);
-                Log.i("Intentservice", message);
+                //Log.i("Intentservice", message);
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -74,17 +65,18 @@ public class GcmIntentService extends IntentService {
     private void sendNotification(String msg) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
-    	//TODO create an activity to display only unnotified bets with return rate
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, ActivityMain.class), 0);
-
+                new Intent(this, ActivityViewUnnotifiedBets.class), 0);
+        Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
         .setSmallIcon(R.drawable.kimo)
         .setContentTitle("Congratsulations")
         .setStyle(new NotificationCompat.BigTextStyle()
         .bigText(msg))
-        .setContentText(msg);
+        .setContentText(msg)
+        .setSound(uri)
+        .setAutoCancel(true);
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

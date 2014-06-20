@@ -106,17 +106,30 @@
             android:configChanges="orientation"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="com.aalexandrakis.kimobile" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="com.aalexandrakis.kimobile.ActivityViewArchiveBets" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             
         </activity>
+        
+        <activity
+            android:name="com.aalexandrakis.kimobile.ActivityViewUnnotifiedBets"
+            android:configChanges="orientation"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.aalexandrakis.kimobile" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.aalexandrakis.kimobile.ActivityViewUnnotifiedBets" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            
+        </activity>
+        
         <activity
             android:name="com.aalexandrakis.kimobile.ActivityViewDraws"
             android:configChanges="orientation"

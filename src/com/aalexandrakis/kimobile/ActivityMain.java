@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 //TODO display remaining time for the draw, user coins and user level
 //TODO hide keyboard on click
 public class ActivityMain extends FragmentActivity {
@@ -23,9 +24,10 @@ public class ActivityMain extends FragmentActivity {
 	Button btnMyArchiveBets;
 	Button btnDrawHistory;
 	Button btnUpdateAccount;
-	Activity activity = this;
 	FrameLayout secondFragment;
-
+	TextView txtNextDrawAt;
+	TextView txtCoins;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,6 +35,9 @@ public class ActivityMain extends FragmentActivity {
 				MODE_PRIVATE);
 		setContentView(R.layout.activity_main);
 		secondFragment = (FrameLayout) findViewById(R.id.secondFragment);
+		txtNextDrawAt = (TextView) findViewById(R.id.txtNextDraw);
+		txtCoins = (TextView) findViewById(R.id.txtCoins);
+	
 		if (secondFragment != null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager
@@ -47,6 +52,7 @@ public class ActivityMain extends FragmentActivity {
 		btnMyArchiveBets = (Button) findViewById(R.id.btnMyArchiveBets);
 		btnDrawHistory = (Button) findViewById(R.id.btnDrawHistory);
 		btnUpdateAccount = (Button) findViewById(R.id.btnUpdateAccount);
+		
 		final Activity activity = this;
 		btnPlayNow.setOnClickListener(new OnClickListener() {
 			@Override
@@ -184,7 +190,19 @@ public class ActivityMain extends FragmentActivity {
 
 			}
 		});
-
+		
+		AsyncTaskGetNextDrawAndUserCoins getInfo = new AsyncTaskGetNextDrawAndUserCoins(this);
+		getInfo.execute(sharedPreferences.getString("userId", "0"));
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		AsyncTaskGetNextDrawAndUserCoins getInfo = new AsyncTaskGetNextDrawAndUserCoins(this);
+		getInfo.execute(sharedPreferences.getString("userId", "0"));
+	}
+
+	
 }
+

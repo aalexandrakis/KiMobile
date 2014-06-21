@@ -19,6 +19,8 @@
     <string name="minus">-</string>
     <string name="coins">Coins</string>
     <string name="loginToPlayAgain">Login To Play Again</string>
+    <string name="nextDrawAt">Next Draw At</string>
+    
     <!-- login strings -->
     <string name="userName">User Name</string>
     <string name="connect">Connect</string>

@@ -49,6 +49,12 @@
             android:text="@string/updateMyAccount"
             style="@style/KimoButton" />
 
+        <Button
+            android:id="@+id/btnBuyCoins"
+            android:layout_marginTop="2dp"
+            android:text="@string/buy_coins"
+            style="@style/KimoButton" />
+        
        
 
     </LinearLayout>

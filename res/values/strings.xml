@@ -105,4 +105,9 @@
     <string name="pleaseWaitDraws">Please wait to load draws</string>
     <string name="drawDate">Draw date</string>
     
+    <!-- buy coins strings -->
+    <string name="coins_to_buy">Coins to buy</string>
+    <string name="buy_coins">Buy coins</string>
+    <string name="paymentError">Error in payment</string>
+    <string name="amount_must_not_be_empty">Please type how many coins you want to buy.</string>
 </resources>

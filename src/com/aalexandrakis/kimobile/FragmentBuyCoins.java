@@ -89,8 +89,8 @@ public class FragmentBuyCoins extends Fragment {
 						// Set the payment type--his can be PAYMENT_TYPE_GOODS,
 						// PAYMENT_TYPE_SERVICE, PAYMENT_TYPE_PERSONAL, or PAYMENT_TYPE_NONE
 						payment.setPaymentType(PayPal.PAYMENT_TYPE_SERVICE);
-						payment.setMerchantName("Alexandrakis Alexandros");
-						
+						payment.setMerchantName("KiMobile Application");
+						payment.setCustomID(sharedPreferences.getString("userId", ""));
 						// PayPalInvoiceData can contain tax and shipping amounts, and an
 						// ArrayList of PayPalInvoiceItem that you can fill out.
 						// These are not required for any transaction.
@@ -136,6 +136,7 @@ public class FragmentBuyCoins extends Fragment {
 //		    Toast.makeText(getActivity() ,resultTitle , Toast.LENGTH_SHORT).show();
 		    CommonMethods.showErrorDialog(getString(R.string.paymentError), resultTitle, getActivity());
 		    System.out.println("PayKey " + payKey);
+		    System.out.println("Request Code  " + requestCode);
 		 }
 	}
 
@@ -150,133 +151,3 @@ public class FragmentBuyCoins extends Fragment {
         super.onResume();
     }
 }
-
-
-
-//class AsyncTaskBuyCoins extends AsyncTask<String, String, String>  {
-//	 
-//	FragmentBuyCoins buyCoins;
-//	public static final String METHOD = "saveBet";
-//	boolean error = false;
-//	ProgressDialog pg;
-//	AsyncTaskBuyCoins(FragmentBuyCoins buyCoins){
-//		this.buyCoins = buyCoins;
-//	}
-//	 @SuppressLint("ShowToast")
-//	@Override
-//	protected void onPostExecute(String result) {
-//		// TODO Auto-generated method stub
-//		super.onPostExecute(result);
-//		pg.dismiss();
-//		if (error == true || result == null || result.equals("40")){
-//			showErrorDialog(buyCoins.getString(R.string.betError), buyCoins.getString(R.string.youCanntConnect), buyCoins.getFragmentManager());
-//		} else if (result.equals("10")){
-//			showErrorDialog(buyCoins.getString(R.string.betError), buyCoins.getString(R.string.gameTypeError), buyCoins.getFragmentManager());
-//			buyCoins.txtGameType.requestFocus();			
-//		} else if (result.equals("11")){
-//			showErrorDialog(buyCoins.getString(R.string.betError), buyCoins.getString(R.string.notEnoughCoins), buyCoins.getFragmentManager());
-//			buyCoins.txtGameType.requestFocus();			
-//		} else if (result.equals("00")){
-//			Toast.makeText(buyCoins.getActivity(), buyCoins.getString(R.string.toastBetAddedSuccessfully), Toast.LENGTH_LONG).show();
-//			buyCoins.reset();
-//		}
-//		
-//		
-//	}
-//
-//
-//	@Override
-//	protected void onPreExecute() {
-//		// TODO Auto-generated method stub
-//		super.onPreExecute();
-//		pg = new ProgressDialog(buyCoins.getActivity());
-//		pg.setTitle(buyCoins.getString(R.string.betting));
-//		pg.setMessage(buyCoins.getString(R.string.waitToSaveYourBet));
-//		pg.show();
-//	}
-//
-//
-//	@Override
-//	 protected String doInBackground(String... params) {
-//		String userId = params[0];
-//		Integer repeatedDraws = Integer.valueOf(params[1]);
-//		Integer randomChoice = Integer.valueOf(params[2]);
-//		Integer gameType = Integer.valueOf(params[3]);
-//		Integer multiplier = Integer.valueOf(params[4]);
-//		Integer number1 = Integer.valueOf(params[5]);
-//		Integer number2 = Integer.valueOf(params[6]);
-//		Integer number3 = Integer.valueOf(params[7]);
-//		Integer number4 = Integer.valueOf(params[8]);
-//		Integer number5 = Integer.valueOf(params[9]);
-//		Integer number6 = Integer.valueOf(params[10]);
-//		Integer number7 = Integer.valueOf(params[11]);
-//		Integer number8 = Integer.valueOf(params[12]);
-//		Integer number9 = Integer.valueOf(params[13]);
-//		Integer number10 = Integer.valueOf(params[14]);
-//		Integer number11 = Integer.valueOf(params[15]);
-//		Integer number12 = Integer.valueOf(params[16]);
-//		// TODO implement random choice
-//         HttpClient httpclient = new DefaultHttpClient();
-// 		HttpResponse response;
-// 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "saveBet");
-// 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-// 		parameters.add(new BasicNameValuePair("userIdString", userId));
-// 		parameters.add(new BasicNameValuePair("repeatedDraws", repeatedDraws.toString()));
-// 		parameters.add(new BasicNameValuePair("randomChoice", randomChoice.toString()));
-// 		parameters.add(new BasicNameValuePair("gameType", gameType.toString()));
-// 		parameters.add(new BasicNameValuePair("multiplier", multiplier.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber1", number1.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber2", number2.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber3", number3.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber4", number4.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber5", number5.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber6", number6.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber7", number7.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber8", number8.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber9", number9.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber10", number10.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber11", number11.toString()));
-// 		parameters.add(new BasicNameValuePair("betNumber12", number12.toString()));
-//
-// 		try {
-// 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-// 		} catch (UnsupportedEncodingException e1) {
-// 			// TODO Auto-generated catch block
-// 			e1.printStackTrace();
-// 		}
-// 		try {
-// 			response = httpclient.execute(httpPost);
-// 			
-// 			StatusLine statusLine = response.getStatusLine();
-// 			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-// 				ByteArrayOutputStream out = new ByteArrayOutputStream();
-// 				response.getEntity().writeTo(out);
-// 				out.close();
-// 				String responseString = out.toString();
-// 				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-//                 JSONObject jsonResponse = new JSONObject(responseString);
-//                 return jsonResponse.optString("responseCode");
-// 			} else {
-// 				// Closes the connection.
-// 				response.getEntity().getContent().close();
-// 				throw new IOException(statusLine.getReasonPhrase());
-// 			}
-// 		} catch (ClientProtocolException e) {
-// 			// TODO Auto-generated catch block
-// 			e.printStackTrace();
-// 			error = false;
-// 		} catch (IOException e) {
-// 			// TODO Auto-generated catch block
-// 			e.printStackTrace();
-// 			error = false;
-// 		} catch (Exception e) {
-// 			// TODO Auto-generated catch block
-// 			e.printStackTrace();
-// 			error = false;
-// 		}
-//
-//	 	return null;
-//	 }	
-//}
-// 
-

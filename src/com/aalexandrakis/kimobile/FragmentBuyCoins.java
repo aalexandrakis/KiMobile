@@ -2,7 +2,6 @@ package com.aalexandrakis.kimobile;
 
 import java.math.BigDecimal;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -68,7 +67,6 @@ public class FragmentBuyCoins extends Fragment {
 			// The OnClick listener for the checkout button
 			launchPayPalButton.setOnClickListener(new OnClickListener() {
 				
-				@SuppressLint("NewApi")
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
@@ -82,7 +80,7 @@ public class FragmentBuyCoins extends Fragment {
 					payment.setRecipient("aalexandrakis@hotmail.com");
 
 					// Set the payment amount, excluding tax and shipping costs
-					if (coinsToBuy.getText().toString().isEmpty()){
+					if (coinsToBuy.getText().toString().equals("")){
 						CommonMethods.showErrorDialog(getString(R.string.paymentError), getString(R.string.amount_must_not_be_empty),  getActivity());
 						launchPayPalButton.updateButton();
 					} else {
@@ -90,8 +88,9 @@ public class FragmentBuyCoins extends Fragment {
 	
 						// Set the payment type--his can be PAYMENT_TYPE_GOODS,
 						// PAYMENT_TYPE_SERVICE, PAYMENT_TYPE_PERSONAL, or PAYMENT_TYPE_NONE
-						payment.setPaymentType(PayPal.PAYMENT_TYPE_GOODS);
-	
+						payment.setPaymentType(PayPal.PAYMENT_TYPE_SERVICE);
+						payment.setMerchantName("Alexandrakis Alexandros");
+						
 						// PayPalInvoiceData can contain tax and shipping amounts, and an
 						// ArrayList of PayPalInvoiceItem that you can fill out.
 						// These are not required for any transaction.

@@ -51,7 +51,7 @@ public class FragmentBuyCoins extends Fragment {
 		//Paypal instatiation
 		PayPal pp = PayPal.getInstance();
 
-		if (pp == null) {  // Test to see if the library is already initialized
+//		if (pp == null) {  // Test to see if the library is already initialized
 	
 			// This main initialization call takes your Context, AppID, and target server
 			pp = PayPal.initWithAppID(getActivity(), "APP-80W284485P519543T", PayPal.ENV_SANDBOX);
@@ -98,8 +98,8 @@ public class FragmentBuyCoins extends Fragment {
 	
 						// Set the tax amount
 //						invoice.setTax(new BigDecimal("23"));
-						 Intent paypalIntent = PayPal.getInstance().checkout(payment, getActivity(), new ResultDelegate());
-						 startActivityForResult(paypalIntent, 1);
+						Intent paypalIntent = PayPal.getInstance().checkout(payment, getActivity(), new ResultDelegate(sharedPreferences.getString("userId", "")));
+						startActivityForResult(paypalIntent, 1);
 					}
 				}
 			});
@@ -115,7 +115,7 @@ public class FragmentBuyCoins extends Fragment {
 			((LinearLayout) view.findViewById(R.id.buyCoinsLayout)).addView(launchPayPalButton);
 			((LinearLayout) view.findViewById(R.id.buyCoinsLayout)).setGravity(Gravity.CENTER_HORIZONTAL);
 
-		}
+//		}
 
 		
 		return view;
@@ -134,9 +134,16 @@ public class FragmentBuyCoins extends Fragment {
 	    	return;
 	    } else {
 //		    Toast.makeText(getActivity() ,resultTitle , Toast.LENGTH_SHORT).show();
-		    CommonMethods.showErrorDialog(getString(R.string.paymentError), resultTitle, getActivity());
-		    System.out.println("PayKey " + payKey);
-		    System.out.println("Request Code  " + requestCode);
+	    	if (resultTitle.equals("SUCCESS")){
+	    		CommonMethods.showErrorDialog(getString(R.string.paymentOk), getString(R.string.payment_thank_you), getActivity());
+	    		launchPayPalButton.updateButton();
+	    		getActivity().finish();
+	    	} else {
+	    		CommonMethods.showErrorDialog(getString(R.string.paymentError), resultInfo + "\n" + resultExtra, getActivity());
+	    		launchPayPalButton.updateButton();
+	    	}	
+//		    System.out.println("PayKey " + payKey);
+//		    System.out.println("Request Code  " + requestCode);
 		 }
 	}
 

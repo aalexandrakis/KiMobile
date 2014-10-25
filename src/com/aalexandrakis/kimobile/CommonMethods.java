@@ -1,6 +1,8 @@
 package com.aalexandrakis.kimobile;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -12,6 +14,13 @@ import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -207,6 +216,42 @@ public class CommonMethods {
 	        return false;
 	    }
 	    return true;
+	}
+	
+	static String httpGetCall(String url){
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpResponse response;
+		HttpGet httpGet = new HttpGet(url);
+
+		try {
+			response = httpclient.execute(httpGet);
+			
+			StatusLine statusLine = response.getStatusLine();
+			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				response.getEntity().writeTo(out);
+				out.close();
+				System.out.println(out.toString());
+				return out.toString();
+			} else {
+				// Closes the connection.
+				response.getEntity().getContent().close();
+				throw new IOException(statusLine.getReasonPhrase());
+			}
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 	/**
 	 * Gets the current registration ID for application on GCM service.

@@ -1824,7 +1824,7 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f05002b;
-        public static final int amount_must_not_be_empty=0x7f050085;
+        public static final int amount_must_not_be_empty=0x7f050087;
         public static final int app_name=0x7f05002d;
         public static final int auth_client_needs_enabling_title=0x7f050001;
         public static final int auth_client_needs_installation_title=0x7f050002;
@@ -1977,6 +1977,8 @@ containing a value of this type.
         public static final int passwordChangeSuccessfully=0x7f050056;
         public static final int passwordNotEqualWithRepeated=0x7f05004a;
         public static final int paymentError=0x7f050084;
+        public static final int paymentOk=0x7f050085;
+        public static final int payment_thank_you=0x7f050086;
         /**  main menu 
          */
         public static final int playNow=0x7f05005b;

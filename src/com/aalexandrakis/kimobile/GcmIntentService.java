@@ -17,7 +17,7 @@ public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
-
+    
     public GcmIntentService() {
         super("GcmIntentService");
     }
@@ -41,17 +41,25 @@ public class GcmIntentService extends IntentService {
              */
             if (GoogleCloudMessaging.
                     MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-                sendNotification("Send error: " + extras.toString());
+                sendNotification("Send error: " + extras.toString(), "An error occured");
             } else if (GoogleCloudMessaging.
                     MESSAGE_TYPE_DELETED.equals(messageType)) {
                 sendNotification("Deleted messages on server: " +
-                        extras.toString());
+                        extras.toString(), "An error occured");
             // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 //Log.i("Intentservice", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                String message = "You have earn " + extras.get("Earnings") + " coins";
-                sendNotification(message);
+            	String message = null;
+            	String title = null;
+            	if (extras.get("Type").equals("WIN_NOTIFICATION")) {
+            		message = "You have earn " + extras.get("Earnings") + " coins";
+            		title = "Congratsulations";
+            	} else if (extras.get("Type").equals("COINS_ADDED_NOTIFICATION")) {
+            		message = extras.get("Description").toString();
+            		title = "Good Luck";
+            	}
+                sendNotification(message, title);
                 //Log.i("Intentservice", message);
             }
         }
@@ -62,7 +70,7 @@ public class GcmIntentService extends IntentService {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-    private void sendNotification(String msg) {
+    private void sendNotification(String msg, String title) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
@@ -71,7 +79,7 @@ public class GcmIntentService extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
         .setSmallIcon(R.drawable.kimo)
-        .setContentTitle("Congratsulations")
+        .setContentTitle(title)
         .setStyle(new NotificationCompat.BigTextStyle()
         .bigText(msg))
         .setContentText(msg)

@@ -101,7 +101,7 @@ class AsyncTaskActiveBets extends AsyncTask<String, List<ActiveBets>, List<Activ
 		List<ActiveBets> bets = new ArrayList<ActiveBets>();
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getUserActiveBetsByDate");
+		HttpPost httpPost = new HttpPost(Constants.REST_URL + "viewActvebets");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("userIdString", params[0]));
 //		parameters.add(new BasicNameValuePair("date", "2014-06-08"));

@@ -163,7 +163,7 @@ class AsyncTaskUnnotifiedBets extends AsyncTask<String, String, String>{
 		// TODO Auto-generated method stub
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getUserUnnotifiedBets");
+		HttpPost httpPost = new HttpPost(Constants.REST_URL + "/viewOldBets/unNotifiedBets");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("userIdString", params[0]));
 		try {

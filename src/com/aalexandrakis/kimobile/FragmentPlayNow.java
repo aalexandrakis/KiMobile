@@ -19,6 +19,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -1059,18 +1060,22 @@ class AsyncTaskSaveBet extends AsyncTask<String, String, String>  {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		pg.dismiss();
-		if (error == true || result == null || result.equals("40")){
-			showErrorDialog(playNow.getString(R.string.betError), playNow.getString(R.string.youCanntConnect), playNow.getFragmentManager());
-		} else if (result.equals("10")){
-			showErrorDialog(playNow.getString(R.string.betError), playNow.getString(R.string.gameTypeError), playNow.getFragmentManager());
-			playNow.txtGameType.requestFocus();			
-		} else if (result.equals("11")){
-			showErrorDialog(playNow.getString(R.string.betError), playNow.getString(R.string.notEnoughCoins), playNow.getFragmentManager());
-			playNow.txtGameType.requestFocus();			
-		} else if (result.equals("00")){
-			Toast.makeText(playNow.getActivity(), playNow.getString(R.string.toastBetAddedSuccessfully), Toast.LENGTH_LONG).show();
-			playNow.reset();
+		JSONObject json;
+		try {
+			json = new JSONObject(result);
+			String status = json.optString("status");
+			String message = json.optString("message");
+			if (error == true || result == null || !status.equals("00")){
+				showErrorDialog(playNow.getString(R.string.betError), message, playNow.getFragmentManager());
+			} else if (status.equals("00")){
+				Toast.makeText(playNow.getActivity(), playNow.getString(R.string.toastBetAddedSuccessfully), Toast.LENGTH_LONG).show();
+				playNow.reset();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		
 		
 	}
@@ -1109,9 +1114,9 @@ class AsyncTaskSaveBet extends AsyncTask<String, String, String>  {
 		// TODO implement random choice
          HttpClient httpclient = new DefaultHttpClient();
  		HttpResponse response;
- 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "saveBet");
+ 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "playNow");
  		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
- 		parameters.add(new BasicNameValuePair("userIdString", userId));
+ 		parameters.add(new BasicNameValuePair("userId", userId));
  		parameters.add(new BasicNameValuePair("repeatedDraws", repeatedDraws.toString()));
  		parameters.add(new BasicNameValuePair("randomChoice", randomChoice.toString()));
  		parameters.add(new BasicNameValuePair("gameType", gameType.toString()));

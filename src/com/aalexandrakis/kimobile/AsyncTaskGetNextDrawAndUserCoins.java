@@ -13,6 +13,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -20,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class AsyncTaskGetNextDrawAndUserCoins extends AsyncTask<String, String, String>{
 	ActivityMain activity;
@@ -65,16 +67,16 @@ public class AsyncTaskGetNextDrawAndUserCoins extends AsyncTask<String, String, 
 		String responseString = null;
 	    HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getNextDrawAndUserCoins");
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("userId", userId));
-		
-		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		HttpGet httpPost = new HttpGet(Constants.REST_URL + "info/" + userId);
+//		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+//		parameters.add(new BasicNameValuePair("userId", userId));
+//		
+//		try {
+//			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
+//		} catch (UnsupportedEncodingException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		try {
 			response = httpclient.execute(httpPost);
 			

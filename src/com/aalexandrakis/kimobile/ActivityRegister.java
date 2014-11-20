@@ -166,7 +166,7 @@ public class ActivityRegister extends Activity {
 
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "saveUser");
+		HttpPost httpPost = new HttpPost(Constants.REST_URL + "signUp");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("userIdString", "0"));
 		parameters.add(new BasicNameValuePair("userName", userName));

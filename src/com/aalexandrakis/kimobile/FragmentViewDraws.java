@@ -172,9 +172,11 @@ class AsyncTaskGetDraws extends AsyncTask<String, String, String>{
 		// TODO Auto-generated method stub
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getDrawsByDate");
+		HttpPost httpPost = new HttpPost(Constants.REST_URL + "viewDraws");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("drawDate", params[0]));
+		parameters.add(new BasicNameValuePair("dateFrom", params[0]));
+		parameters.add(new BasicNameValuePair("dateTo", params[0]));
+
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
 		} catch (UnsupportedEncodingException e1) {

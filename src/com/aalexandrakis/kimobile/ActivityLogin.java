@@ -183,7 +183,7 @@ public class ActivityLogin extends Activity {
         
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "login");
+		HttpPost httpPost = new HttpPost(Constants.REST_URL + "signIn");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("userName", userName));
 		parameters.add(new BasicNameValuePair("password", encryptedPassword));

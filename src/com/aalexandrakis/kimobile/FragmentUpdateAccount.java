@@ -16,7 +16,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -179,12 +179,12 @@ public class FragmentUpdateAccount extends Fragment {
 		// TODO Auto-generated method stub
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "saveUser");
+		HttpPut httpPost = new HttpPut(Constants.REST_URL + "myAccount");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("userIdString", userId));
+		parameters.add(new BasicNameValuePair("userId", userId));
 		parameters.add(new BasicNameValuePair("userName", userName));
-		parameters.add(new BasicNameValuePair("userEmail", userEmail));
-		parameters.add(new BasicNameValuePair("userPassword", password));
+		parameters.add(new BasicNameValuePair("email", userEmail));
+		parameters.add(new BasicNameValuePair("password", password));
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
 		} catch (UnsupportedEncodingException e1) {

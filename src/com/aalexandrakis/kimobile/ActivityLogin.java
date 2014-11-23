@@ -4,13 +4,14 @@ import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
 import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
 import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -21,6 +22,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -36,6 +38,8 @@ import android.widget.EditText;
 
 import com.aalexandrakis.kimobile.pojos.User;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import java.net.HttpURLConnection;
+
 public class ActivityLogin extends Activity {
 	EditText txtUserName;
 	EditText txtUserPassword;
@@ -122,7 +126,7 @@ public class ActivityLogin extends Activity {
 	ActivityLogin login;
 	public static final String METHOD = "login";
 	boolean error = false;
-	ProgressDialog pg;
+	ProgressDialog httpPost;
 	String password;
 	AsyncTaskLogin(ActivityLogin login){
 		this.login = login;
@@ -131,7 +135,7 @@ public class ActivityLogin extends Activity {
 	protected void onPostExecute(User user) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(user);
-		pg.dismiss();
+		httpPost.dismiss();
 		if (error){
 			showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.youCanntConnect), login);
 		} else if (user == null){
@@ -158,10 +162,10 @@ public class ActivityLogin extends Activity {
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
-		pg = new ProgressDialog(login);
-		pg.setTitle(login.getString(R.string.logingIn));
-		pg.setMessage(login.getString(R.string.waitToConfirmCredentials));
-		pg.show();
+		httpPost = new ProgressDialog(login);
+		httpPost.setTitle(login.getString(R.string.logingIn));
+		httpPost.setMessage(login.getString(R.string.waitToConfirmCredentials));
+		httpPost.show();
 	}
 
 
@@ -180,59 +184,66 @@ public class ActivityLogin extends Activity {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-        
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "signIn");
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("userName", userName));
-		parameters.add(new BasicNameValuePair("password", encryptedPassword));
-		parameters.add(new BasicNameValuePair("regId", regId));
 
 		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			response = httpclient.execute(httpPost);
-			
-			StatusLine statusLine = response.getStatusLine();
-			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				response.getEntity().writeTo(out);
-				out.close();
-				String responseString = out.toString();
-				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-                JSONObject jsonResponse = new JSONObject(responseString);
-                user = new User();
-                /***** Returns the value mapped by name if it exists and is a JSONArray. ***/
-                user.setUserId(new BigInteger(jsonResponse.optString("userId")));
-                user.setUserName(jsonResponse.optString("userName"));
-                user.setUserEmail(jsonResponse.optString("userEmail"));
-                user.setUserCoins(Float.valueOf(jsonResponse.optString("userCoins")));
-                user.setUserLevel(Integer.valueOf(jsonResponse.optString("userLevel")));
-                
-                return user;
-			} else {
-				// Closes the connection.
-				response.getEntity().getContent().close();
-				throw new IOException(statusLine.getReasonPhrase());
+			URL url = new URL(Constants.REST_URL + "signIn");
+			HttpURLConnection httpPost = (HttpURLConnection) url.openConnection();
+			httpPost.setRequestMethod("POST");
+			httpPost.setRequestProperty("host", "192.168.1.2:3000");
+			httpPost.setRequestProperty("connection", "keep-alive");
+			httpPost.setRequestProperty("accept", "application/json, text/plain, */*");
+			httpPost.setRequestProperty("origin", "http://192.168.1.2:3000");
+//			httpPost.setRequestProperty("'user-agent': 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36',
+			httpPost.setRequestProperty("content-type", "charset=UTF-8");
+			httpPost.setRequestProperty("referer", "http://192.168.1.2:3000/");
+			httpPost.setRequestProperty("accept-encoding", "gzip, deflate");
+			httpPost.setRequestProperty("accept-language", "en-US,en;q=0.8");
+			httpPost.setRequestProperty("Content-Length", Integer.toString(regId.length() + 6));
+			httpPost.setRequestProperty("Authorization", "Basic " + new String(Base64.encode((userName + ":" + encryptedPassword).getBytes(), Base64.DEFAULT)));
+			httpPost.setDoOutput(true);
+			httpPost.setDoInput(true);
+			DataOutputStream wr = new DataOutputStream(httpPost.getOutputStream());
+			wr.write(("regId=" + regId).getBytes("UTF-8"));
+			wr.flush();
+			wr.close();
+			httpPost.setInstanceFollowRedirects(false);
+			httpPost.setConnectTimeout(3000);
+			httpPost.connect();
+			int responseCode = httpPost.getResponseCode();
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(httpPost.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
 			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
+			in.close();
+			httpPost.disconnect();
+			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+			JSONObject jsonResponse = new JSONObject(response.toString());
+			user = new User();
+			/***** Returns the value mapped by name if it exists and is a JSONArray. ***/
+			user.setUserId(new BigInteger(jsonResponse.optString("userId")));
+			user.setUserName(jsonResponse.optString("userName"));
+			user.setUserEmail(jsonResponse.optString("userEmail"));
+			user.setUserCoins(Float.valueOf(jsonResponse.optString("userCoins")));
+			user.setUserLevel(Integer.valueOf(jsonResponse.optString("userLevel")));
+
+			return user;
+		} catch (MalformedURLException e){
 			e.printStackTrace();
 			error = true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException e){
 			e.printStackTrace();
 			error = true;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		}catch (JSONException e){
 			e.printStackTrace();
+			error = true;
 		}
-	 	return null;
+
+		return null;
+
 	 }	
 
 }

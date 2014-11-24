@@ -297,7 +297,7 @@ public class CommonMethods {
 	 *
 	 * @param method GET, POST...
 	 * @param route nodejs route signIn, singUp...
-	 * @param parameters if method is GET then /param1/param2 else JSONObject
+	 * @param parameters if method is GET then param1/param2 else JSONObject
 	 * @param authHeader
 	 * @param activityContext
 	 * @return
@@ -319,7 +319,9 @@ public class CommonMethods {
 			conn.setRequestProperty("User-Agent", "");
 			conn.setRequestProperty("Accept", "application/json, text/plain, */*");
 			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
-			conn.setRequestProperty("Authorization", "Basic " + authHeader);
+			if (authHeader != null) {
+				conn.setRequestProperty("Authorization", "Basic " + authHeader);
+			}
 			conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 			conn.setRequestProperty("Connection", "Keep-Alive");
 			conn.setDoOutput(true);
@@ -359,6 +361,18 @@ public class CommonMethods {
 			return true;
 		}
 	};
+
+	public static String convertSqlDateStringToEuroDate(String sqlDate){
+		DateFormat dfInput = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		DateFormat dfOutput = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+		try {
+			Date date = dfInput.parse(sqlDate);
+			return dfOutput.format(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	/**
 	 * Gets the current registration ID for application on GCM service.
 	 * <p>

@@ -224,7 +224,7 @@ public class ActivityMain extends FragmentActivity {
 		});
 		
 		AsyncTaskGetNextDrawAndUserCoins getInfo = new AsyncTaskGetNextDrawAndUserCoins(this);
-		getInfo.execute(sharedPreferences.getString("userId", "0"));
+		getInfo.execute(sharedPreferences.getString("userId", "0"), sharedPreferences.getString("userName", ""), sharedPreferences.getString("userPassword", ""));
 	}
 
 	@Override
@@ -232,7 +232,7 @@ public class ActivityMain extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		AsyncTaskGetNextDrawAndUserCoins getInfo = new AsyncTaskGetNextDrawAndUserCoins(this);
-		getInfo.execute(sharedPreferences.getString("userId", "0"));
+		getInfo.execute(sharedPreferences.getString("userId", "0"), sharedPreferences.getString("userName", ""), sharedPreferences.getString("userPassword", ""));
 	}
 
 	

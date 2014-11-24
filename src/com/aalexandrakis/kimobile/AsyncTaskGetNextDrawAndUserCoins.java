@@ -1,20 +1,9 @@
 package com.aalexandrakis.kimobile;
 
 import android.os.AsyncTask;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-public class AsyncTaskGetNextDrawAndUserCoins extends AsyncTask<String, String, String>{
+public class AsyncTaskGetNextDrawAndUserCoins extends AsyncTask<String, JSONObject, JSONObject>{
 	ActivityMain activity;
 	
 	AsyncTaskGetNextDrawAndUserCoins(ActivityMain activity){
@@ -28,72 +17,22 @@ public class AsyncTaskGetNextDrawAndUserCoins extends AsyncTask<String, String, 
 	}
 
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(JSONObject jsonResponse) {
 		// TODO Auto-generated method stub
-		super.onPostExecute(result);
-	}
+		super.onPostExecute(jsonResponse);
 
-	@Override
-	protected void onProgressUpdate(String... values) {
-		// TODO Auto-generated method stub
-		super.onProgressUpdate(values);
-		JSONObject json;
-		try {
-			json = new JSONObject(values[0]);
-//			Log.d("next draw timestamp", json.optString("nextDraw"));
-//			Log.d("user coins", json.optString("user coins"));
-			activity.txtNextDrawAt.setText(json.optString("nextDraw").substring(0, 19));
-			activity.txtCoins.setText(json.optString("userCoins"));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		activity.txtNextDrawAt.setText(CommonMethods.convertSqlDateStringToEuroDate(jsonResponse.optString("nextDraw")));
+		activity.txtCoins.setText(jsonResponse.optString("userCoins"));
 
 	}
 
 	@Override
-	protected String doInBackground(String... params) {
+	protected JSONObject doInBackground(String... params) {
 		// TODO Auto-generated method stub
 		String userId = params[0];
-		String responseString = null;
-	    HttpClient httpclient = new DefaultHttpClient();
-		HttpResponse response;
-		HttpGet httpPost = new HttpGet(Constants.REST_URL + "info/" + userId);
-//		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-//		parameters.add(new BasicNameValuePair("userId", userId));
-//		
-//		try {
-//			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-//		} catch (UnsupportedEncodingException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-		try {
-			response = httpclient.execute(httpPost);
-			
-			StatusLine statusLine = response.getStatusLine();
-			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				response.getEntity().writeTo(out);
-				out.close();
-				responseString =  out.toString();
-				publishProgress(responseString);
-        	} else {
-				// Closes the connection.
-				response.getEntity().getContent().close();
-				throw new IOException(statusLine.getReasonPhrase());
-			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return responseString;
+
+		JSONObject jsonResponse = CommonMethods.httpsUrlConnection("GET", "info",  userId, null, activity);
+		return jsonResponse;
 	}
 	
 }

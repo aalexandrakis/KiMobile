@@ -22,6 +22,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -50,7 +51,7 @@ public class FragmentViewActiveBets extends ListFragment {
 
 		// TODO Auto-generated method stub
 		AsyncTaskActiveBets getActiveBets = new AsyncTaskActiveBets(listFragment);
-		getActiveBets.execute(sharedPreferences.getString("userId", "0"));
+		getActiveBets.execute(sharedPreferences.getString("token", ""));
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 }
@@ -96,88 +97,41 @@ class AsyncTaskActiveBets extends AsyncTask<String, List<ActiveBets>, List<Activ
 	@Override
 	protected List<ActiveBets> doInBackground(String... params) {
 		// TODO Auto-generated method stub
-		List<ActiveBets> bets = new ArrayList<ActiveBets>();
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "viewActvebets");
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("userIdString", params[0]));
-//		parameters.add(new BasicNameValuePair("date", "2014-06-08"));
-		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			response = httpclient.execute(httpPost);
-			
-			StatusLine statusLine = response.getStatusLine();
-			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				response.getEntity().writeTo(out);
-				out.close();
-				String responseString = out.toString();
-				ActiveBets bet;
-				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-                JSONObject jsonResponse = new JSONObject(responseString);
-                  
-                /***** Returns the value mapped by name if it exists and is a JSONArray. ***/
-                /*******  Returns null otherwise.  *******/
-                JSONArray jsonMainNode = jsonResponse.optJSONArray("bets");
-                  
-                /*********** Process each JSON Node ************/
-
-                int lengthJsonArr = jsonMainNode.length(); 
-
-                for(int i=0; i < lengthJsonArr; i++) {
-					bet = new ActiveBets();
-					 /****** Get Object for each JSON node.***********/
-                    JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-                      
-                    /******* Fetch node values **********/
-                   
-					bet.setBetId(new BigInteger(jsonChildNode.optString("betId")));
-					bet.setBetDateTime(jsonChildNode.optString("betDateTime"));
-					bet.setUserId(new BigInteger(jsonChildNode.optString("userId")));
-					bet.setRepeatedDraws(Integer.valueOf(jsonChildNode.optString("repeatedDraws")));
-					bet.setRandomChoice(Integer.valueOf(jsonChildNode.optString("randomChoice")));
-					bet.setGameType(Integer.valueOf(jsonChildNode.optString("gameType")));
-					bet.setBetCoins(Float.valueOf(jsonChildNode.optString("betCoins")));
-					bet.setMultiplier(Integer.valueOf(jsonChildNode.optString("multiplier")));
-					bet.setBetNumber1(Integer.valueOf(jsonChildNode.optString("betNumber1")));
-					bet.setBetNumber2(Integer.valueOf(jsonChildNode.optString("betNumber2")));
-					bet.setBetNumber3(Integer.valueOf(jsonChildNode.optString("betNumber3")));
-					bet.setBetNumber4(Integer.valueOf(jsonChildNode.optString("betNumber4")));
-					bet.setBetNumber5(Integer.valueOf(jsonChildNode.optString("betNumber5")));
-					bet.setBetNumber6(Integer.valueOf(jsonChildNode.optString("betNumber6")));
-					bet.setBetNumber7(Integer.valueOf(jsonChildNode.optString("betNumber7")));
-					bet.setBetNumber8(Integer.valueOf(jsonChildNode.optString("betNumber8")));
-					bet.setBetNumber9(Integer.valueOf(jsonChildNode.optString("betNumber9")));
-					bet.setBetNumber10(Integer.valueOf(jsonChildNode.optString("betNumber10")));
-					bet.setBetNumber11(Integer.valueOf(jsonChildNode.optString("betNumber11")));
-					bet.setBetNumber12(Integer.valueOf(jsonChildNode.optString("betNumber12")));
-					bet.setDraws(Integer.valueOf(jsonChildNode.optString("draws")));
-					bets.add(bet);
+			JSONObject bets =  CommonMethods.httpsUrlConnection("GET", "viewActiveBets", null, params[0], listFragment.getActivity());
+			List<ActiveBets> activeBets = new ArrayList<ActiveBets>();
+			JSONArray jsonBets = bets.optJSONArray("bets");
+			try {
+				for (int i = 0; i < jsonBets.length(); i++) {
+					JSONObject jsonBet = jsonBets.getJSONObject(i);
+					ActiveBets bet = new ActiveBets();
+					bet.setBetId(new BigInteger(jsonBet.optString("betId")));
+					bet.setBetDateTime(CommonMethods.convertSqlDateStringToEuroDate(jsonBet.optString("betDateTime")));
+					bet.setUserId(new BigInteger(jsonBet.optString("userId")));
+					bet.setRepeatedDraws(Integer.valueOf(jsonBet.optString("repeatedDraws")));
+					bet.setRandomChoice(Integer.valueOf(jsonBet.optString("randomChoice")));
+					bet.setGameType(Integer.valueOf(jsonBet.optString("gameType")));
+					bet.setBetCoins(Float.valueOf(jsonBet.optString("betCoins")));
+					bet.setMultiplier(Integer.valueOf(jsonBet.optString("multiplier")));
+					bet.setBetNumber1(Integer.valueOf(jsonBet.optString("betNumber1")));
+					bet.setBetNumber2(Integer.valueOf(jsonBet.optString("betNumber2")));
+					bet.setBetNumber3(Integer.valueOf(jsonBet.optString("betNumber3")));
+					bet.setBetNumber4(Integer.valueOf(jsonBet.optString("betNumber4")));
+					bet.setBetNumber5(Integer.valueOf(jsonBet.optString("betNumber5")));
+					bet.setBetNumber6(Integer.valueOf(jsonBet.optString("betNumber6")));
+					bet.setBetNumber7(Integer.valueOf(jsonBet.optString("betNumber7")));
+					bet.setBetNumber8(Integer.valueOf(jsonBet.optString("betNumber8")));
+					bet.setBetNumber9(Integer.valueOf(jsonBet.optString("betNumber9")));
+					bet.setBetNumber10(Integer.valueOf(jsonBet.optString("betNumber10")));
+					bet.setBetNumber11(Integer.valueOf(jsonBet.optString("betNumber11")));
+					bet.setBetNumber12(Integer.valueOf(jsonBet.optString("betNumber12")));
+					bet.setDraws(Integer.valueOf(jsonBet.optString("draws")));
+					activeBets.add(bet);
 				}
-			} else {
-				// Closes the connection.
-				response.getEntity().getContent().close();
-				throw new IOException(statusLine.getReasonPhrase());
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			//
-		}
-		return bets;
+		return activeBets;
 	}
-	
-}
+
+
+	}

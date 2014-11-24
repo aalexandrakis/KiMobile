@@ -310,7 +310,7 @@ public class CommonMethods {
 			URL url = new URL(Constants.REST_URL + route);
 			JSONObject jsonParameters = null;
 			if (method.equals("GET")){
-				url = new URL(Constants.REST_URL + route + "/" + parameters);
+				url = new URL(Constants.REST_URL + route + (parameters != null ? "/" + parameters : ""));
 			} else {
 				jsonParameters = new JSONObject(parameters);
 			}
@@ -377,10 +377,11 @@ public class CommonMethods {
 		}
 	};
 
+	//TODO review this method against the betDateTime and next_draw
 	public static String convertSqlDateStringToEuroDate(String sqlDate){
 		DateFormat dfInput = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		dfInput.setTimeZone(TimeZone.getTimeZone("UTC"));
-		DateFormat dfOutput = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+		DateFormat dfOutput = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		try {
 			return dfOutput.format(dfInput.parse(sqlDate));
 		} catch (ParseException e) {

@@ -2,13 +2,17 @@ package com.aalexandrakis.kimobile;
 
 import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
 import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
+import static com.aalexandrakis.kimobile.Constants.HOST;
 import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
+import static java.net.URLEncoder.*;
 
 import java.io.*;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import android.util.Base64;
@@ -38,7 +42,11 @@ import android.widget.EditText;
 
 import com.aalexandrakis.kimobile.pojos.User;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
 import java.net.HttpURLConnection;
+import java.util.Map;
 
 public class ActivityLogin extends Activity {
 	EditText txtUserName;
@@ -176,8 +184,8 @@ public class ActivityLogin extends Activity {
 		password = params[1];
 		User user;
 		/************ Get Reg id ***************/
-        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(login);
-        String regId = null;
+		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(login);
+		String regId = null;
 		try {
 			regId = gcm.register(Constants.SENDER_ID);
 		} catch (IOException e2) {
@@ -187,41 +195,36 @@ public class ActivityLogin extends Activity {
 
 		try {
 			URL url = new URL(Constants.REST_URL + "signIn");
-			HttpURLConnection httpPost = (HttpURLConnection) url.openConnection();
-			httpPost.setRequestMethod("POST");
-			httpPost.setRequestProperty("host", "192.168.1.2:3000");
-			httpPost.setRequestProperty("connection", "keep-alive");
-			httpPost.setRequestProperty("accept", "application/json, text/plain, */*");
-			httpPost.setRequestProperty("origin", "http://192.168.1.2:3000");
-//			httpPost.setRequestProperty("'user-agent': 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36',
-			httpPost.setRequestProperty("content-type", "charset=UTF-8");
-			httpPost.setRequestProperty("referer", "http://192.168.1.2:3000/");
-			httpPost.setRequestProperty("accept-encoding", "gzip, deflate");
-			httpPost.setRequestProperty("accept-language", "en-US,en;q=0.8");
-			httpPost.setRequestProperty("Content-Length", Integer.toString(regId.length() + 6));
-			httpPost.setRequestProperty("Authorization", "Basic " + new String(Base64.encode((userName + ":" + encryptedPassword).getBytes(), Base64.DEFAULT)));
-			httpPost.setDoOutput(true);
-			httpPost.setDoInput(true);
-			DataOutputStream wr = new DataOutputStream(httpPost.getOutputStream());
-			wr.write(("regId=" + regId).getBytes("UTF-8"));
-			wr.flush();
-			wr.close();
-			httpPost.setInstanceFollowRedirects(false);
-			httpPost.setConnectTimeout(3000);
-			httpPost.connect();
-			int responseCode = httpPost.getResponseCode();
-			BufferedReader in = new BufferedReader(
-					new InputStreamReader(httpPost.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
+			JSONObject jsonParams = new JSONObject();
+			jsonParams.put("regId", regId);
+			String jsonString = "{regId:" + regId + "}";
 
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-			}
+			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			conn.setSSLSocketFactory(CommonMethods.getSSLContext(login.getBaseContext()).getSocketFactory());
+			conn.setHostnameVerifier(CommonMethods.hostnameVerifier);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("User-Agent", "");
+			conn.setRequestProperty("Host", HOST);
+			conn.setRequestProperty("Connection", "Keep-Alive");
+			conn.setRequestProperty("Accept", "application/json, text/plain, */*");
+			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
+			conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+			conn.setRequestProperty("Content-Length", String.valueOf(jsonString.length()));
+			conn.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((userName + ":" + encryptedPassword).getBytes(), Base64.DEFAULT));
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			conn.getOutputStream().write(jsonString.getBytes("UTF-8"));
+			conn.getOutputStream().close();
+			int responseCode = conn.getResponseCode();
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			StringBuilder stringBuilder = new StringBuilder();
+			String inputLine;
+			while ((inputLine = in.readLine()) != null)
+				stringBuilder.append(inputLine);
 			in.close();
-			httpPost.disconnect();
+			String responseString = stringBuilder.toString();
 			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-			JSONObject jsonResponse = new JSONObject(response.toString());
+			JSONObject jsonResponse = new JSONObject(responseString.toString());
 			user = new User();
 			/***** Returns the value mapped by name if it exists and is a JSONArray. ***/
 			user.setUserId(new BigInteger(jsonResponse.optString("userId")));
@@ -231,20 +234,26 @@ public class ActivityLogin extends Activity {
 			user.setUserLevel(Integer.valueOf(jsonResponse.optString("userLevel")));
 
 			return user;
-		} catch (MalformedURLException e){
-			e.printStackTrace();
+
+		} catch (MalformedURLException e) {
 			error = true;
-		} catch (IOException e){
 			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
 			error = true;
-		}catch (JSONException e){
 			e.printStackTrace();
+		} catch (IOException e) {
 			error = true;
+			e.printStackTrace();
+		} catch (JSONException e) {
+			error = true;
+			e.printStackTrace();
+		} catch (Exception e){
+			error = true;
+			e.printStackTrace();
 		}
 
 		return null;
-
-	 }	
+	}
 
 }
 

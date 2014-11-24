@@ -1,12 +1,11 @@
 package com.aalexandrakis.kimobile;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +37,8 @@ import com.aalexandrakis.kimobile.pojos.Draw;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
+import javax.net.ssl.*;
+import java.security.cert.X509Certificate;
 
 
 public class CommonMethods {
@@ -253,6 +254,59 @@ public class CommonMethods {
 		}
 
 	}
+
+	/**
+	 *
+	 */
+	public static SSLContext getSSLContext(Context context) throws Exception{
+		// Load CAs from an InputStream
+		// (could be from a resource or ByteArrayInputStream or ...)
+		CertificateFactory cf = CertificateFactory.getInstance("X.509");
+		// From https://www.washington.edu/itconnect/security/ca/load-der.crt
+//		InputStream caInput = new BufferedInputStream(new FileInputStream(context.getResources().openRawResource(R.raw.my.crt)));
+		InputStream caInput = context.getResources().openRawResource(R.raw.my);
+		java.security.cert.Certificate ca = null;
+		try {
+			ca = cf.generateCertificate(caInput);
+			System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
+		} catch (CertificateException e) {
+			e.printStackTrace();
+		} finally {
+			caInput.close();
+		}
+
+// Create a KeyStore containing our trusted CAs
+		String keyStoreType = KeyStore.getDefaultType();
+		KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+		keyStore.load(null, null);
+		keyStore.setCertificateEntry("ca", ca);
+
+// Create a TrustManager that trusts the CAs in our KeyStore
+		String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+		TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+		tmf.init(keyStore);
+
+// Create an SSLContext that uses our TrustManager
+		SSLContext sslContext = SSLContext.getInstance("TLS");
+		sslContext.init(null, tmf.getTrustManagers(), null);
+
+		return sslContext;
+
+	}
+
+	// Create an HostnameVerifier that hardwires the expected hostname.
+// Note that is different than the URL's hostname:
+// example.com versus example.org
+	public static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+		@Override
+		public boolean verify(String hostname, SSLSession session) {
+//			HostnameVerifier hv =
+//					HttpsURLConnection.getDefaultHostnameVerifier();
+//			return hv.verify(Constants.HOST, session);
+			Log.d("hostname", hostname);
+			return true;
+		}
+	};
 	/**
 	 * Gets the current registration ID for application on GCM service.
 	 * <p>

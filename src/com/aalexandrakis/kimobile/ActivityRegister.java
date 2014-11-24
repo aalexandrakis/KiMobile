@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -101,7 +103,7 @@ public class ActivityRegister extends Activity {
 
 //TODO store data to shared preferences
 
- class AsyncTaskRegister extends AsyncTask<String, String, String>  {
+ class AsyncTaskRegister extends AsyncTask<String, JSONObject, JSONObject>  {
 	 
 	ActivityRegister register;
 	public static final String METHOD = "saveUser";
@@ -113,19 +115,16 @@ public class ActivityRegister extends Activity {
 	}
 	 @SuppressLint("ShowToast")
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(JSONObject jsonResponse) {
 		// TODO Auto-generated method stub
-		super.onPostExecute(result);
+		super.onPostExecute(jsonResponse);
 		pg.dismiss();
-		if (error == true || result == null || result.equals("40")){
+		if (error == true){
 			showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.youCanntConnect), register);
-		} else if (result.equals("10")){
-			showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.userEmailExists), register);
+		} else if (jsonResponse.optString("status") != "00"){
+			showErrorDialog(register.getString(R.string.registerError), jsonResponse.optString("message"), register);
 			register.txtUserEmail.requestFocus();			
-		} else if (result.equals("11")){
-			showErrorDialog(register.getString(R.string.registerError), register.getString(R.string.userNameExists), register);
-			register.txtUserName.requestFocus();
-		} else if (result.equals("00")){
+		} else if (jsonResponse.optString("status") == "00"){
 			Toast.makeText(register, register.getString(R.string.toastUserAddedSuccesfully), Toast.LENGTH_LONG).show();
 			register.finish();
 		}
@@ -145,10 +144,7 @@ public class ActivityRegister extends Activity {
 
 
 	@Override
-	 protected String doInBackground(String... params) {
-		String userName = params[0];
-		String userEmail = params[1];
-		String password = params[2];
+	 protected JSONObject doInBackground(String... params) {
 		// TODO Auto-generated method stub
 		/************ Get Reg id ***************/
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(register);
@@ -160,50 +156,21 @@ public class ActivityRegister extends Activity {
 			e2.printStackTrace();
 		}
 
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "signUp");
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("userIdString", "0"));
-		parameters.add(new BasicNameValuePair("userName", userName));
-		parameters.add(new BasicNameValuePair("userEmail", userEmail));
-		parameters.add(new BasicNameValuePair("userPassword", password));
-		parameters.add(new BasicNameValuePair("regId", regId));
 		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			response = httpclient.execute(httpPost);
-			
-			StatusLine statusLine = response.getStatusLine();
-			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				response.getEntity().writeTo(out);
-				out.close();
-				String responseString = out.toString();
-				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-                JSONObject jsonResponse = new JSONObject(responseString);
-                return jsonResponse.optString("responseCode");
-			} else {
-				// Closes the connection.
-				response.getEntity().getContent().close();
-				throw new IOException(statusLine.getReasonPhrase());
-			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JSONObject jsonParams = new JSONObject();
+			jsonParams.put("userName", params[0]);
+			jsonParams.put("email", params[1]);
+			jsonParams.put("password", params[2]);
+			jsonParams.put("regId", regId);
+			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+			return CommonMethods.httpsUrlConnection("POST", "signUp", jsonParams.toString(), null, register);
+
+		}  catch (JSONException e) {
 			error = true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Exception e){
 			error = true;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			error = true;
 		}
 	 	return null;
 	 }	

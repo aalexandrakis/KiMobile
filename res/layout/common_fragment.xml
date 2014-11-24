@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/coins"
-            android:src="@drawable/dollar" />
+            android:src="@drawable/euro" />
 
         <TextView
             android:id="@+id/txtCoins"

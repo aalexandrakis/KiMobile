@@ -34,12 +34,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
+import java.util.TimeZone;
 
 import static com.aalexandrakis.kimobile.Constants.HOST;
 
@@ -363,11 +365,11 @@ public class CommonMethods {
 	};
 
 	public static String convertSqlDateStringToEuroDate(String sqlDate){
-		DateFormat dfInput = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		DateFormat dfInput = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		dfInput.setTimeZone(TimeZone.getTimeZone("UTC"));
 		DateFormat dfOutput = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 		try {
-			Date date = dfInput.parse(sqlDate);
-			return dfOutput.format(date);
+			return dfOutput.format(dfInput.parse(sqlDate));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;

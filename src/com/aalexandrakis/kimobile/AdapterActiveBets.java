@@ -1,15 +1,14 @@
 package com.aalexandrakis.kimobile;
 
-import java.util.List;
-
-import com.aalexandrakis.kimobile.pojos.ActiveBets;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.aalexandrakis.kimobile.pojos.ActiveBets;
+
+import java.util.List;
 
 public class AdapterActiveBets extends ArrayAdapter<ActiveBets>{
 	private final Context context;

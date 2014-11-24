@@ -1,8 +1,5 @@
 package com.aalexandrakis.kimobile;
 
-import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
-import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
-import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +11,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
+import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
+import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 //TODO display remaining time for the draw, user coins and user level
 //TODO hide keyboard on click
 public class ActivityMain extends FragmentActivity {

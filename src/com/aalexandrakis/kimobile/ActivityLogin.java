@@ -1,52 +1,34 @@
 package com.aalexandrakis.kimobile;
 
-import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
-import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
-import static com.aalexandrakis.kimobile.Constants.HOST;
-import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
-import static java.net.URLEncoder.*;
-
-import java.io.*;
-import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import android.util.Base64;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.aalexandrakis.kimobile.pojos.User;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSocketFactory;
-import java.net.HttpURLConnection;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
+import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
+import static com.aalexandrakis.kimobile.Constants.HOST;
+import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 
 public class ActivityLogin extends Activity {
 	EditText txtUserName;

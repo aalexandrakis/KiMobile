@@ -1,18 +1,17 @@
 package com.aalexandrakis.kimobile;
 
-import static com.aalexandrakis.kimobile.CommonMethods.getDraw;
-
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
+
+import java.util.List;
+
+import static com.aalexandrakis.kimobile.CommonMethods.getDraw;
 
 public class AdapterArchiveBets extends ArrayAdapter<BetsArchive>{
 	private final Context context;

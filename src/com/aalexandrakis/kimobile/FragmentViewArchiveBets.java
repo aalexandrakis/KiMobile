@@ -1,33 +1,5 @@
 package com.aalexandrakis.kimobile;
 
-import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
-import static com.aalexandrakis.kimobile.CommonMethods.convertJsonToBetsArchive;
-import static com.aalexandrakis.kimobile.CommonMethods.convertJsonToDraw;
-import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
-import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -44,14 +16,34 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-
-
-
-//TODO refresh adapter and list view
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static com.aalexandrakis.kimobile.CommonMethods.*;
+import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
+
+//TODO refresh adapter and list view
 @SuppressLint("DefaultLocale")
 public class FragmentViewArchiveBets extends Fragment {
 	AdapterArchiveBets adapter;

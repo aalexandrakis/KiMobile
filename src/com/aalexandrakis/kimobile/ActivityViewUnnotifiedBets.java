@@ -1,15 +1,20 @@
 package com.aalexandrakis.kimobile;
 
-import static com.aalexandrakis.kimobile.CommonMethods.convertJsonToBetsArchive;
-import static com.aalexandrakis.kimobile.CommonMethods.convertJsonToDraw;
-import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
+import com.aalexandrakis.kimobile.pojos.BetsArchive;
+import com.aalexandrakis.kimobile.pojos.Draw;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -24,29 +29,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
-
-
-
-
-
+import static com.aalexandrakis.kimobile.CommonMethods.convertJsonToBetsArchive;
+import static com.aalexandrakis.kimobile.CommonMethods.convertJsonToDraw;
+import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 
 //TODO refresh adapter and list view
-import com.aalexandrakis.kimobile.pojos.BetsArchive;
-import com.aalexandrakis.kimobile.pojos.Draw;
 @SuppressLint("DefaultLocale")
 public class ActivityViewUnnotifiedBets extends Activity {
 	AdapterArchiveBets adapter;

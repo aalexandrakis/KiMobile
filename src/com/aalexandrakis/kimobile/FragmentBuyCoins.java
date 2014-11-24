@@ -1,7 +1,5 @@
 package com.aalexandrakis.kimobile;
 
-import java.math.BigDecimal;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,10 +13,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
 import com.paypal.android.MEP.CheckoutButton;
 import com.paypal.android.MEP.PayPal;
 import com.paypal.android.MEP.PayPalPayment;
+
+import java.math.BigDecimal;
 
 
 public class FragmentBuyCoins extends Fragment {

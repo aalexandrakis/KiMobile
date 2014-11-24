@@ -1087,7 +1087,6 @@ class AsyncTaskSaveBet extends AsyncTask<String, JSONObject, JSONObject>  {
 		JSONObject jsonParams = new JSONObject();
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			df.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 			jsonParams.put("betDateTime", df.format(new Date()));
 			jsonParams.put("userId", params[0]);

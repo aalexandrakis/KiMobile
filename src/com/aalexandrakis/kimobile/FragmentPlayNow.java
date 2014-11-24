@@ -28,8 +28,12 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import static com.aalexandrakis.kimobile.CommonMethods.numberClicked;
 import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
@@ -938,9 +942,9 @@ public class FragmentPlayNow extends Fragment {
 			      String nbr10 = numberList.get(9).toString();
 			      String nbr11 = numberList.get(10).toString();
 			      String nbr12 = numberList.get(11).toString();
-			      
+				  String token = sharedPreferences.getString("token", "");
 			      AsyncTaskSaveBet saveBet = new AsyncTaskSaveBet(playNow);
-			      saveBet.execute(userId, repeatedDraws, randomChoice, gameType, multiplier, nbr1, nbr2, nbr3, nbr4, nbr5, nbr6, nbr7, nbr8, nbr9, nbr10, nbr11, nbr12);
+			      saveBet.execute(userId, repeatedDraws, randomChoice, gameType, multiplier, nbr1, nbr2, nbr3, nbr4, nbr5, nbr6, nbr7, nbr8, nbr9, nbr10, nbr11, nbr12, token);
 			}
         });
 		return view;
@@ -1040,7 +1044,7 @@ public class FragmentPlayNow extends Fragment {
 }
 
 
-class AsyncTaskSaveBet extends AsyncTask<String, String, String>  {
+class AsyncTaskSaveBet extends AsyncTask<String, JSONObject, JSONObject>  {
 	 
 	FragmentPlayNow playNow;
 	public static final String METHOD = "saveBet";
@@ -1051,28 +1055,18 @@ class AsyncTaskSaveBet extends AsyncTask<String, String, String>  {
 	}
 	 @SuppressLint("ShowToast")
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(JSONObject jsonResponse) {
 		// TODO Auto-generated method stub
-		super.onPostExecute(result);
+		super.onPostExecute(jsonResponse);
 		pg.dismiss();
-		JSONObject json;
-		try {
-			json = new JSONObject(result);
-			String status = json.optString("status");
-			String message = json.optString("message");
-			if (error == true || result == null || !status.equals("00")){
+			String status = jsonResponse.optString("status");
+			String message = jsonResponse.optString("message");
+			if (error == true || jsonResponse == null || !status.equals("00")){
 				showErrorDialog(playNow.getString(R.string.betError), message, playNow.getFragmentManager());
 			} else if (status.equals("00")){
 				Toast.makeText(playNow.getActivity(), playNow.getString(R.string.toastBetAddedSuccessfully), Toast.LENGTH_LONG).show();
 				playNow.reset();
 			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
 	}
 
 
@@ -1088,85 +1082,39 @@ class AsyncTaskSaveBet extends AsyncTask<String, String, String>  {
 
 
 	@Override
-	 protected String doInBackground(String... params) {
-		String userId = params[0];
-		Integer repeatedDraws = Integer.valueOf(params[1]);
-		Integer randomChoice = Integer.valueOf(params[2]);
-		Integer gameType = Integer.valueOf(params[3]);
-		Integer multiplier = Integer.valueOf(params[4]);
-		Integer number1 = Integer.valueOf(params[5]);
-		Integer number2 = Integer.valueOf(params[6]);
-		Integer number3 = Integer.valueOf(params[7]);
-		Integer number4 = Integer.valueOf(params[8]);
-		Integer number5 = Integer.valueOf(params[9]);
-		Integer number6 = Integer.valueOf(params[10]);
-		Integer number7 = Integer.valueOf(params[11]);
-		Integer number8 = Integer.valueOf(params[12]);
-		Integer number9 = Integer.valueOf(params[13]);
-		Integer number10 = Integer.valueOf(params[14]);
-		Integer number11 = Integer.valueOf(params[15]);
-		Integer number12 = Integer.valueOf(params[16]);
+	 protected JSONObject doInBackground(String... params) {
 		// TODO implement random choice
-         HttpClient httpclient = new DefaultHttpClient();
- 		HttpResponse response;
- 		HttpPost httpPost = new HttpPost(Constants.REST_URL + "playNow");
- 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
- 		parameters.add(new BasicNameValuePair("userId", userId));
- 		parameters.add(new BasicNameValuePair("repeatedDraws", repeatedDraws.toString()));
- 		parameters.add(new BasicNameValuePair("randomChoice", randomChoice.toString()));
- 		parameters.add(new BasicNameValuePair("gameType", gameType.toString()));
- 		parameters.add(new BasicNameValuePair("multiplier", multiplier.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber1", number1.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber2", number2.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber3", number3.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber4", number4.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber5", number5.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber6", number6.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber7", number7.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber8", number8.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber9", number9.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber10", number10.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber11", number11.toString()));
- 		parameters.add(new BasicNameValuePair("betNumber12", number12.toString()));
+		JSONObject jsonParams = new JSONObject();
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			df.setTimeZone(TimeZone.getTimeZone("UTC"));
 
- 		try {
- 			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
- 		} catch (UnsupportedEncodingException e1) {
- 			// TODO Auto-generated catch block
- 			e1.printStackTrace();
- 		}
- 		try {
- 			response = httpclient.execute(httpPost);
- 			
- 			StatusLine statusLine = response.getStatusLine();
- 			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
- 				ByteArrayOutputStream out = new ByteArrayOutputStream();
- 				response.getEntity().writeTo(out);
- 				out.close();
- 				String responseString = out.toString();
- 				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-                 JSONObject jsonResponse = new JSONObject(responseString);
-                 return jsonResponse.optString("responseCode");
- 			} else {
- 				// Closes the connection.
- 				response.getEntity().getContent().close();
- 				throw new IOException(statusLine.getReasonPhrase());
- 			}
- 		} catch (ClientProtocolException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 			error = false;
- 		} catch (IOException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 			error = false;
- 		} catch (Exception e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 			error = false;
- 		}
+			jsonParams.put("betDateTime", df.format(new Date()));
+			jsonParams.put("userId", params[0]);
+			jsonParams.put("repeatedDraws", Integer.valueOf(params[1]));
+			jsonParams.put("randomChoice", Integer.valueOf(params[2]));
+			jsonParams.put("gameType",  Integer.valueOf(params[3]));
+			jsonParams.put("betCoins",  Integer.valueOf(params[4]) * Integer.valueOf(params[1]) * 0.5);
+			jsonParams.put("multiplier",  Integer.valueOf(params[4]));
+			jsonParams.put("betNumber1",  Integer.valueOf(params[5]));
+			jsonParams.put("betNumber2",  Integer.valueOf(params[6]));
+			jsonParams.put("betNumber3",  Integer.valueOf(params[7]));
+			jsonParams.put("betNumber4",  Integer.valueOf(params[8]));
+			jsonParams.put("betNumber5",  Integer.valueOf(params[9]));
+			jsonParams.put("betNumber6",  Integer.valueOf(params[10]));
+			jsonParams.put("betNumber7",  Integer.valueOf(params[11]));
+			jsonParams.put("betNumber8",  Integer.valueOf(params[12]));
+			jsonParams.put("betNumber9",  Integer.valueOf(params[13]));
+			jsonParams.put("betNumber10",  Integer.valueOf(params[14]));
+			jsonParams.put("betNumber11",  Integer.valueOf(params[15]));
+			jsonParams.put("betNumber12",  Integer.valueOf(params[16]));
 
-	 	return null;
+			return CommonMethods.httpsUrlConnection("POST", "playNow", jsonParams.toString(), params[17], playNow.getActivity());
+		} catch (JSONException e){
+			e.printStackTrace();
+			return null;
+		}
+
 	 }	
 }
  

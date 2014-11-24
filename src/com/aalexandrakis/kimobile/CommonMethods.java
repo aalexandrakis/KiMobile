@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.support.v4.app.FragmentManager;
+import android.util.Base64;
 import android.util.Log;
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
@@ -23,15 +24,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManagerFactory;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import javax.net.ssl.*;
+import java.io.*;
 import java.math.BigInteger;
+import java.net.URL;
 import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -44,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
+
+import static com.aalexandrakis.kimobile.Constants.HOST;
 
 
 public class CommonMethods {
@@ -264,11 +262,7 @@ public class CommonMethods {
 	 *
 	 */
 	public static SSLContext getSSLContext(Context context) throws Exception{
-		// Load CAs from an InputStream
-		// (could be from a resource or ByteArrayInputStream or ...)
 		CertificateFactory cf = CertificateFactory.getInstance("X.509");
-		// From https://www.washington.edu/itconnect/security/ca/load-der.crt
-//		InputStream caInput = new BufferedInputStream(new FileInputStream(context.getResources().openRawResource(R.raw.my.crt)));
 		InputStream caInput = context.getResources().openRawResource(R.raw.my);
 		java.security.cert.Certificate ca = null;
 		try {
@@ -280,18 +274,18 @@ public class CommonMethods {
 			caInput.close();
 		}
 
-// Create a KeyStore containing our trusted CAs
+		// Create a KeyStore containing our trusted CAs
 		String keyStoreType = KeyStore.getDefaultType();
 		KeyStore keyStore = KeyStore.getInstance(keyStoreType);
 		keyStore.load(null, null);
 		keyStore.setCertificateEntry("ca", ca);
 
-// Create a TrustManager that trusts the CAs in our KeyStore
+		// Create a TrustManager that trusts the CAs in our KeyStore
 		String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
 		TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
 		tmf.init(keyStore);
 
-// Create an SSLContext that uses our TrustManager
+		// Create an SSLContext that uses our TrustManager
 		SSLContext sslContext = SSLContext.getInstance("TLS");
 		sslContext.init(null, tmf.getTrustManagers(), null);
 
@@ -299,16 +293,69 @@ public class CommonMethods {
 
 	}
 
+	/**
+	 *
+	 * @param method GET, POST...
+	 * @param route nodejs route signIn, singUp...
+	 * @param parameters if method is GET then /param1/param2 else JSONObject
+	 * @param authHeader
+	 * @param activityContext
+	 * @return
+	 */
+	public static JSONObject httpsUrlConnection(String method, String route, String parameters, String authHeader, Context activityContext){
+		try {
+			URL url = new URL(Constants.REST_URL + route);
+			JSONObject jsonParameters = null;
+			if (method.equals("GET")){
+				url = new URL(Constants.REST_URL + route + "/" + parameters);
+			} else {
+				jsonParameters = new JSONObject(parameters);
+			}
+			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			conn.setSSLSocketFactory(CommonMethods.getSSLContext(activityContext).getSocketFactory());
+			conn.setHostnameVerifier(CommonMethods.hostnameVerifier);
+			conn.setRequestMethod(method);
+			conn.setRequestProperty("Host", HOST);
+			conn.setRequestProperty("User-Agent", "");
+			conn.setRequestProperty("Accept", "application/json, text/plain, */*");
+			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
+			conn.setRequestProperty("Authorization", "Basic " + authHeader);
+			conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+			conn.setRequestProperty("Connection", "Keep-Alive");
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			if (!method.equals("GET")) {
+				conn.setRequestProperty("Content-Length", String.valueOf(jsonParameters.toString().length()));
+				conn.getOutputStream().write(jsonParameters.toString().getBytes("UTF-8"));
+				conn.getOutputStream().close();
+			}
+			int responseCode = conn.getResponseCode();
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			StringBuilder stringBuilder = new StringBuilder();
+			String inputLine;
+			while ((inputLine = in.readLine()) != null)
+				stringBuilder.append(inputLine);
+			in.close();
+			return new JSONObject(stringBuilder.toString());
+		} catch (IOException e){
+			e.printStackTrace();
+			return new JSONObject();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new JSONObject();
+		}
+	}
 	// Create an HostnameVerifier that hardwires the expected hostname.
-// Note that is different than the URL's hostname:
-// example.com versus example.org
+    // Note that is different than the URL's hostname:
+    // example.com versus example.org
 	public static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
 		@Override
 		public boolean verify(String hostname, SSLSession session) {
+
+//			WARNING REMOVE IT ONLY FOR TEST
 //			HostnameVerifier hv =
 //					HttpsURLConnection.getDefaultHostnameVerifier();
 //			return hv.verify(Constants.HOST, session);
-			Log.d("hostname", hostname);
 			return true;
 		}
 	};

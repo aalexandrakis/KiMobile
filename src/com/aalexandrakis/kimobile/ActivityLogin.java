@@ -176,36 +176,15 @@ public class ActivityLogin extends Activity {
 		}
 
 		try {
-			URL url = new URL(Constants.REST_URL + "signIn");
 			JSONObject jsonParams = new JSONObject();
 			jsonParams.put("regId", regId);
 			String authorization = Base64.encodeToString((userName + ":" + encryptedPassword).getBytes("UTF-8"), Base64.NO_WRAP);
-			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-			conn.setSSLSocketFactory(CommonMethods.getSSLContext(login.getBaseContext()).getSocketFactory());
-			conn.setHostnameVerifier(CommonMethods.hostnameVerifier);
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Host", HOST);
-			conn.setRequestProperty("User-Agent", "");
-			conn.setRequestProperty("Accept", "application/json, text/plain, */*");
-			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
-			conn.setRequestProperty("Authorization", "Basic " + authorization);
-			conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-			conn.setRequestProperty("Content-Length", String.valueOf(jsonParams.toString().length()));
-			conn.setRequestProperty("Connection", "Keep-Alive");
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
-			conn.getOutputStream().write(jsonParams.toString().getBytes("UTF-8"));
-			conn.getOutputStream().close();
-			int responseCode = conn.getResponseCode();
-			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-			StringBuilder stringBuilder = new StringBuilder();
-			String inputLine;
-			while ((inputLine = in.readLine()) != null)
-				stringBuilder.append(inputLine);
-			in.close();
-			String responseString = stringBuilder.toString();
 			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-			JSONObject jsonResponse = new JSONObject(responseString.toString());
+			JSONObject jsonResponse = CommonMethods.httpsUrlConnection("POST", "signIn", jsonParams.toString(), authorization, login);
+			if (jsonResponse.length() == 0){
+				error = true;
+				return null;
+			}
 			user = new User();
 			/***** Returns the value mapped by name if it exists and is a JSONArray. ***/
 			user.setUserId(new BigInteger(jsonResponse.optString("userId")));
@@ -213,19 +192,11 @@ public class ActivityLogin extends Activity {
 			user.setUserEmail(jsonResponse.optString("userEmail"));
 			user.setUserCoins(Float.valueOf(jsonResponse.optString("userCoins")));
 			user.setUserLevel(Integer.valueOf(jsonResponse.optString("userLevel")));
-
 			return user;
-
-		} catch (MalformedURLException e) {
-			error = true;
-			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			error = true;
 			e.printStackTrace();
-		} catch (IOException e) {
-			error = true;
-			e.printStackTrace();
-		} catch (JSONException e) {
+		}  catch (JSONException e) {
 			error = true;
 			e.printStackTrace();
 		} catch (Exception e){

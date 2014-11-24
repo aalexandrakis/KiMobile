@@ -22,6 +22,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.net.ssl.*;
@@ -343,11 +344,23 @@ public class CommonMethods {
 			return new JSONObject(stringBuilder.toString());
 		} catch (IOException e){
 			e.printStackTrace();
-			return new JSONObject();
+			try {
+				return new JSONObject().put("message", e.getMessage());
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new JSONObject();
+			try {
+				return new JSONObject().put("message", e.getMessage());
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
+
 		}
+
+		return null;
+
 	}
 	// Create an HostnameVerifier that hardwires the expected hostname.
     // Note that is different than the URL's hostname:

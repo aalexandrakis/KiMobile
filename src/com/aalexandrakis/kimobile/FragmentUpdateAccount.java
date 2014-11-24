@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +26,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -66,7 +68,7 @@ public class FragmentUpdateAccount extends Fragment {
 		
 		txtUserName.setText(sharedPreferences.getString("userName", ""));
 		txtUserEmail.setText(sharedPreferences.getString("userEmail", ""));
-		txtUserPassword.setText(sharedPreferences.getString("userPassword", ""));
+//		txtUserPassword.setText(sharedPreferences.getString("userPassword", ""));
 		
 		btnUpdateAccount.setOnClickListener(new OnClickListener(){
 			@Override
@@ -107,7 +109,8 @@ public class FragmentUpdateAccount extends Fragment {
 				}
 				
 				AsyncTaskUpdateAccount updateAccountTask = new AsyncTaskUpdateAccount(updateAccount);
-				updateAccountTask.execute(sharedPreferences.getString("userId", "0"), txtUserName.getText().toString(), txtUserEmail.getText().toString(), CommonMethods.encryptPassword(txtUserPassword.getText().toString()));
+				updateAccountTask.execute(sharedPreferences.getString("userId", "0"), txtUserName.getText().toString(),
+						txtUserEmail.getText().toString(), CommonMethods.encryptPassword(txtUserPassword.getText().toString()), sharedPreferences.getString("token", ""));
 			}
 		});
 		return view;
@@ -115,7 +118,7 @@ public class FragmentUpdateAccount extends Fragment {
 }
 
 
- class AsyncTaskUpdateAccount extends AsyncTask<String, String, String>  {
+ class AsyncTaskUpdateAccount extends AsyncTask<String, JSONObject, JSONObject>  {
 	 
 	FragmentUpdateAccount updateAccount;
 	public static final String METHOD = "saveUser";
@@ -130,24 +133,27 @@ public class FragmentUpdateAccount extends Fragment {
 	}
 	 @SuppressLint("ShowToast")
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(JSONObject result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		pg.dismiss();
-		if (error == true || result == null || result.equals("40")){
-			showErrorDialog(updateAccount.getString(R.string.updateAccountError), updateAccount.getString(R.string.youCanntConnect), updateAccount.getFragmentManager());
-		} else if (result.equals("10")){
-			showErrorDialog(updateAccount.getString(R.string.updateAccountError), updateAccount.getString(R.string.userEmailExists), updateAccount.getFragmentManager());
-			updateAccount.txtUserEmail.requestFocus();			
-		} else if (result.equals("11")){
-			showErrorDialog(updateAccount.getString(R.string.updateAccountError), updateAccount.getString(R.string.userNameExists), updateAccount.getFragmentManager());
+		if (error == true || result == null || result.optString("message") != ""){
+			showErrorDialog(updateAccount.getString(R.string.updateAccountError), result.optString("message"), updateAccount.getFragmentManager());
 			updateAccount.txtUserName.requestFocus();
-		} else if (result.equals("00")){
+		} else {
+			JSONObject userJsonObject = result.optJSONObject("user");
 			Toast.makeText(updateAccount.getActivity(), updateAccount.getString(R.string.toastUserUpdatedSuccesfully), Toast.LENGTH_LONG).show();
 			SharedPreferences.Editor editor = updateAccount.sharedPreferences.edit();
-			editor.putString("userName", userName);
-			editor.putString("userEmail", userEmail);
-			editor.putString("userPassword", password);
+			editor.putString("userName", userJsonObject.optString("userName"));
+			editor.putString("userEmail", userJsonObject.optString("userEmail"));
+			editor.putString("userPassword", userJsonObject.optString("userPassword"));
+			editor.putString("userCoins", userJsonObject.optString("userCoins"));
+			editor.putInt("userLevel", userJsonObject.optInt("userLevel"));
+			try {
+				editor.putString("token", Base64.encodeToString((userJsonObject.optString("userName") + ":" + userJsonObject.optString("userPassword")).getBytes("UTF-8"), Base64.NO_WRAP));
+			} catch (UnsupportedEncodingException e){
+				e.printStackTrace();
+			}
 			editor.commit();
 			
 			if (updateAccount.secondFragment == null){
@@ -170,58 +176,20 @@ public class FragmentUpdateAccount extends Fragment {
 
 
 	@Override
-	 protected String doInBackground(String... params) {
-		String userId = params[0];
-		String userName = params[1];
-		String userEmail = params[2];
-		String password = params[3];
-		// TODO Auto-generated method stub
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpResponse response;
-		HttpPut httpPost = new HttpPut(Constants.REST_URL + "myAccount");
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("userId", userId));
-		parameters.add(new BasicNameValuePair("userName", userName));
-		parameters.add(new BasicNameValuePair("email", userEmail));
-		parameters.add(new BasicNameValuePair("password", password));
+	 protected JSONObject doInBackground(String... params) {
+		JSONObject jsonParams = new JSONObject();
 		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			jsonParams.put("userId", params[0]);
+			jsonParams.put("userName", params[1]);
+			jsonParams.put("email", params[2]);
+			jsonParams.put("password", params[3]);
+
+			return CommonMethods.httpsUrlConnection("PUT", "myAccount", jsonParams.toString(), params[4], updateAccount.getActivity());
+		} catch (JSONException e){
+			e.printStackTrace();
+			return null;
 		}
-		try {
-			response = httpclient.execute(httpPost);
-			
-			StatusLine statusLine = response.getStatusLine();
-			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				response.getEntity().writeTo(out);
-				out.close();
-				String responseString = out.toString();
-				/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-                JSONObject jsonResponse = new JSONObject(responseString);
-                return jsonResponse.optString("responseCode");
-			} else {
-				// Closes the connection.
-				response.getEntity().getContent().close();
-				throw new IOException(statusLine.getReasonPhrase());
-			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			error = true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			error = true;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			error = true;
-		}
-	 	return null;
-	 }	
+	 }
 
 }
 

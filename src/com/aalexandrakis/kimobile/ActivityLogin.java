@@ -15,19 +15,10 @@ import com.aalexandrakis.kimobile.pojos.User;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import static com.aalexandrakis.kimobile.CommonMethods.checkConnectivity;
 import static com.aalexandrakis.kimobile.CommonMethods.showErrorDialog;
-import static com.aalexandrakis.kimobile.Constants.HOST;
 import static com.aalexandrakis.kimobile.Constants.SHARED_PREFERENCES;
 
 public class ActivityLogin extends Activity {
@@ -38,7 +29,7 @@ public class ActivityLogin extends Activity {
 	Button btnForgotPassword;
 	ActivityLogin login = this;
 	SharedPreferences sharedPreferences;
-	
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +102,7 @@ public class ActivityLogin extends Activity {
 }
 
 
- class AsyncTaskLogin extends AsyncTask<String, User, User>  {
+ class AsyncTaskLogin extends AsyncTask<String, JSONObject, JSONObject>  {
 	 
 	ActivityLogin login;
 	public static final String METHOD = "login";
@@ -122,23 +113,28 @@ public class ActivityLogin extends Activity {
 		this.login = login;
 	}
 	 @Override
-	protected void onPostExecute(User user) {
+	protected void onPostExecute(JSONObject jsonResponse) {
 		// TODO Auto-generated method stub
-		super.onPostExecute(user);
+		super.onPostExecute(jsonResponse);
 		httpPost.dismiss();
-		if (error){
+		if (error || jsonResponse == null){
 			showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.youCanntConnect), login);
-		} else if (user == null){
-			showErrorDialog(login.getString(R.string.credentialsError), login.getString(R.string.credentialsAreError), login);
+		} else if (jsonResponse.optString("message") != ""){
+			showErrorDialog(login.getString(R.string.credentialsError), jsonResponse.optString("message"), login);
 		} else {
 			SharedPreferences.Editor editor = login.sharedPreferences.edit();
 			editor.clear();
-			editor.putString("userId", user.getUserId().toString());
-			editor.putString("userName", user.getUserName());
-			editor.putString("userEmail", user.getUserEmail());
-			editor.putString("userPassword", password);
-			editor.putString("userCoins", user.getUserCoins().toString());
-			editor.putInt("userLevel", user.getUserLevel());
+			editor.putString("userId", jsonResponse.optString("userId"));
+			editor.putString("userName", jsonResponse.optString("userName"));
+			editor.putString("userEmail", jsonResponse.optString("userEmail"));
+			editor.putString("userPassword", jsonResponse.optString("userPassword"));
+			editor.putString("userCoins", jsonResponse.optString("userCoins"));
+			editor.putInt("userLevel", Integer.valueOf(jsonResponse.optString("userLevel")));
+			try {
+				editor.putString("token", Base64.encodeToString((jsonResponse.optString("userName") + ":" + jsonResponse.optString("userPassword")).getBytes("UTF-8"), Base64.NO_WRAP));
+			} catch (UnsupportedEncodingException e){
+				e.printStackTrace();
+			}
 			editor.commit();
 			Intent mainMenu = new Intent("com.aalexandrakis.kimobile.ActivityMain");
 			login.startActivity(mainMenu);
@@ -160,7 +156,7 @@ public class ActivityLogin extends Activity {
 
 
 	@Override
-	 protected User doInBackground(String... params) {
+	 protected JSONObject doInBackground(String... params) {
 		String userName = params[0];
 		String encryptedPassword = CommonMethods.encryptPassword(params[1]);
 		password = params[1];
@@ -180,19 +176,8 @@ public class ActivityLogin extends Activity {
 			jsonParams.put("regId", regId);
 			String authorization = Base64.encodeToString((userName + ":" + encryptedPassword).getBytes("UTF-8"), Base64.NO_WRAP);
 			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-			JSONObject jsonResponse = CommonMethods.httpsUrlConnection("POST", "signIn", jsonParams.toString(), authorization, login);
-			if (jsonResponse.length() == 0){
-				error = true;
-				return null;
-			}
-			user = new User();
-			/***** Returns the value mapped by name if it exists and is a JSONArray. ***/
-			user.setUserId(new BigInteger(jsonResponse.optString("userId")));
-			user.setUserName(jsonResponse.optString("userName"));
-			user.setUserEmail(jsonResponse.optString("userEmail"));
-			user.setUserCoins(Float.valueOf(jsonResponse.optString("userCoins")));
-			user.setUserLevel(Integer.valueOf(jsonResponse.optString("userLevel")));
-			return user;
+			return CommonMethods.httpsUrlConnection("POST", "signIn", jsonParams.toString(), authorization, login);
+
 		} catch (UnsupportedEncodingException e) {
 			error = true;
 			e.printStackTrace();

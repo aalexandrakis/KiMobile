@@ -53,7 +53,7 @@ public class GcmIntentService extends IntentService {
             	String title = null;
             	if (extras.get("Type").equals("WIN_NOTIFICATION")) {
             		message = "You have earn " + extras.get("Earnings") + " coins";
-            		title = "Congratsulations";
+            		title = "Congratulations";
             	} else if (extras.get("Type").equals("COINS_ADDED_NOTIFICATION")) {
             		message = extras.get("Description").toString();
             		title = "Good Luck";
@@ -73,7 +73,7 @@ public class GcmIntentService extends IntentService {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, ActivityViewUnnotifiedBets.class), 0);
+                new Intent(this, ActivityViewUnNotifiedBets.class), 0);
         Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)

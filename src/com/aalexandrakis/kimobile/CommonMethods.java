@@ -137,7 +137,7 @@ public class CommonMethods {
 		DateFormat df = new SimpleDateFormat(format);
 		try {
 			Date date = df.parse(strDate);
-			rtnDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+			rtnDate = new SimpleDateFormat("ddMMyyyy").format(date);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -171,7 +171,8 @@ public class CommonMethods {
 		bet.setMatches(Integer.valueOf(jsonChildNode.optString("matches")));
 		bet.setReturnRate(Float.valueOf(jsonChildNode.optString("returnRate")));
 		bet.setDrawTimeStamp(jsonChildNode.optString("drawTimeStamp"));
-	
+		bet.setDrawNumbers(jsonChildNode.optString("drawNumbers"));
+
 		return bet;
 	}
 	

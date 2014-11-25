@@ -132,7 +132,7 @@ class AsyncTaskUnnotifiedBets extends AsyncTask<String, String, String>{
 			if (bets.isEmpty()){
 				Toast.makeText(unnotifiedBets, unnotifiedBets.getString(R.string.toastNoOldBetsFound), Toast.LENGTH_LONG).show();
 			}
-			AdapterArchiveBets adapter = new AdapterArchiveBets(unnotifiedBets, bets, draws);
+			AdapterArchiveBets adapter = new AdapterArchiveBets(unnotifiedBets, bets);
 			unnotifiedBets.lstArchiveBets.setAdapter(adapter);
 			pg.dismiss();
 			

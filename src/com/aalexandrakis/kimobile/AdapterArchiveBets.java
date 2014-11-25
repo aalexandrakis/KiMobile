@@ -9,21 +9,21 @@ import android.widget.TextView;
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
 
+import java.util.Arrays;
 import java.util.List;
 
+import static com.aalexandrakis.kimobile.CommonMethods.convertSqlDateStringToEuroDate;
 import static com.aalexandrakis.kimobile.CommonMethods.getDraw;
 
 public class AdapterArchiveBets extends ArrayAdapter<BetsArchive>{
 	private final Context context;
 	private final List<BetsArchive> values;
-	private final List<Draw> draws;
-	
-	public AdapterArchiveBets(Context context, List<BetsArchive> values, List<Draw> draws) {
+
+	public AdapterArchiveBets(Context context, List<BetsArchive> values) {
 		super(context,  R.layout.bet_archive_item, values);
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.values = values;
-		this.draws = draws;
 		notifyDataSetChanged();
 	}
 
@@ -56,48 +56,48 @@ public class AdapterArchiveBets extends ArrayAdapter<BetsArchive>{
     	NumberButton number12 = (NumberButton) rowView.findViewById(R.id.btnNumber12);
     	
 		BetsArchive bet = values.get(position);
-		Draw curDraw = getDraw(draws, bet.getDrawTimeStamp());
+		List<String> curDraw = Arrays.asList(bet.getDrawNumbers().split(","));
 		txtBetId.setText(bet.getBetId().toString().trim());
-		txtBetDate.setText(bet.getBetDateTime().replaceFirst("([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}).*", "$1"));
-		txtDrawDate.setText(bet.getDrawTimeStamp().replaceFirst("([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}).*", "$1"));
+		txtBetDate.setText(convertSqlDateStringToEuroDate(bet.getBetDateTime()));
+		txtDrawDate.setText(convertSqlDateStringToEuroDate(bet.getDrawTimeStamp()));
 		txtDraw.setText(bet.getDraws().toString());
 		txtRepeatedDraws.setText(bet.getRepeatedDraws().toString());
 		txtMultiplier.setText(bet.getMultiplier().toString());
 		number1.setNumber(bet.getBetNumber1());
-		number1.setInDraw(curDraw.toList().contains(bet.getBetNumber1()));
+		number1.setInDraw(curDraw.contains(bet.getBetNumber1().toString()));
 		
 		number2.setNumber(bet.getBetNumber2());
-		number2.setInDraw(curDraw.toList().contains(bet.getBetNumber2()));
+		number2.setInDraw(curDraw.contains(bet.getBetNumber2().toString()));
 
 		number3.setNumber(bet.getBetNumber3());
-		number3.setInDraw(curDraw.toList().contains(bet.getBetNumber3()));
+		number3.setInDraw(curDraw.contains(bet.getBetNumber3().toString()));
 
 		number4.setNumber(bet.getBetNumber4());
-		number4.setInDraw(curDraw.toList().contains(bet.getBetNumber4()));
+		number4.setInDraw(curDraw.contains(bet.getBetNumber4().toString()));
 
 		number5.setNumber(bet.getBetNumber5());
-		number5.setInDraw(curDraw.toList().contains(bet.getBetNumber5()));
+		number5.setInDraw(curDraw.contains(bet.getBetNumber5().toString()));
 
 		number6.setNumber(bet.getBetNumber6());
-		number6.setInDraw(curDraw.toList().contains(bet.getBetNumber6()));
+		number6.setInDraw(curDraw.contains(bet.getBetNumber6().toString()));
 
 		number7.setNumber(bet.getBetNumber7());
-		number7.setInDraw(curDraw.toList().contains(bet.getBetNumber7()));
+		number7.setInDraw(curDraw.contains(bet.getBetNumber7().toString()));
 
 		number8.setNumber(bet.getBetNumber8());
-		number8.setInDraw(curDraw.toList().contains(bet.getBetNumber8()));
+		number8.setInDraw(curDraw.contains(bet.getBetNumber8().toString()));
 
 		number9.setNumber(bet.getBetNumber9());
-		number9.setInDraw(curDraw.toList().contains(bet.getBetNumber9()));
+		number9.setInDraw(curDraw.contains(bet.getBetNumber9().toString()));
 
 		number10.setNumber(bet.getBetNumber10());
-		number10.setInDraw(curDraw.toList().contains(bet.getBetNumber10()));
+		number10.setInDraw(curDraw.contains(bet.getBetNumber10().toString()));
 
 		number11.setNumber(bet.getBetNumber11());
-		number11.setInDraw(curDraw.toList().contains(bet.getBetNumber11()));
+		number11.setInDraw(curDraw.contains(bet.getBetNumber11().toString()));
 
 		number12.setNumber(bet.getBetNumber12());
-		number12.setInDraw(curDraw.toList().contains(bet.getBetNumber12()));
+		number12.setInDraw(curDraw.contains(bet.getBetNumber12().toString()));
 
 		String earnings = "0";
 		if (bet.getReturnRate() != null){

@@ -59,6 +59,8 @@ public class BetsArchive implements Serializable {
 	
 	Integer notified;
 
+	String drawNumbers;
+
 	public BetsArchive() {
 		super();
 	}
@@ -255,7 +257,14 @@ public class BetsArchive implements Serializable {
 		this.draws = draws;
 	}
 
-	
+	public String getDrawNumbers() {
+		return drawNumbers;
+	}
+
+	public void setDrawNumbers(String drawNumbers) {
+		this.drawNumbers = drawNumbers;
+	}
+
 	public Integer getNotified() {
 		return notified;
 	}
@@ -297,6 +306,7 @@ public class BetsArchive implements Serializable {
 		this.matches = matches;
 		this.returnRate = returnRate;
 		this.draws = draws;
+		this.drawNumbers = null;
 	}
 
 	public String toString() {

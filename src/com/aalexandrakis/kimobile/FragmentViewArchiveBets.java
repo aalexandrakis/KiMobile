@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.aalexandrakis.kimobile.pojos.ActiveBets;
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
 import org.apache.http.HttpResponse;
@@ -35,6 +36,8 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,7 +89,7 @@ public class FragmentViewArchiveBets extends Fragment {
 				String date = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
 				if (date != null){
 					AsyncTaskArchivebets getArchiveBets = new AsyncTaskArchivebets(archiveBets);
-					getArchiveBets.execute(sharedPreferences.getString("userId", "0"), date);
+						getArchiveBets.execute(sharedPreferences.getString("token", ""),  date);
 				}
 			}
 		};
@@ -111,7 +114,7 @@ public class FragmentViewArchiveBets extends Fragment {
 		///TODO REPEATED CODE    ////////////////////////////////////////////////////////
 		String strDate = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
 		AsyncTaskArchivebets getArchiveBets = new AsyncTaskArchivebets(archiveBets);
-		getArchiveBets.execute(sharedPreferences.getString("userId", "0"), strDate);
+			getArchiveBets.execute(sharedPreferences.getString("token", ""), strDate);
 		////////////////////////////////////////////////////////////////////////////////
 		return view;
 		
@@ -120,44 +123,24 @@ public class FragmentViewArchiveBets extends Fragment {
 	
 }
 
-class AsyncTaskArchivebets extends AsyncTask<String, String, String>{
+class AsyncTaskArchivebets extends AsyncTask<String, List<BetsArchive>, List<BetsArchive>>{
 	ProgressDialog pg;
 	FragmentViewArchiveBets archiveBets;
 	List<BetsArchive> bets = new ArrayList<BetsArchive>();
-	List<Draw> draws = new ArrayList<Draw>();
 
 	public AsyncTaskArchivebets(FragmentViewArchiveBets archiveBets) {
 		// TODO Auto-generated constructor stub
 		this.archiveBets = archiveBets;
 	}
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(List<BetsArchive> bets) {
 		// TODO Auto-generated method stub
-		super.onPostExecute(result);
-		if (result != null){
-			JSONObject jsonResponse;
-			try {
-				jsonResponse = new JSONObject(result);
-				System.out.println(jsonResponse.toString());
-		        JSONArray jsonMainNode = jsonResponse.optJSONArray("bets");
-		        int lengthJsonArr = jsonMainNode.length(); 
-		        for(int i=0; i < lengthJsonArr; i++) {
-		        	bets.add(convertJsonToBetsArchive(jsonMainNode.getJSONObject(i)));
-				}
-		        jsonMainNode = jsonResponse.optJSONArray("draws");
-		        lengthJsonArr = jsonMainNode.length(); 
-		        for(int i=0; i < lengthJsonArr; i++) {
-		        	draws.add(convertJsonToDraw(jsonMainNode.getJSONObject(i)));
-				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		super.onPostExecute(bets);
+		if (bets != null){
 			if (bets.isEmpty()){
 				Toast.makeText(archiveBets.getActivity(), archiveBets.getString(R.string.toastNoOldBetsFound), Toast.LENGTH_LONG).show();
 			}
-			AdapterArchiveBets adapter = new AdapterArchiveBets(archiveBets.getActivity(), bets, draws);
+			AdapterArchiveBets adapter = new AdapterArchiveBets(archiveBets.getActivity(), bets);
 	 		archiveBets.lstArchiveBets.setAdapter(adapter);
 			pg.dismiss();
 			
@@ -177,49 +160,20 @@ class AsyncTaskArchivebets extends AsyncTask<String, String, String>{
 	}
 
 	@Override
-	protected  String doInBackground(String... params) {
+	protected  List<BetsArchive> doInBackground(String... params) {
 		// TODO Auto-generated method stub
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "getUserArchiveBetsByDate");
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("userIdString", params[0]));
-		parameters.add(new BasicNameValuePair("date", params[1]));
+		String parameters = params[1] + "0000" + "/" + params[1] + "2359";
+		JSONObject bets =  CommonMethods.httpsUrlConnection("GET", "viewOldBets", parameters, params[0], archiveBets.getActivity());
+		List<BetsArchive> archiveBets = new ArrayList<BetsArchive>();
+		JSONArray jsonBets = bets.optJSONArray("bets");
 		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			response = httpclient.execute(httpPost);
-			
-			StatusLine statusLine = response.getStatusLine();
-			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				response.getEntity().writeTo(out);
-				out.close();
-				return out.toString();
-				
-			} else {
-				// Closes the connection.
-				response.getEntity().getContent().close();
-				throw new IOException(statusLine.getReasonPhrase());
+			for (int i = 0; i < jsonBets.length(); i++) {
+				archiveBets.add(convertJsonToBetsArchive(jsonBets.getJSONObject(i)));
 			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
+		} catch (JSONException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-		
 		}
-		
-		return null;
+		return archiveBets;
 		 
 	}
 	

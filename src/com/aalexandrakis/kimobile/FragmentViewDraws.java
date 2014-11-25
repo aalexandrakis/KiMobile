@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -83,7 +84,7 @@ public class FragmentViewDraws extends Fragment {
 				String date = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
 				if (date != null){
 					AsyncTaskGetDraws getDraws = new AsyncTaskGetDraws(viewDraws);
-					getDraws.execute(date);
+					getDraws.execute(date, sharedPreferences.getString("token", ""));
 					
 				}
 				// TODO Auto-generated method stub
@@ -110,7 +111,7 @@ public class FragmentViewDraws extends Fragment {
 		///TODO REPEATED CODE    ////////////////////////////////////////////////////////
 		String strDate = CommonMethods.isValidDate(txtFilterDate.getText().toString(), "dd-MM-yyyy");
 		AsyncTaskGetDraws getDraws = new AsyncTaskGetDraws(viewDraws);
-		getDraws.execute(strDate);
+		getDraws.execute(strDate, sharedPreferences.getString("token", ""));
 		
 		////////////////////////////////////////////////////////////////////////////////
 		return view;
@@ -120,36 +121,23 @@ public class FragmentViewDraws extends Fragment {
 	
 }
 
-class AsyncTaskGetDraws extends AsyncTask<String, String, String>{
+class AsyncTaskGetDraws extends AsyncTask<String, List<Draw>, List<Draw>>{
 	FragmentViewDraws viewDraws;
 	ProgressDialog pg;
-	List<Draw> draws = new ArrayList<Draw>();
 	AsyncTaskGetDraws(FragmentViewDraws viewDraws){
 		this.viewDraws = viewDraws;
 	}
 	
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(List<Draw> listDraw) {
 		// TODO Auto-generated method stub
-		super.onPostExecute(result);
-		JSONObject jsonResponse;
-		try {
-			jsonResponse = new JSONObject(result);
-			JSONArray jsonMainNode = jsonResponse.optJSONArray("draws");
-	        int lengthJsonArr = jsonMainNode.length(); 
-	        for(int i=0; i < lengthJsonArr; i++) {
-	        	draws.add(convertJsonToDraw(jsonMainNode.getJSONObject(i)));
-			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		super.onPostExecute(listDraw);
 		pg.dismiss();
-		if(draws.isEmpty()){
+		if(listDraw.isEmpty()){
 			Toast.makeText(viewDraws.getActivity(), viewDraws.getString(R.string.toastNoDrawsFound), Toast.LENGTH_LONG).show();
 		}
 		
-		AdapterDraws adapter = new AdapterDraws(viewDraws.getActivity(), draws);
+		AdapterDraws adapter = new AdapterDraws(viewDraws.getActivity(), listDraw);
  		viewDraws.lstDraws.setAdapter(adapter);
 	}
 
@@ -164,50 +152,21 @@ class AsyncTaskGetDraws extends AsyncTask<String, String, String>{
 	}
 
 	@Override
-	protected String doInBackground(String... params) {
-		// TODO Auto-generated method stub
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpResponse response;
-		HttpPost httpPost = new HttpPost(Constants.REST_URL + "viewDraws");
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("dateFrom", params[0]));
-		parameters.add(new BasicNameValuePair("dateTo", params[0]));
-
+	protected List<Draw> doInBackground(String... params) {
+		String parameters = params[0] + "0000" + "/" + params[0] + "2359";
+		JSONObject draws = CommonMethods.httpsUrlConnection("GET", "viewDraws", parameters, params[1], viewDraws.getActivity());
+		List<Draw> drawsList = new ArrayList<Draw>();
+		JSONArray jsonDraws = draws.optJSONArray("draws");
 		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(parameters));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			response = httpclient.execute(httpPost);
-			
-			StatusLine statusLine = response.getStatusLine();
-			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				response.getEntity().writeTo(out);
-				out.close();
-				return out.toString();
-			} else {
-				// Closes the connection.
-				response.getEntity().getContent().close();
-				throw new IOException(statusLine.getReasonPhrase());
+			for (int i = 0; i < jsonDraws.length(); i++) {
+				drawsList.add(convertJsonToDraw(jsonDraws.getJSONObject(i)));
 			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
+		} catch (JSONException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
 		}
-
-		return null;
+		return drawsList;
 	}
-	
+
 }
  
 

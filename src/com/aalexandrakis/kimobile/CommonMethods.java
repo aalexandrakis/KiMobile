@@ -178,7 +178,7 @@ public class CommonMethods {
 	
 	static Draw convertJsonToDraw(JSONObject jsonChildNode){
 		Draw draw = new Draw();
-		draw.setDrawDateTime(jsonChildNode.optString("drawDateTime"));
+		draw.setDrawDateTime(convertSqlDateStringToEuroDate(jsonChildNode.optString("drawDateTime")));
 		draw.setDrawNumber1(Integer.valueOf(jsonChildNode.optString("drawNumber1")));
 		draw.setDrawNumber2(Integer.valueOf(jsonChildNode.optString("drawNumber2")));
 		draw.setDrawNumber3(Integer.valueOf(jsonChildNode.optString("drawNumber3")));

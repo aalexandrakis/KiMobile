@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.support.v4.app.FragmentManager;
-import android.util.Base64;
 import android.util.Log;
 import com.aalexandrakis.kimobile.pojos.BetsArchive;
 import com.aalexandrakis.kimobile.pojos.Draw;
@@ -28,6 +27,7 @@ import org.json.JSONObject;
 import javax.net.ssl.*;
 import java.io.*;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyStore;
 import java.security.MessageDigest;
@@ -35,7 +35,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -315,14 +314,15 @@ public class CommonMethods {
 			} else {
 				jsonParameters = new JSONObject(parameters);
 			}
-			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-			conn.setSSLSocketFactory(CommonMethods.getSSLContext(activityContext).getSocketFactory());
-			conn.setHostnameVerifier(CommonMethods.hostnameVerifier);
+//			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+//			conn.setSSLSocketFactory(CommonMethods.getSSLContext(activityContext).getSocketFactory());
+//			conn.setHostnameVerifier(CommonMethods.hostnameVerifier);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Host", HOST);
 			conn.setRequestProperty("User-Agent", "");
-			conn.setRequestProperty("Accept", "application/json, text/plain, */*");
-			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
+			conn.setRequestProperty("Accept", "application/json, text/plain, */*;charset=utf-8");
+			conn.setRequestProperty("Accept-Encoding", "deflate");
 			if (authHeader != null) {
 				conn.setRequestProperty("Authorization", "Basic " + authHeader);
 			}

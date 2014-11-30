@@ -1107,6 +1107,7 @@ class AsyncTaskSaveBet extends AsyncTask<String, JSONObject, JSONObject>  {
 			jsonParams.put("betNumber10",  Integer.valueOf(params[14]));
 			jsonParams.put("betNumber11",  Integer.valueOf(params[15]));
 			jsonParams.put("betNumber12",  Integer.valueOf(params[16]));
+			jsonParams.put("drawDateTime",  "");
 
 			return CommonMethods.httpsUrlConnection("POST", "playNow", jsonParams.toString(), params[17], playNow.getActivity());
 		} catch (JSONException e){

@@ -326,11 +326,11 @@ public class CommonMethods {
 			if (authHeader != null) {
 				conn.setRequestProperty("Authorization", "Basic " + authHeader);
 			}
-			conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 			conn.setRequestProperty("Connection", "Keep-Alive");
-			conn.setDoOutput(true);
 			conn.setDoInput(true);
 			if (!method.equals("GET")) {
+				conn.setDoOutput(true);
+				conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 				conn.setRequestProperty("Content-Length", String.valueOf(jsonParameters.toString().length()));
 				conn.getOutputStream().write(jsonParameters.toString().getBytes("UTF-8"));
 				conn.getOutputStream().close();

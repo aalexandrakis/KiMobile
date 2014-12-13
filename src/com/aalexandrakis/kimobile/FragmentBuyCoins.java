@@ -76,7 +76,7 @@ public class FragmentBuyCoins extends Fragment {
 					payment.setCurrencyType("EUR");
 
 					// Set the recipient for the payment (can be a phone number)
-					payment.setRecipient("aalexandrakis@hotmail.com");
+					payment.setRecipient("aalexandrakis-kimo@hotmail.com");
 
 					// Set the payment amount, excluding tax and shipping costs
 					if (coinsToBuy.getText().toString().equals("")){

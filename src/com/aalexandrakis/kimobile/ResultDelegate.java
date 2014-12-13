@@ -25,8 +25,7 @@ public class ResultDelegate implements PayPalResultDelegate, Serializable {
 		FragmentBuyCoins.resultInfo = "You have successfully completed your transaction.";
 		FragmentBuyCoins.resultExtra = "Key: " + payKey;
 		FragmentBuyCoins.payKey = payKey;
-		CommonMethods.httpGetCall(Constants.REST_URL + "paypalVerification/" + payKey + "/" + userId);
-	}	
+	}
 
 	/**
 	 * Notification that the payment has failed.

@@ -51,10 +51,10 @@ public class ActivityRegister extends Activity {
 		btnRegister = (Button) findViewById(R.id.btnRegister);
 		
 		//TODO only for test
-		txtUserName.setText("aalexand");
-		txtUserEmail.setText("aalexandrakis@hotmail.com");
-		txtUserPassword.setText("b");
-		txtRepeatPassword.setText("b");
+//		txtUserName.setText("aalexand");
+//		txtUserEmail.setText("aalexandrakis@hotmail.com");
+//		txtUserPassword.setText("b");
+//		txtRepeatPassword.setText("b");
 		
 		btnRegister.setOnClickListener(new OnClickListener(){
 			@Override

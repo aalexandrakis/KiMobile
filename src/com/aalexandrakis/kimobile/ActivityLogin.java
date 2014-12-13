@@ -45,8 +45,8 @@ public class ActivityLogin extends Activity {
 		btnForgotPassword = (Button) findViewById(R.id.btnForgotPassword);
 		final Activity activityLogin = this;
 		//TODO only for test
-				txtUserName.setText("aalexand");
-				txtUserPassword.setText("b");
+//				txtUserName.setText("aalexand");
+//				txtUserPassword.setText("b");
 				
 		
 		btnConnect.setOnClickListener(new OnClickListener(){
